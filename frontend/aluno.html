@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ability Pro — Assinar Certificados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul:    #0A3882;
+      --laranja: #F27008;
+      --verde:   #0D8A5F;
+      --cinza:   #4A4A5A;
+      --fundo:   #F0F2F7;
+      --branco:  #FFFFFF;
+      --borda:   #DDE1EC;
+    }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--fundo);
+      min-height: 100vh;
+      color: #1a1a2e;
+    }
+
+    .top-bar {
+      background: var(--azul);
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .top-bar .icon {
+      width: 36px; height: 36px;
+      background: var(--laranja);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px; font-weight: 800; color: #fff;
+    }
+    .top-bar .title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 800; color: #fff;
+    }
+    .top-bar .sub { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; }
+
+    .container {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(10,56,130,0.07);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--azul);
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-header h2 { font-size: 15px; font-weight: 700; color: #fff; }
+    .card-body { padding: 18px; }
+
+    /* CPF STEP */
+    .cpf-step { text-align: center; padding: 32px 24px; }
+    .cpf-step h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px; font-weight: 800; color: var(--azul);
+      margin-bottom: 6px;
+    }
+    .cpf-step p { font-size: 13px; color: var(--cinza); margin-bottom: 24px; }
+    .cpf-input {
+      width: 100%; padding: 14px 16px;
+      border: 2px solid var(--borda); border-radius: 10px;
+      font-size: 22px; font-family: 'Barlow', sans-serif;
+      text-align: center; letter-spacing: 3px;
+      outline: none; transition: border-color 0.2s;
+      color: var(--azul);
+    }
+    .cpf-input:focus { border-color: var(--azul); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 24px;
+      border-radius: 10px; border: none; cursor: pointer;
+      font-size: 15px; font-weight: 700; font-family: 'Barlow', sans-serif;
+      transition: all 0.15s; width: 100%; margin-top: 12px;
+    }
+    .btn-primary { background: var(--laranja); color: #fff; }
+    .btn-primary:hover { background: #E05E00; }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-success { background: var(--verde); color: #fff; }
+    .btn-success:hover { background: #0a7a53; }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--borda);
+      color: var(--cinza); margin-top: 8px;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* NOME HEADER */
+    .nome-header {
+      background: linear-gradient(135deg, var(--azul) 0%, #0C4097 100%);
+      padding: 20px 18px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .nome-header .greeting { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+    .nome-header .nome {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px; font-weight: 800;
+      margin-top: 4px; line-height: 1;
+    }
+    .nome-header .cert-count {
+      margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.7);
+    }
+
+    /* CERT LIST */
+    .cert-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .cert-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: #F7F9FF;
+      border-radius: 10px;
+      border-left: 3px solid var(--azul);
+    }
+    .cert-item .cert-icon { font-size: 20px; }
+    .cert-item .cert-name { font-size: 13.5px; font-weight: 600; color: var(--azul); }
+    .cert-item .cert-nr   { font-size: 11px; color: var(--cinza); }
+
+    /* SIGNATURE PAD */
+    .sig-container {
+      position: relative;
+      background: #FAFBFF;
+      border: 2px dashed var(--borda);
+      border-radius: 12px;
+      overflow: hidden;
+      touch-action: none;
+    }
+    .sig-container canvas {
+      display: block; width: 100%;
+      cursor: crosshair;
+    }
+    .sig-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--borda);
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .sig-placeholder .icon { font-size: 36px; margin-bottom: 8px; }
+    .sig-placeholder p { font-size: 13px; text-align: center; }
+    .sig-placeholder.hidden { opacity: 0; }
+
+    .sig-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-clear {
+      flex: 1; padding: 10px;
+      background: #F7F8FC; border: 1.5px solid var(--borda); border-radius: 8px;
+      font-size: 13px; font-weight: 600; color: var(--cinza);
+      cursor: pointer; font-family: 'Barlow', sans-serif;
+      transition: all 0.15s;
+    }
+    .btn-clear:hover { border-color: var(--laranja); color: var(--laranja); }
+
+    /* LEGAL NOTE */
+    .legal-note {
+      background: #FFF8F0;
+      border: 1px solid #FFE0B0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: #7A4500;
+      margin-bottom: 16px;
+      display: flex; gap: 10px;
+    }
+    .legal-note .icon { font-size: 18px; flex-shrink: 0; }
+
+    /* ERROR/SUCCESS */
+    .msg-error {
+      background: #FFF0F0; border: 1px solid #FFCCD0;
+      color: #CC2222; border-radius: 8px;
+      padding: 10px 14px; font-size: 13px; margin-top: 10px;
+      display: none;
+    }
+    .msg-error.visible { display: block; }
+
+    /* SUCCESS SCREEN */
+    .success-screen {
+      text-align: center; padding: 40px 24px;
+      display: none;
+    }
+    .success-screen .big-icon { font-size: 64px; margin-bottom: 16px; }
+    .success-screen h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 800; color: var(--verde);
+      margin-bottom: 8px;
+    }
+    .success-screen p { font-size: 14px; color: var(--cinza); line-height: 1.6; }
+
+    /* LOADING */
+    .loading-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(10,30,80,0.6);
+      z-index: 999;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+    }
+    .loading-overlay.visible { display: flex; }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--laranja);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .loading-text { color: #fff; font-size: 15px; font-weight: 600; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="icon">AP</div>
+    <div>
+      <div class="title">ABILITY PRO</div>
+      <div class="sub">Assinatura de Certificados</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- STEP 1: CPF verification -->
+    <div id="step-cpf">
+      <div class="card" style="margin-top:16px">
+        <div class="card-body">
+          <div class="cpf-step">
+            <h2>Verificação de Identidade</h2>
+            <p>Digite seu CPF para acessar seus certificados</p>
+            <input class="cpf-input" type="tel" id="cpfInput" placeholder="000.000.000-00" maxlength="14"
+              oninput="maskCPF(this)" onkeydown="if(event.key==='Enter') verifyCPF()">
+            <button class="btn btn-primary" onclick="verifyCPF()" id="btnVerify">Verificar</button>
+            <div class="msg-error" id="cpfError">CPF não encontrado ou incorreto. Tente novamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Sign -->
+    <div id="step-sign" style="display:none">
+      <div class="nome-header">
+        <div class="greeting">Olá,</div>
+        <div class="nome" id="nomeDisplay">—</div>
+        <div class="cert-count" id="certCount">—</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>📜 Seus Certificados</h2>
+        </div>
+        <div class="card-body">
+          <ul class="cert-list" id="certList"></ul>
+        </div>
+      </div>
+
+      <div class="legal-note">
+        <div class="icon">⚖️</div>
+        <div>
+          Ao assinar, você confirma que participou e concluiu os treinamentos listados acima.
+          A assinatura tem validade jurídica vinculada ao seu CPF, IP e data/hora.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>✍️ Sua Assinatura</h2>
+        </div>
+        <div class="card-body">
+          <p style="font-size:13px; color:var(--cinza); margin-bottom:12px;">
+            Assine abaixo usando o dedo ou mouse:
+          </p>
+          <div class="sig-container" id="sigContainer">
+            <canvas id="sigCanvas" height="200"></canvas>
+            <div class="sig-placeholder" id="sigPlaceholder">
+              <div class="icon">✍️</div>
+              <p>Assine aqui com o dedo</p>
+            </div>
+          </div>
+          <div class="sig-actions">
+            <button class="btn-clear" onclick="clearSig()">Limpar Assinatura</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-success" onclick="submitSignature()" id="btnSign">
+        ✅ Confirmar e Baixar Certificados
+      </button>
+      <div class="msg-error" id="signError"></div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="step-success" style="display:none">
+      <div class="card" style="margin-top:16px">
+        <div class="card-body">
+          <div class="success-screen" style="display:block">
+            <div class="big-icon">🎉</div>
+            <h2>Certificados Assinados!</h2>
+            <p>
+              Seus certificados foram gerados com sua assinatura digital e o manifesto jurídico.
+              O download deve começar automaticamente.
+            </p>
+            <p style="margin-top:16px; font-size:12px; color:#999">
+              Se o download não iniciar, entre em contato com o RH.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Gerando certificados...</div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Read token from URL
+    const params = new URLSearchParams(window.location.search);
+    const TOKEN = params.get('t') || '';
+
+    let colab = null;
+
+    if (!TOKEN) {
+      document.getElementById('step-cpf').innerHTML = `
+        <div class="card" style="margin-top:16px">
+          <div class="card-body" style="text-align:center;padding:40px">
+            <div style="font-size:48px;margin-bottom:12px">❌</div>
+            <h2 style="color:var(--azul)">Link Inválido</h2>
+            <p style="color:var(--cinza);margin-top:8px">Este link não é válido. Solicite um novo ao RH.</p>
+          </div>
+        </div>`;
+    }
+
+    // Load colaborador info
+    async function loadColab() {
+      try {
+        const r = await fetch(`${BACKEND_URL}/api/aluno/${TOKEN}`);
+        colab = await r.json();
+        if (!r.ok) throw new Error(colab.error);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    if (TOKEN) loadColab();
+
+    // CPF mask
+    function maskCPF(el) {
+      let v = el.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.slice(0,11);
+      if (v.length > 9)      v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);
+      else if (v.length > 6) v = v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);
+      else if (v.length > 3) v = v.slice(0,3)+'.'+v.slice(3);
+      el.value = v;
+    }
+
+    async function verifyCPF() {
+      const cpf = document.getElementById('cpfInput').value;
+      const err = document.getElementById('cpfError');
+      const btn = document.getElementById('btnVerify');
+
+      err.classList.remove('visible');
+      btn.disabled = true;
+      btn.textContent = 'Verificando...';
+
+      try {
+        const r = await fetch(`${BACKEND_URL}/api/aluno/${TOKEN}/verificar-cpf`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cpf }),
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error);
+
+        // Load full data
+        await loadColab();
+        showSignStep();
+      } catch(e) {
+        err.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Verificar';
+      }
+    }
+
+    function showSignStep() {
+      document.getElementById('step-cpf').style.display = 'none';
+      document.getElementById('step-sign').style.display = 'block';
+
+      document.getElementById('nomeDisplay').textContent = colab.nome || '—';
+      const certs = colab.certificados || [];
+      document.getElementById('certCount').textContent = `${certs.length} certificado${certs.length !== 1 ? 's' : ''} para assinar`;
+
+      const certIcons = {
+        'NR06': '🦺', 'NR10': '⚡', 'DIREÇÃO DEFENSIVA': '🚗',
+        'NR35': '🏗️', 'SGA NR20': '🔥', 'NR33': '⛽', 'NR10 SEP': '🔌'
+      };
+      document.getElementById('certList').innerHTML = certs.map(c => `
+        <li class="cert-item">
+          <div class="cert-icon">${certIcons[c] || '📜'}</div>
+          <div>
+            <div class="cert-name">${c}</div>
+          </div>
+        </li>
+      `).join('');
+
+      initCanvas();
+    }
+
+    // ---- CANVAS SIGNATURE ----
+    let canvas, ctx, isDrawing = false, hasDrawn = false;
+
+    function initCanvas() {
+      canvas = document.getElementById('sigCanvas');
+      ctx = canvas.getContext('2d');
+
+      // Size canvas to container
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width  = rect.width;
+      canvas.height = 200;
+
+      ctx.strokeStyle = '#0A3882';
+      ctx.lineWidth   = 2.5;
+      ctx.lineCap     = 'round';
+      ctx.lineJoin    = 'round';
+
+      // Mouse
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup',   stopDraw);
+      canvas.addEventListener('mouseleave',stopDraw);
+
+      // Touch
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
+      canvas.addEventListener('touchmove',  e => { e.preventDefault(); draw(e.touches[0]); },     { passive: false });
+      canvas.addEventListener('touchend',   e => { e.preventDefault(); stopDraw(); },              { passive: false });
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width  / rect.width;
+      const scaleY = canvas.height / rect.height;
+      return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top)  * scaleY,
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      const p = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      if (!hasDrawn) {
+        hasDrawn = true;
+        document.getElementById('sigPlaceholder').classList.add('hidden');
+      }
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const p = getPos(e);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+    }
+
+    function stopDraw() { isDrawing = false; }
+
+    function clearSig() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasDrawn = false;
+      document.getElementById('sigPlaceholder').classList.remove('hidden');
+    }
+
+    // ---- SUBMIT ----
+    async function submitSignature() {
+      const err = document.getElementById('signError');
+      err.style.display = 'none';
+
+      if (!hasDrawn) {
+        err.textContent = 'Por favor, assine antes de confirmar.';
+        err.classList.add('visible');
+        return;
+      }
+
+      const signatureData = canvas.toDataURL('image/png');
+      const cpf = document.getElementById('cpfInput')?.value || colab?.cpf || '';
+
+      document.getElementById('loadingOverlay').classList.add('visible');
+      document.getElementById('loadingText').textContent = 'Gerando certificados com assinatura...';
+      document.getElementById('btnSign').disabled = true;
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/signature/${TOKEN}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ signatureData, cpf }),
+        });
+
+        if (!res.ok) {
+          const d = await res.json();
+          throw new Error(d.error || 'Erro ao processar assinatura');
+        }
+
+        const blob = await res.blob();
+        const nome = (colab?.nome || 'colaborador').replace(/\s+/g,'_');
+        downloadBlob(blob, `${nome}_certificados_assinados.zip`);
+
+        document.getElementById('step-sign').style.display = 'none';
+        document.getElementById('step-success').style.display = 'block';
+      } catch(e) {
+        err.textContent = e.message;
+        err.classList.add('visible');
+        document.getElementById('btnSign').disabled = false;
+      } finally {
+        document.getElementById('loadingOverlay').classList.remove('visible');
+      }
+    }
+
+    // Download helper (redeclare if app.js not loaded)
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+  </script>
+</body>
+</html>

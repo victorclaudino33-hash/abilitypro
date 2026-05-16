@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ability Pro — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:    #0A3882;
+      --laranja: #F27008;
+      --laranja2:#E05E00;
+      --cinza:   #4A4A5A;
+      --fundo:   #F0F2F7;
+      --branco:  #FFFFFF;
+      --sombra:  0 8px 32px rgba(10,56,130,0.12);
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--fundo);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(10,56,130,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(242,112,8,0.07) 0%, transparent 50%);
+    }
+
+    .login-wrap {
+      background: var(--branco);
+      border-radius: 20px;
+      box-shadow: var(--sombra);
+      overflow: hidden;
+      display: flex;
+      width: 820px;
+      max-width: 95vw;
+      min-height: 480px;
+    }
+
+    .login-side {
+      background: var(--azul);
+      width: 320px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-side::before {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(242,112,8,0.18);
+    }
+    .login-side::after {
+      content: '';
+      position: absolute;
+      top: -40px; left: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .logo-box {
+      position: relative; z-index: 1; text-align: center;
+    }
+    .logo-icon {
+      width: 72px; height: 72px;
+      background: var(--laranja);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 38px; font-weight: 800;
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: -1px;
+    }
+    .logo-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 30px; font-weight: 800;
+      color: #fff; letter-spacing: 1px;
+      line-height: 1;
+    }
+    .logo-sub {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .side-tagline {
+      position: relative; z-index: 1;
+      margin-top: 48px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .login-form-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 44px;
+    }
+
+    .form-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 800;
+      color: var(--azul);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .form-sub { font-size: 13px; color: var(--cinza); margin-bottom: 32px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 11px; font-weight: 700;
+      color: var(--azul);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #E4E8F0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Barlow', sans-serif;
+      color: #1a1a2e;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(10,56,130,0.1);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--laranja);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Barlow', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+    .btn-login:hover { background: var(--laranja2); transform: translateY(-1px); }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .error-msg {
+      background: #FFF0F0;
+      border: 1px solid #FFD0D0;
+      color: #CC2222;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-top: 14px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    @media (max-width: 640px) {
+      .login-side { display: none; }
+      .login-form-area { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-side">
+      <div class="logo-box">
+        <div class="logo-icon">AP</div>
+        <div class="logo-name">ABILITY PRO</div>
+        <div class="logo-sub">Certificação Corporativa</div>
+      </div>
+      <p class="side-tagline">Gerencie certificados NR com<br>assinatura digital e validade jurídica.</p>
+    </div>
+
+    <div class="login-form-area">
+      <div class="form-title">Bem-vindo de volta</div>
+      <div class="form-sub">Acesse o painel administrativo</div>
+
+      <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" id="username" placeholder="Admin" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <button class="btn-login" id="btnLogin" onclick="doLogin()">Entrar</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Enter key support
+    document.querySelectorAll('input').forEach(el => {
+      el.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    });
+
+    async function doLogin() {
+      const btn = document.getElementById('btnLogin');
+      const errEl = document.getElementById('errorMsg');
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        errEl.textContent = 'Preencha usuário e senha.';
+        errEl.classList.add('visible');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+      errEl.classList.remove('visible');
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao entrar');
+
+        localStorage.setItem('ap_token', data.token);
+        localStorage.setItem('ap_user', data.username);
+        window.location.href = 'admin.html';
+      } catch (e) {
+        errEl.textContent = e.message;
+        errEl.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Entrar';
+      }
+    }
+  </script>
+</body>
+</html>
