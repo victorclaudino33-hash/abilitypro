@@ -5,186 +5,249 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ability Pro — Painel Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-    --azul:    #4E9AF1;
-    --laranja: #F27008;
-    --cinza:   #A0A8B8;
-    --fundo:   #0F1117;
-    --branco:  #1A1D27;
-    --borda:   #2A2D3A;
+      --bg:          #070B11;
+      --bg2:         #0C1220;
+      --panel:       #0F1825;
+      --panel2:      #111d2e;
+      --border:      #1A2B40;
+      --border2:     #243550;
+      --amber:       #F5A623;
+      --amber2:      #E8941A;
+      --amber-dim:   rgba(245,166,35,0.08);
+      --amber-glow:  rgba(245,166,35,0.3);
+      --cyan:        #00C8FF;
+      --cyan-dim:    rgba(0,200,255,0.08);
+      --text:        #B8CCE0;
+      --text-dim:    #4E6880;
+      --text-muted:  #2A3D55;
+      --red:         #FF4560;
+      --green:       #00E676;
+      --green-dim:   rgba(0,230,118,0.1);
+      --sidebar-w:   230px;
     }
+
     body {
-    background: #0F1117;
-    color: #E0E4F0;
-    }
-    body {
-      font-family: 'Barlow', sans-serif;
-      background: var(--fundo);
-      color: #1a1a2e;
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
     }
 
-    /* SIDEBAR */
+    /* ── GRID BG ── */
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.018) 1px, transparent 1px);
+      background-size: 48px 48px;
+      animation: gridDrift 30s linear infinite;
+    }
+    @keyframes gridDrift { to { background-position: 48px 48px; } }
+
+    /* ── SIDEBAR ── */
     .sidebar {
       position: fixed; top: 0; left: 0;
-      width: 220px; height: 100vh;
-      background: var(--azul);
+      width: var(--sidebar-w); height: 100vh;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
       z-index: 100;
-      box-shadow: 4px 0 20px rgba(10,56,130,0.2);
+      box-shadow: 4px 0 40px rgba(0,0,0,0.5);
     }
+
+    /* corner decorations */
+    .sidebar::before {
+      content: '';
+      position: absolute; top: 0; right: -1px;
+      width: 1px; height: 80px;
+      background: linear-gradient(to bottom, var(--amber), transparent);
+      pointer-events: none;
+    }
+
     .sidebar-logo {
-      padding: 24px 20px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 24px 20px 22px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
     }
-    .sidebar-logo .logo-row {
-      display: flex; align-items: center; gap: 12px;
+    .logo-row { display: flex; align-items: center; gap: 12px; }
+    .logo-diamond {
+      width: 38px; height: 38px; flex-shrink: 0;
+      position: relative; display: flex; align-items: center; justify-content: center;
     }
-    .sidebar-logo .icon {
-      width: 40px; height: 40px;
-      background: var(--laranja);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 18px; font-weight: 800; color: #fff;
+    .logo-diamond::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1.5px solid var(--amber);
+      transform: rotate(45deg);
+      background: var(--amber-dim);
     }
-    .sidebar-logo .name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 20px; font-weight: 800; color: #fff;
-      line-height: 1;
+    .logo-diamond span {
+      position: relative; z-index: 1;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--amber); letter-spacing: 1px;
     }
-    .sidebar-logo .sub {
-      font-size: 9px; color: rgba(255,255,255,0.45);
-      text-transform: uppercase; letter-spacing: 1.5px;
+    .logo-text .name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px; font-weight: 700;
+      color: #fff; letter-spacing: 3px;
     }
-    .sidebar-nav { flex: 1; padding: 16px 0; }
+    .logo-text .sub {
+      font-size: 8px; font-weight: 600; letter-spacing: 2px;
+      color: var(--text-dim); text-transform: uppercase; margin-top: 2px;
+    }
+
+    .sidebar-nav { flex: 1; padding: 14px 0; overflow-y: auto; }
     .nav-section {
-      font-size: 10px; font-weight: 700;
-      color: rgba(255,255,255,0.35);
-      text-transform: uppercase; letter-spacing: 1.5px;
-      padding: 12px 20px 6px;
+      font-size: 8px; font-weight: 700;
+      color: var(--text-muted); letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 14px 20px 5px;
     }
     .nav-item {
       display: flex; align-items: center; gap: 10px;
-      padding: 11px 20px;
-      color: rgba(255,255,255,0.65);
-      font-size: 13.5px; font-weight: 600;
+      padding: 10px 20px;
+      color: var(--text-dim);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
       cursor: pointer;
       transition: all 0.15s;
-      border-left: 3px solid transparent;
+      border-left: 2px solid transparent;
+      position: relative;
     }
-    .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+    .nav-item:hover { color: var(--text); background: rgba(0,200,255,0.04); }
     .nav-item.active {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border-left-color: var(--laranja);
+      color: var(--amber);
+      background: var(--amber-dim);
+      border-left-color: var(--amber);
     }
-    .nav-item svg { opacity: 0.7; flex-shrink: 0; }
-    .nav-item.active svg { opacity: 1; }
+    .nav-item svg { opacity: 0.6; flex-shrink: 0; transition: opacity 0.15s; }
+    .nav-item:hover svg { opacity: 0.9; }
+    .nav-item.active svg { opacity: 1; color: var(--amber); }
+
     .sidebar-footer {
       padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid var(--border);
     }
-    .user-row {
-      display: flex; align-items: center; gap: 10px;
-    }
+    .user-row { display: flex; align-items: center; gap: 10px; }
     .user-av {
-      width: 34px; height: 34px;
-      background: var(--laranja);
-      border-radius: 50%;
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--amber-dim);
+      border: 1px solid var(--amber);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 13px; color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; font-weight: 700; color: var(--amber);
     }
-    .user-name { font-size: 13px; font-weight: 600; color: #fff; }
-    .user-role { font-size: 10px; color: rgba(255,255,255,0.4); }
+    .user-name { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
+    .user-role { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
     .btn-logout {
       margin-left: auto; background: none; border: none;
-      color: rgba(255,255,255,0.4); cursor: pointer; padding: 4px;
+      color: var(--text-dim); cursor: pointer; padding: 4px;
       transition: color 0.15s;
     }
-    .btn-logout:hover { color: #fff; }
+    .btn-logout:hover { color: var(--red); }
 
-    /* MAIN */
-    .main { margin-left: 220px; padding: 32px; min-height: 100vh; }
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding: 32px;
+      min-height: 100vh;
+      position: relative; z-index: 1;
+    }
 
-    /* TOPBAR */
+    /* ── TOPBAR ── */
     .topbar {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: flex-start; justify-content: space-between;
       margin-bottom: 28px;
     }
     .page-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 26px; font-weight: 800; color: var(--azul);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 28px; font-weight: 700;
+      color: #fff; letter-spacing: 2px; line-height: 1;
     }
-    .page-sub { font-size: 13px; color: var(--cinza); margin-top: 2px; }
+    .page-title em { color: var(--amber); font-style: normal; }
+    .page-sub {
+      font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 4px;
+    }
 
-    /* STATS */
+    /* ── STATS GRID ── */
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-bottom: 24px;
     }
     .stat-card {
-      background: var(--branco);
-      border-radius: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
       padding: 20px 22px;
-      box-shadow: 0 2px 10px rgba(10,56,130,0.06);
-      display: flex; flex-direction: column; gap: 4px;
       position: relative; overflow: hidden;
     }
     .stat-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 4px; height: 100%;
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 2px;
     }
-    .stat-card.blue::before   { background: var(--azul); }
-    .stat-card.orange::before { background: var(--laranja); }
-    .stat-card.green::before  { background: var(--verde); }
-    .stat-card.gray::before   { background: #8898AA; }
-    .stat-label { font-size: 11px; font-weight: 700; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.8px; }
-    .stat-value { font-size: 32px; font-weight: 800; color: var(--azul); font-family: 'Barlow Condensed', sans-serif; }
-    .stat-card.orange .stat-value { color: var(--laranja); }
-    .stat-card.green .stat-value  { color: var(--verde); }
-    .stat-card.gray .stat-value   { color: var(--cinza); }
+    .stat-card::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 60px; height: 60px;
+      border-right: 1px solid; border-top: 1px solid;
+      opacity: 0.15;
+    }
+    .stat-card.blue::before  { background: var(--cyan); }
+    .stat-card.blue::after   { border-color: var(--cyan); }
+    .stat-card.orange::before { background: var(--amber); }
+    .stat-card.orange::after  { border-color: var(--amber); }
+    .stat-card.green::before  { background: var(--green); }
+    .stat-card.green::after   { border-color: var(--green); }
+    .stat-card.gray::before   { background: var(--border2); }
+    .stat-label {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--text-dim); margin-bottom: 8px;
+    }
+    .stat-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 36px; font-weight: 700; line-height: 1;
+      color: var(--cyan);
+    }
+    .stat-card.orange .stat-value { color: var(--amber); }
+    .stat-card.green  .stat-value { color: var(--green); }
+    .stat-card.gray   .stat-value { color: var(--text-dim); }
 
-    /* CARD */
+    /* ── CARD ── */
     .card {
-      background: var(--branco);
-      border-radius: 16px;
-      box-shadow: 0 2px 10px rgba(10,56,130,0.06);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
       overflow: hidden;
-      margin-bottom: 24px;
     }
     .card-header {
-      padding: 18px 24px;
+      padding: 14px 20px;
       display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--borda);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
     }
     .card-title {
-      font-size: 15px; font-weight: 700; color: var(--azul);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--text); letter-spacing: 1.5px; text-transform: uppercase;
     }
-    .card-body { padding: 24px; }
+    .card-body { padding: 20px; }
 
-    /* UPLOAD AREA */
+    /* ── UPLOAD ── */
     .upload-zone {
-      border: 2px dashed var(--borda);
-      border-radius: 12px;
-      padding: 36px 24px;
-      text-align: center;
-      cursor: pointer;
+      border: 1px dashed var(--border2);
+      padding: 40px 24px; text-align: center; cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
+      position: relative;
     }
     .upload-zone:hover, .upload-zone.dragover {
-      border-color: var(--laranja);
-      background: rgba(242,112,8,0.04);
+      border-color: var(--amber);
+      background: var(--amber-dim);
     }
     .upload-icon { font-size: 36px; margin-bottom: 10px; }
-    .upload-zone p { font-size: 14px; color: var(--cinza); }
-    .upload-zone strong { color: var(--laranja); }
+    .upload-zone p { font-size: 13px; color: var(--text-dim); }
+    .upload-zone strong { color: var(--amber); }
     input[type="file"] { display: none; }
 
     .upload-controls {
@@ -194,264 +257,287 @@
     .upload-controls input[type="text"] {
       flex: 1; min-width: 180px;
       padding: 10px 14px;
-      border: 2px solid var(--borda);
-      border-radius: 8px;
-      font-size: 14px; font-family: 'Barlow', sans-serif;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--border2);
+      color: var(--text); font-size: 13px; font-family: 'Exo 2', sans-serif;
       outline: none; transition: border-color 0.2s;
     }
-    .upload-controls input[type="text"]:focus { border-color: var(--azul); }
+    .upload-controls input[type="text"]:focus { border-color: var(--amber); border-left-color: var(--amber); }
+    .upload-controls input[type="text"]::placeholder { color: var(--text-muted); }
 
-    /* BUTTONS */
+    /* ── BUTTONS ── */
     .btn {
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 13.5px; font-weight: 700;
-      font-family: 'Barlow', sans-serif;
+      padding: 9px 16px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      font-family: 'Rajdhani', sans-serif;
       cursor: pointer; border: none;
       transition: all 0.15s;
       display: inline-flex; align-items: center; gap: 6px;
-      white-space: nowrap;
+      white-space: nowrap; position: relative; overflow: hidden;
     }
     .btn:active { transform: translateY(1px); }
-    .btn-primary   { background: var(--laranja); color: #fff; }
-    .btn-primary:hover { background: var(--laranja2); }
-    .btn-secondary { background: var(--azul); color: #fff; }
-    .btn-secondary:hover { background: var(--azul2); }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--borda);
-      color: var(--cinza);
+    .btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.3s;
     }
-    .btn-outline:hover { border-color: var(--azul); color: var(--azul); }
-    .btn-success { background: var(--verde); color: #fff; }
-    .btn-success:hover { background: #0a7a53; }
-    .btn-sm { padding: 7px 12px; font-size: 12px; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn:hover::before { left: 100%; }
+    .btn-primary   { background: var(--amber); color: #070B11; }
+    .btn-primary:hover { background: #FFBA42; box-shadow: 0 0 20px var(--amber-glow); }
+    .btn-secondary { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); }
+    .btn-secondary:hover { background: var(--cyan-dim); box-shadow: 0 0 15px rgba(0,200,255,0.2); }
+    .btn-outline   { background: transparent; border: 1px solid var(--border2); color: var(--text-dim); }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-success   { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .btn-success:hover { background: var(--green-dim); box-shadow: 0 0 15px rgba(0,230,118,0.2); }
+    .btn-sm { padding: 6px 12px; font-size: 10px; }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    /* TABLE */
+    /* ── TABLE ── */
     .table-wrap { overflow-x: auto; }
-    table {
-      width: 100%; border-collapse: collapse; font-size: 13.5px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
     thead th {
-      text-align: left;
-      padding: 10px 14px;
-      font-size: 10.5px; font-weight: 700;
-      color: var(--cinza);
-      text-transform: uppercase; letter-spacing: 0.8px;
-      background: #F7F8FC;
-      border-bottom: 1px solid var(--borda);
+      text-align: left; padding: 10px 16px;
+      font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
     }
-    tbody tr {
-      border-bottom: 1px solid #F0F2F7;
-      transition: background 0.1s;
-    }
-    tbody tr:hover { background: #F7F9FF; }
-    td { padding: 12px 14px; vertical-align: middle; }
-    .nome-cell { font-weight: 600; color: var(--azul); }
-    .cpf-cell  { color: var(--cinza); font-size: 12.5px; }
+    tbody tr { border-bottom: 1px solid rgba(26,43,64,0.6); transition: background 0.1s; }
+    tbody tr:hover { background: rgba(0,200,255,0.025); }
+    td { padding: 12px 16px; vertical-align: middle; }
+    .nome-cell { font-weight: 600; color: var(--text); }
+    .cpf-cell  { color: var(--text-dim); font-size: 11.5px; font-family: monospace; letter-spacing: 1px; }
 
-    /* BADGES */
+    /* ── BADGES ── */
     .badge {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 10px; font-weight: 700;
-      background: rgba(10,56,130,0.1);
-      color: var(--azul);
-      margin: 1px;
+      display: inline-block; padding: 2px 7px;
+      font-size: 9px; font-weight: 700; letter-spacing: 1px;
+      background: rgba(0,200,255,0.08);
+      border: 1px solid rgba(0,200,255,0.2);
+      color: var(--cyan); margin: 1px;
     }
     .status {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px; font-weight: 700;
+      display: inline-block; padding: 3px 10px;
+      font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
     }
-    .status.pending { background: #FFF4E5; color: #B25C00; }
-    .status.signed  { background: #E6F7F2; color: #0D6B48; }
-    .status.sent    { background: #E8F0FE; color: #2255CC; }
+    .status.pending { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.25); color: var(--amber); }
+    .status.signed  { background: var(--green-dim); border: 1px solid rgba(0,230,118,0.25); color: var(--green); }
+    .status.sent    { background: var(--cyan-dim); border: 1px solid rgba(0,200,255,0.2); color: var(--cyan); }
 
-    /* ACTIONS CELL */
     .actions-cell { display: flex; gap: 6px; flex-wrap: wrap; }
 
-    /* MODAL */
+    /* ── MODAL ── */
     .modal-overlay {
       position: fixed; inset: 0;
-      background: rgba(10,20,60,0.45);
+      background: rgba(0,0,0,0.7);
       display: none; align-items: center; justify-content: center;
       z-index: 999; padding: 16px;
+      backdrop-filter: blur(4px);
     }
     .modal-overlay.open { display: flex; }
     .modal {
-      background: var(--branco);
-      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border2);
       width: 100%; max-width: 480px;
-      box-shadow: 0 20px 60px rgba(10,56,130,0.2);
-      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(245,166,35,0.05);
+      position: relative;
+    }
+    .modal::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
     }
     .modal-header {
-      background: var(--azul); padding: 18px 24px;
+      background: var(--bg2); padding: 18px 24px;
       display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
     }
-    .modal-header h3 { font-size: 16px; font-weight: 700; color: #fff; }
+    .modal-header h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px; font-weight: 700; color: #fff; letter-spacing: 1.5px; text-transform: uppercase;
+    }
     .modal-close {
-      background: none; border: none; color: rgba(255,255,255,0.6);
-      font-size: 20px; cursor: pointer; line-height: 1;
+      background: none; border: none; color: var(--text-dim);
+      font-size: 18px; cursor: pointer; transition: color 0.15s; line-height: 1;
     }
-    .modal-close:hover { color: #fff; }
+    .modal-close:hover { color: var(--red); }
     .modal-body { padding: 24px; }
-    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--borda); display: flex; gap: 10px; justify-content: flex-end; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
 
     .link-box {
       display: flex; align-items: center; gap: 8px;
-      background: #F7F8FC;
-      border: 1px solid var(--borda);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-top: 12px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      padding: 10px 14px; margin-top: 12px;
     }
     .link-box span {
-      flex: 1; font-size: 12px; color: var(--cinza);
-      word-break: break-all;
+      flex: 1; font-size: 11px; color: var(--text-dim);
+      word-break: break-all; font-family: monospace;
     }
-    .link-box button { flex-shrink: 0; }
 
-    /* TOAST */
+    /* ── TOAST ── */
     .ap-toast {
       position: fixed; bottom: 24px; right: 24px;
-      background: var(--azul); color: #fff;
-      padding: 12px 20px; border-radius: 10px;
-      font-size: 14px; font-weight: 600;
-      box-shadow: 0 6px 20px rgba(10,56,130,0.25);
+      background: var(--panel); border: 1px solid var(--border2); color: var(--text);
+      padding: 12px 18px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
       transform: translateY(20px); opacity: 0;
       transition: all 0.25s; z-index: 9999;
     }
     .ap-toast.show { transform: translateY(0); opacity: 1; }
-    .ap-toast.success { background: var(--verde); }
-    .ap-toast.error   { background: #CC2222; }
+    .ap-toast.success { border-color: var(--green); color: var(--green); }
+    .ap-toast.error   { border-color: var(--red); color: var(--red); }
 
-    /* EMPTY STATE */
+    /* ── EMPTY STATE ── */
     .empty-state {
-      text-align: center; padding: 48px 24px; color: var(--cinza);
+      text-align: center; padding: 48px 24px; color: var(--text-muted);
     }
-    .empty-state .em-icon { font-size: 48px; margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; }
+    .empty-state .em-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+    .empty-state p { font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
 
-    /* PROGRESS BAR */
+    /* ── PROGRESS BAR ── */
     .progress-bar {
-      height: 6px; background: #E4E8F0; border-radius: 3px; overflow: hidden;
+      height: 3px; background: var(--border); overflow: hidden;
     }
     .progress-bar .fill {
-      height: 100%; background: var(--laranja);
-      border-radius: 3px; transition: width 0.4s;
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      transition: width 0.4s;
     }
 
-    /* LOADING */
+    /* ── LOADING ── */
     .loading-spinner {
-      width: 20px; height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--amber);
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       display: inline-block;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media (max-width: 900px) {
-      .sidebar { width: 60px; }
-      .sidebar .nav-item span,
-      .sidebar .sidebar-logo .name,
-      .sidebar .sidebar-logo .sub,
-      .sidebar .nav-section,
-      .sidebar .user-name,
-      .sidebar .user-role { display: none; }
-      .main { margin-left: 60px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .main { padding: 16px; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* TABS */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--borda); margin-bottom: 20px; }
-    .tab {
-      padding: 10px 20px;
-      font-size: 13.5px; font-weight: 700;
-      color: var(--cinza); cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .tab.active { color: var(--azul); border-bottom-color: var(--laranja); }
-    .tab:hover:not(.active) { color: var(--azul); }
-
-    /* SEARCH */
+    /* ── SEARCH ── */
     .search-row { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
     .search-input {
       flex: 1; min-width: 200px;
       padding: 9px 14px 9px 36px;
-      border: 2px solid var(--borda);
-      border-radius: 8px;
-      font-size: 13.5px; font-family: 'Barlow', sans-serif;
+      background: var(--bg2); border: 1px solid var(--border);
+      color: var(--text); font-size: 12px; font-family: 'Exo 2', sans-serif;
       outline: none; transition: border-color 0.2s;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234A4A5A' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 12px center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%234E6880' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 12px center;
     }
-    .search-input:focus { border-color: var(--azul); }
+    .search-input:focus { border-color: var(--amber); }
+    .search-input::placeholder { color: var(--text-muted); }
 
-    /* BATCH SELECT */
+    /* ── BATCH SELECT ── */
     .batch-select {
-      padding: 9px 14px; border: 2px solid var(--borda); border-radius: 8px;
-      font-size: 13.5px; font-family: 'Barlow', sans-serif;
-      color: var(--cinza); outline: none; transition: border-color 0.2s;
-      background: #fff;
+      padding: 9px 14px; border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text-dim); font-size: 12px; font-family: 'Exo 2', sans-serif;
+      outline: none; transition: border-color 0.2s;
     }
-    .batch-select:focus { border-color: var(--azul); }
+    .batch-select:focus { border-color: var(--amber); }
+    .batch-select option { background: var(--bg2); }
 
-    /* BATCH ACTIONS ROW */
+    /* ── BATCH ACTIONS ── */
     .batch-actions {
-      display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 24px;
-      background: #F7F9FF; border-bottom: 1px solid var(--borda);
+      display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 20px;
+      background: var(--bg); border-bottom: 1px solid var(--border);
       align-items: center;
     }
-    .batch-actions span { font-size: 13px; color: var(--cinza); }
+    .batch-actions span { font-size: 11px; color: var(--text-dim); }
+
+    /* ── TABS ── */
+    .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .tab {
+      padding: 10px 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-dim); cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: all 0.15s;
+    }
+    .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 14px; font-family: monospace; font-size: 11.5px;
+      color: var(--text-dim); overflow-x: auto; line-height: 1.7;
+    }
+
+    /* ── STATUS DOT ── */
+    .status-dot {
+      position: fixed; bottom: 16px; left: calc(var(--sidebar-w) + 20px);
+      display: flex; align-items: center; gap: 6px; z-index: 50;
+    }
+    .sdot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+      animation: blink 2.5s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .stxt { font-size: 9px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --sidebar-w: 56px; }
+      .sidebar .nav-item span,
+      .logo-text, .nav-section,
+      .user-name, .user-role { display: none; }
+      .nav-item { justify-content: center; padding: 12px; }
+      .main { padding: 20px 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
+  <div class="grid-bg"></div>
+
+  <!-- ── SIDEBAR ── -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-row">
-        <div class="icon">AP</div>
-        <div>
+        <div class="logo-diamond"><span>AP</span></div>
+        <div class="logo-text">
           <div class="name">ABILITY PRO</div>
           <div class="sub">Admin Panel</div>
         </div>
       </div>
     </div>
+
     <nav class="sidebar-nav">
       <div class="nav-section">Principal</div>
       <div class="nav-item active" onclick="showSection('dashboard')">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/><path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/><path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/></svg>
         <span>Dashboard</span>
       </div>
       <div class="nav-item" onclick="showSection('upload')">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1  0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
         <span>Importar CSV</span>
       </div>
       <div class="nav-item" onclick="showSection('colaboradores')">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
         <span>Colaboradores</span>
       </div>
       <div class="nav-item" onclick="showSection('lotes')">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg>
         <span>Lotes</span>
       </div>
       <div class="nav-section">Certificados</div>
       <div class="nav-item" onclick="showSection('assinados')">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></svg>
         <span>Certificados Assinados</span>
       </div>
+    </nav>
+
     <div class="sidebar-footer">
       <div class="user-row">
         <div class="user-av" id="userAv">A</div>
@@ -460,31 +546,31 @@
           <div class="user-role">Administrador</div>
         </div>
         <button class="btn-logout" title="Sair" onclick="Auth.logout()">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/><path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg>
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/><path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/></svg>
         </button>
       </div>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- ── MAIN ── -->
   <main class="main">
 
     <!-- ===== DASHBOARD ===== -->
     <section id="sec-dashboard">
       <div class="topbar">
         <div>
-          <div class="page-title">Dashboard</div>
+          <div class="page-title">DASH<em>BOARD</em></div>
           <div class="page-sub">Visão geral do sistema</div>
         </div>
         <button class="btn btn-primary" onclick="showSection('upload')">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
           Novo Lote
         </button>
       </div>
 
       <div class="stats-grid">
         <div class="stat-card blue">
-          <div class="stat-label">Total</div>
+          <div class="stat-label">Total Colaboradores</div>
           <div class="stat-value" id="stat-total">—</div>
         </div>
         <div class="stat-card orange">
@@ -496,12 +582,11 @@
           <div class="stat-value" id="stat-signed">—</div>
         </div>
         <div class="stat-card gray">
-          <div class="stat-label">Lotes</div>
+          <div class="stat-label">Lotes Ativos</div>
           <div class="stat-value" id="stat-batches">—</div>
         </div>
       </div>
 
-      <!-- Recent batches -->
       <div class="card">
         <div class="card-header">
           <div class="card-title">Lotes Recentes</div>
@@ -511,12 +596,7 @@
           <table>
             <thead>
               <tr>
-                <th>Lote</th>
-                <th>Data</th>
-                <th>Total</th>
-                <th>Assinados</th>
-                <th>Progresso</th>
-                <th>Ações</th>
+                <th>Lote</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th>
               </tr>
             </thead>
             <tbody id="dashboard-batches">
@@ -531,8 +611,8 @@
     <section id="sec-upload" style="display:none">
       <div class="topbar">
         <div>
-          <div class="page-title">Importar Planilha</div>
-          <div class="page-sub">Faça upload do CSV com os dados dos colaboradores</div>
+          <div class="page-title">IMPORTAR <em>PLANILHA</em></div>
+          <div class="page-sub">Upload CSV com dados dos colaboradores</div>
         </div>
       </div>
 
@@ -544,7 +624,7 @@
           <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
             <div class="upload-icon">📤</div>
             <p><strong>Clique aqui</strong> ou arraste seu arquivo</p>
-            <p style="margin-top:6px; font-size:12px;">Aceita <strong>Excel (.xlsx)</strong> ou CSV — colunas: NOME, CPF, NR06, NR10, DIRECAO, NR35, NR33, NR10 SEP...</p>
+            <p style="margin-top:6px; font-size:11px; color:var(--text-muted);">Aceita <strong>Excel (.xlsx)</strong> ou CSV — colunas: NOME, CPF, NR06, NR10, DIRECAO, NR35, NR33, NR10 SEP...</p>
           </div>
           <input type="file" id="csvFile" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(this)">
 
@@ -557,8 +637,8 @@
 
           <div id="upload-preview" style="margin-top:20px; display:none;">
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-              <span style="font-weight:700; color:var(--azul);" id="preview-count">0 registros</span>
-              <span style="font-size:12px; color:var(--cinza);">prontos para importar</span>
+              <span style="font-weight:700; color:var(--amber); font-family:'Rajdhani',sans-serif; font-size:16px;" id="preview-count">0 registros</span>
+              <span style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase;">prontos para importar</span>
             </div>
             <div class="table-wrap" style="max-height:280px; overflow-y:auto;">
               <table>
@@ -573,16 +653,16 @@
       <div class="card">
         <div class="card-header"><div class="card-title">Formatos Aceitos</div></div>
         <div class="card-body">
-          <p style="font-size:13px; color:var(--cinza); margin-bottom:12px;">
-            Você pode importar diretamente o <strong>arquivo Excel (.xlsx)</strong> do jeito que já usa, ou um CSV separado por <strong>ponto-e-vírgula (;)</strong>.<br><br>
-            Nas colunas de curso, qualquer valor (data, texto, número) significa que o colaborador <strong>tem</strong> aquele treinamento. Célula vazia = não tem.
+          <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px; line-height:1.8;">
+            Você pode importar diretamente o <strong style="color:var(--text)">arquivo Excel (.xlsx)</strong> do jeito que já usa, ou um CSV separado por <strong style="color:var(--text)">ponto-e-vírgula (;)</strong>.<br>
+            Nas colunas de curso, qualquer valor (data, texto, número) significa que o colaborador <strong style="color:var(--amber)">tem</strong> aquele treinamento. Célula vazia = não tem.
           </p>
-          <p style="font-size:12px; font-weight:700; color:var(--azul); margin-bottom:6px;">Exemplo Excel (suas colunas já estão certas):</p>
-          <div style="background:#F7F8FC; border-radius:8px; padding:14px; font-family:monospace; font-size:12px; overflow-x:auto; color:var(--cinza);">
+          <p style="font-size:10px; font-weight:700; letter-spacing:2px; color:var(--cyan); text-transform:uppercase; margin-bottom:8px;">Exemplo Excel:</p>
+          <div class="code-block">
             NOME | CPF | NR06 | NR10 | DIRECAO | NR35<br>
             ANDERSON SILVA | 41576714810 | 23/04/2026 | 17,23,24/04 | 16/04/2026 | 23/04/2026
           </div>
-          <p style="font-size:12px; color:var(--cinza); margin-top:10px;">Colunas extras suportadas: <strong>SGA.NR20, NR33, NR10 SEP</strong></p>
+          <p style="font-size:11px; color:var(--text-dim); margin-top:10px;">Colunas extras: <strong style="color:var(--text)">SGA.NR20, NR33, NR10 SEP</strong></p>
         </div>
       </div>
     </section>
@@ -591,7 +671,7 @@
     <section id="sec-colaboradores" style="display:none">
       <div class="topbar">
         <div>
-          <div class="page-title">Colaboradores</div>
+          <div class="page-title">COLABO<em>RADORES</em></div>
           <div class="page-sub">Gerencie e emita certificados</div>
         </div>
       </div>
@@ -605,23 +685,17 @@
             <option value="">Todos os lotes</option>
           </select>
           <button class="btn btn-secondary btn-sm" id="btnBatchDownload" onclick="downloadBatch()" style="display:none">
-            ⬇️ Baixar PDFs do Lote
+            ⬇ Baixar PDFs do Lote
           </button>
         </div>
-        <div class="card-body" style="padding:16px 24px;">
+        <div class="card-body" style="padding:16px 20px;">
           <div class="search-row">
             <input class="search-input" type="text" id="searchInput" placeholder="Buscar por nome ou CPF..." oninput="filterTable()">
           </div>
           <div class="table-wrap">
             <table>
               <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>CPF</th>
-                  <th>Certificados</th>
-                  <th>Status</th>
-                  <th>Ações</th>
-                </tr>
+                <tr><th>Nome</th><th>CPF</th><th>Certificados</th><th>Status</th><th>Ações</th></tr>
               </thead>
               <tbody id="colabs-tbody">
                 <tr><td colspan="5"><div class="empty-state"><div class="em-icon">👥</div><p>Importe um CSV para começar</p></div></td></tr>
@@ -636,7 +710,7 @@
     <section id="sec-lotes" style="display:none">
       <div class="topbar">
         <div>
-          <div class="page-title">Lotes</div>
+          <div class="page-title"><em>LOTES</em></div>
           <div class="page-sub">Histórico de importações</div>
         </div>
       </div>
@@ -645,15 +719,7 @@
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Data</th>
-                <th>Total</th>
-                <th>Assinados</th>
-                <th>Progresso</th>
-                <th>Ações</th>
-              </tr>
+              <tr><th>#</th><th>Nome</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th></tr>
             </thead>
             <tbody id="lotes-tbody">
               <tr><td colspan="7"><div class="empty-state"><div class="em-icon">📋</div><p>Nenhum lote</p></div></td></tr>
@@ -667,34 +733,27 @@
     <section id="sec-assinados" style="display:none">
       <div class="topbar">
         <div>
-          <div class="page-title">Certificados Assinados</div>
+          <div class="page-title">CERT. <em>ASSINADOS</em></div>
           <div class="page-sub">Todos os certificados armazenados no servidor</div>
         </div>
         <button class="btn btn-success" id="btnDownloadAllSigned" onclick="downloadAllSigned()">
-          ⬇️ Baixar Todos (ZIP)
+          ⬇ Baixar Todos (ZIP)
         </button>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-title">📁 Arquivos no Servidor</div>
-          <span id="signed-count" style="font-size:13px;color:var(--cinza)"></span>
+          <div class="card-title">Arquivos no Servidor</div>
+          <span id="signed-count" style="font-size:11px; color:var(--text-dim); letter-spacing:1px;"></span>
         </div>
-        <div class="card-body" style="padding:16px 24px;">
+        <div class="card-body" style="padding:16px 20px;">
           <div class="search-row">
             <input class="search-input" type="text" id="searchSigned" placeholder="Buscar por nome, CPF ou lote..." oninput="filterSigned()">
           </div>
           <div class="table-wrap">
             <table>
               <thead>
-                <tr>
-                  <th>Colaborador</th>
-                  <th>CPF</th>
-                  <th>Lote</th>
-                  <th>Assinado em</th>
-                  <th>Arquivos</th>
-                  <th>Ações</th>
-                </tr>
+                <tr><th>Colaborador</th><th>CPF</th><th>Lote</th><th>Assinado em</th><th>Arquivos</th><th>Ações</th></tr>
               </thead>
               <tbody id="signed-tbody">
                 <tr><td colspan="6"><div class="empty-state"><div class="em-icon">📭</div><p>Nenhum certificado assinado ainda</p></div></td></tr>
@@ -707,6 +766,11 @@
 
   </main>
 
+  <div class="status-dot">
+    <div class="sdot"></div>
+    <span class="stxt">Sistema Online — v3.0.0</span>
+  </div>
+
   <!-- MODAL: Link de Assinatura -->
   <div class="modal-overlay" id="linkModal">
     <div class="modal">
@@ -715,14 +779,14 @@
         <button class="modal-close" onclick="closeModal('linkModal')">✕</button>
       </div>
       <div class="modal-body">
-        <p style="font-size:13px; color:var(--cinza); margin-bottom:4px;">
+        <p style="font-size:11px; color:var(--text-dim); margin-bottom:4px; letter-spacing:0.5px;">
           Envie este link para o colaborador assinar pelo celular:
         </p>
         <div class="link-box">
           <span id="linkModalUrl">—</span>
           <button class="btn btn-outline btn-sm" onclick="copyText(document.getElementById('linkModalUrl').textContent)">Copiar</button>
         </div>
-        <p style="font-size:12px; color:var(--cinza); margin-top:14px;">
+        <p style="font-size:11px; color:var(--text-dim); margin-top:14px;">
           O colaborador precisará digitar o CPF para autenticar antes de assinar.
         </p>
       </div>
@@ -749,7 +813,6 @@
       document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
       document.getElementById(`sec-${id}`).style.display = 'block';
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      // Highlight correct nav item by onclick attribute
       document.querySelectorAll('.nav-item').forEach(n => {
         if (n.getAttribute('onclick') === `showSection('${id}')`) n.classList.add('active');
       });
@@ -789,16 +852,16 @@
         const date = new Date(b.created_at).toLocaleDateString('pt-BR');
         return `<tr>
           <td class="nome-cell">${b.name}</td>
-          <td>${date}</td>
-          <td>${b.total}</td>
-          <td>${b.signed}</td>
+          <td style="color:var(--text-dim);font-size:11px;">${date}</td>
+          <td style="color:var(--text-dim);">${b.total}</td>
+          <td style="color:var(--green);">${b.signed}</td>
           <td style="min-width:120px">
             <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
-            <span style="font-size:11px;color:var(--cinza)">${pct}%</span>
+            <span style="font-size:10px;color:var(--text-dim);letter-spacing:1px;">${pct}%</span>
           </td>
           <td>
             <div class="actions-cell">
-              <button class="btn btn-outline btn-sm" onclick="downloadBatchById(${b.id}, '${b.name}')">⬇️ Baixar PDFs</button>
+              <button class="btn btn-outline btn-sm" onclick="downloadBatchById(${b.id}, '${b.name}')">⬇ PDFs</button>
               <button class="btn btn-secondary btn-sm" onclick="viewBatch(${b.id})">Ver</button>
             </div>
           </td>
@@ -814,28 +877,23 @@
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', e => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
+      e.preventDefault(); dropZone.classList.remove('dragover');
       const f = e.dataTransfer.files[0];
       if (f) processFile(f);
     });
 
-    function handleFileSelect(input) {
-      if (input.files[0]) processFile(input.files[0]);
-    }
+    function handleFileSelect(input) { if (input.files[0]) processFile(input.files[0]); }
 
     function processFile(file) {
       selectedFile = file;
-      document.getElementById('uploadZone').innerHTML = `<div class="upload-icon">✅</div><p><strong>${file.name}</strong></p><p style="font-size:12px;margin-top:4px;">${(file.size/1024).toFixed(1)} KB</p>`;
+      document.getElementById('uploadZone').innerHTML = `<div class="upload-icon">✅</div><p><strong style="color:var(--amber)">${file.name}</strong></p><p style="font-size:11px;margin-top:4px;color:var(--text-dim)">${(file.size/1024).toFixed(1)} KB</p>`;
       document.getElementById('btnUpload').disabled = false;
 
-      // Preview
       const reader = new FileReader();
       reader.onload = e => {
         const text = e.target.result;
         const lines = text.trim().split(/\r?\n/);
         const headers = lines[0].split(';').map(h => h.trim().toUpperCase());
-
         previewRows = [];
         for (let i = 1; i < Math.min(lines.length, 11); i++) {
           const cols = lines[i].split(';').map(c => c.trim());
@@ -844,10 +902,8 @@
           headers.forEach((h,idx) => row[h] = cols[idx] || '0');
           previewRows.push(row);
         }
-
         const total = lines.length - 1;
         document.getElementById('preview-count').textContent = `${total} registro${total !== 1 ? 's' : ''}`;
-
         const tbody = document.getElementById('preview-tbody');
         tbody.innerHTML = previewRows.map(row => {
           const nome = row['NOME'] || '—';
@@ -857,7 +913,6 @@
             .map(k => `<span class="badge">${k}</span>`).join('');
           return `<tr><td class="nome-cell">${nome}</td><td class="cpf-cell">${cpf}</td><td>${certs || '—'}</td></tr>`;
         }).join('');
-
         document.getElementById('upload-preview').style.display = 'block';
       };
       reader.readAsText(file, 'latin1');
@@ -868,11 +923,9 @@
       const btn = document.getElementById('btnUpload');
       btn.disabled = true;
       btn.innerHTML = '<span class="loading-spinner"></span> Processando...';
-
       const formData = new FormData();
       formData.append('csv', selectedFile);
       formData.append('batchName', document.getElementById('batchName').value || `Lote ${new Date().toLocaleDateString('pt-BR')}`);
-
       try {
         const res = await fetch(`${BACKEND_URL}/api/admin/upload-csv`, {
           method: 'POST',
@@ -881,14 +934,12 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
-
         showToast(`✅ ${data.total} colaboradores importados!`, 'success');
         setTimeout(() => { showSection('colaboradores'); }, 1200);
       } catch(e) {
         showToast('Erro: ' + e.message, 'error');
       } finally {
-        btn.disabled = false;
-        btn.textContent = 'Processar CSV';
+        btn.disabled = false; btn.textContent = 'Processar CSV';
       }
     }
 
@@ -907,11 +958,9 @@
       const batchId = document.getElementById('batchFilter').value;
       currentBatchId = batchId || null;
       document.getElementById('btnBatchDownload').style.display = batchId ? 'inline-flex' : 'none';
-
       try {
         let url = batchId ? `/api/admin/batch/${batchId}` : null;
         if (!url) {
-          // Load all — get all batches and concat
           const r = await apiFetch('/api/admin/batches');
           const batches = await r.json();
           allColabs = [];
@@ -926,9 +975,7 @@
           allColabs = d.colaboradores || [];
         }
         renderColabs(allColabs);
-      } catch(e) {
-        console.error(e);
-      }
+      } catch(e) { console.error(e); }
     }
 
     function renderColabs(colabs) {
@@ -945,12 +992,8 @@
           <td>${statusLabel(c.status)}</td>
           <td>
             <div class="actions-cell">
-              <button class="btn btn-secondary btn-sm" onclick="downloadIndividual(${c.id}, '${c.nome.replace(/'/g, "\\'")}')">
-                ⬇️ Baixar PDFs
-              </button>
-              <button class="btn btn-primary btn-sm" onclick="showLink(${c.id}, '${c.token}')">
-                🔗 Link Assinatura
-              </button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadIndividual(${c.id}, '${c.nome.replace(/'/g, "\\'")}')">⬇ PDFs</button>
+              <button class="btn btn-primary btn-sm" onclick="showLink(${c.id}, '${c.token}')">🔗 Link</button>
             </div>
           </td>
         </tr>
@@ -977,52 +1020,42 @@
       showSection('colaboradores');
     }
 
-    // ---- PDF DOWNLOAD (sem assinatura — lote ou individual direto) ----
+    // ---- PDF DOWNLOAD ----
     async function downloadBatch() {
       if (!currentBatchId) return;
       showToast('⏳ Gerando PDFs...', 'success');
       try {
         const res = await fetch(`${BACKEND_URL}/api/pdf/batch/${currentBatchId}`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${Auth.token()}` },
+          method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
         if (!res.ok) throw new Error('Erro ao gerar PDFs');
         const blob = await res.blob();
         downloadBlob(blob, `AbilityPro_Lote_${currentBatchId}.zip`);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
     async function downloadBatchById(id, name) {
       showToast('⏳ Gerando PDFs...', 'success');
       try {
         const res = await fetch(`${BACKEND_URL}/api/pdf/batch/${id}`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${Auth.token()}` },
+          method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
         const blob = await res.blob();
         downloadBlob(blob, `AbilityPro_${name.replace(/\s+/g,'_')}.zip`);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
     async function downloadIndividual(colabId, nome) {
       showToast('⏳ Gerando PDFs...', 'success');
       try {
         const res = await fetch(`${BACKEND_URL}/api/pdf/individual/${colabId}`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${Auth.token()}` },
+          method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
         const blob = await res.blob();
         downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados.zip`);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
-    // ---- BAIXAR CERTIFICADOS ASSINADOS (do servidor) ----
     async function downloadSignedByColab(colabId, nome) {
       showToast('⏳ Preparando ZIP...', 'success');
       try {
@@ -1030,9 +1063,7 @@
         if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
         const blob = await res.blob();
         downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados_assinados.zip`);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
     async function downloadSignedByBatch(batchId, batchName) {
@@ -1042,9 +1073,7 @@
         if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
         const blob = await res.blob();
         downloadBlob(blob, `${(batchName||'lote').replace(/\s+/g,'_')}_assinados.zip`);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      }
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
     // ---- SEÇÃO CERTIFICADOS ASSINADOS ----
@@ -1055,16 +1084,11 @@
         const r = await apiFetch('/api/admin/signed');
         allSigned = await r.json();
         renderSigned(allSigned);
-
         const count = allSigned.length;
         document.getElementById('signed-count').textContent =
           count > 0 ? `${count} colaborador${count !== 1 ? 'es' : ''} assinado${count !== 1 ? 's' : ''}` : '';
-
-        // Mostra/oculta botão de baixar tudo
         document.getElementById('btnDownloadAllSigned').style.display = count > 0 ? 'inline-flex' : 'none';
-      } catch(e) {
-        console.error(e);
-      }
+      } catch(e) { console.error(e); }
     }
 
     function renderSigned(list) {
@@ -1077,19 +1101,19 @@
         const date = c.signed_at ? new Date(c.signed_at).toLocaleString('pt-BR') : '—';
         const fileCount = c.files ? c.files.length : 0;
         const filesHtml = fileCount > 0
-          ? `<span class="badge" style="background:rgba(13,138,95,0.1);color:var(--verde)">${fileCount} PDF${fileCount !== 1 ? 's' : ''}</span>`
-          : `<span style="font-size:12px;color:var(--cinza)">—</span>`;
+          ? `<span class="badge" style="background:var(--green-dim);border-color:rgba(0,230,118,0.25);color:var(--green)">${fileCount} PDF${fileCount !== 1 ? 's' : ''}</span>`
+          : `<span style="font-size:11px;color:var(--text-muted)">—</span>`;
         return `<tr>
           <td class="nome-cell">${c.nome}</td>
           <td class="cpf-cell">${formatCPF(c.cpf)}</td>
-          <td style="font-size:12px;color:var(--cinza)">${c.batch_name || '—'}</td>
-          <td style="font-size:12px;color:var(--cinza)">${date}</td>
+          <td style="font-size:11px;color:var(--text-dim)">${c.batch_name || '—'}</td>
+          <td style="font-size:11px;color:var(--text-dim)">${date}</td>
           <td>${filesHtml}</td>
           <td>
             <div class="actions-cell">
               ${fileCount > 0
-                ? `<button class="btn btn-success btn-sm" onclick="downloadSignedByColab(${c.id}, '${c.nome.replace(/'/g,"\\'")}')">⬇️ Baixar ZIP</button>`
-                : `<span style="font-size:12px;color:#999">Sem arquivos</span>`
+                ? `<button class="btn btn-success btn-sm" onclick="downloadSignedByColab(${c.id}, '${c.nome.replace(/'/g,"\\'")}')">⬇ ZIP</button>`
+                : `<span style="font-size:11px;color:var(--text-muted)">Sem arquivos</span>`
               }
             </div>
           </td>
@@ -1107,16 +1131,14 @@
       renderSigned(filtered);
     }
 
-    // Baixa tudo: agrupa por lote e baixa cada um
     async function downloadAllSigned() {
       if (!allSigned.length) return;
-      // Get unique batches
       const batchIds = [...new Set(allSigned.map(c => c.batch_id).filter(Boolean))];
       showToast(`⏳ Baixando ${batchIds.length} lote(s)...`, 'success');
       for (const bid of batchIds) {
         const b = allSigned.find(c => c.batch_id === bid);
         await downloadSignedByBatch(bid, b?.batch_name || `lote_${bid}`);
-        await new Promise(r => setTimeout(r, 500)); // pequena pausa entre downloads
+        await new Promise(r => setTimeout(r, 500));
       }
     }
 
@@ -1128,9 +1150,7 @@
       document.getElementById('linkModal').classList.add('open');
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
-    }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
     // ---- INIT LOAD ----
     loadDashboard();

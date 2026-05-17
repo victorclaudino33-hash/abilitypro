@@ -5,230 +5,378 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Ability Pro — Assinar Certificados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-   :root {
-  --azul:    #4E9AF1;
-  --laranja: #F27008;
-  --cinza:   #A0A8B8;
-  --fundo:   #0F1117;
-  --branco:  #1A1D27;
-  --borda:   #2A2D3A;
-}
-
-body {
-  background: #0F1117;
-  color: #E0E4F0;
-}
-    body {
-      font-family: 'Barlow', sans-serif;
-      background: var(--fundo);
-      min-height: 100vh;
-      color: #1a1a2e;
+    :root {
+      --bg:         #070B11;
+      --bg2:        #0C1220;
+      --panel:      #0F1825;
+      --border:     #1A2B40;
+      --border2:    #243550;
+      --amber:      #F5A623;
+      --amber-dim:  rgba(245,166,35,0.08);
+      --amber-glow: rgba(245,166,35,0.3);
+      --cyan:       #00C8FF;
+      --cyan-dim:   rgba(0,200,255,0.08);
+      --text:       #B8CCE0;
+      --text-dim:   #4E6880;
+      --text-muted: #2A3D55;
+      --red:        #FF4560;
+      --green:      #00E676;
+      --green-dim:  rgba(0,230,118,0.1);
     }
 
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── GRID BG ── */
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.018) 1px, transparent 1px);
+      background-size: 48px 48px;
+      animation: gridDrift 30s linear infinite;
+    }
+    @keyframes gridDrift { to { background-position: 48px 48px; } }
+
+    /* ── TOP BAR ── */
     .top-bar {
-      background: var(--azul);
+      position: relative; z-index: 10;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
       padding: 14px 20px;
       display: flex; align-items: center; gap: 12px;
     }
-    .top-bar .icon {
-      width: 36px; height: 36px;
-      background: var(--laranja);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 16px; font-weight: 800; color: #fff;
+    .top-bar::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0;
+      width: 120px; height: 1px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+    }
+    .logo-diamond {
+      width: 36px; height: 36px; flex-shrink: 0;
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .logo-diamond::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1.5px solid var(--amber);
+      transform: rotate(45deg);
+      background: var(--amber-dim);
+    }
+    .logo-diamond span {
+      position: relative; z-index: 1;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px; font-weight: 700;
+      color: var(--amber); letter-spacing: 1px;
     }
     .top-bar .title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 20px; font-weight: 800; color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px; font-weight: 700;
+      color: #fff; letter-spacing: 4px;
     }
-    .top-bar .sub { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; }
+    .top-bar .sub {
+      font-size: 8px; color: var(--text-dim);
+      letter-spacing: 2px; text-transform: uppercase; margin-top: 1px;
+    }
 
+    /* ── LAYOUT ── */
     .container {
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
+      position: relative; z-index: 1;
+      max-width: 520px; margin: 0 auto;
+      padding: 24px 16px 60px;
     }
 
+    /* ── CARD ── */
     .card {
-      background: var(--branco);
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(10,56,130,0.07);
-      margin-bottom: 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
       overflow: hidden;
+      position: relative;
     }
     .card-header {
-      background: var(--azul);
-      padding: 14px 18px;
+      background: var(--bg2);
+      padding: 12px 18px;
       display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid var(--border);
     }
-    .card-header h2 { font-size: 15px; font-weight: 700; color: #fff; }
+    .card-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--text); letter-spacing: 2px; text-transform: uppercase;
+    }
     .card-body { padding: 18px; }
 
-    /* CPF STEP */
-    .cpf-step { text-align: center; padding: 32px 24px; }
-    .cpf-step h2 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 24px; font-weight: 800; color: var(--azul);
-      margin-bottom: 6px;
+    /* ── CPF STEP ── */
+    .cpf-step { text-align: center; padding: 36px 24px; }
+    .cpf-step .step-icon {
+      width: 64px; height: 64px; margin: 0 auto 20px;
+      position: relative; display: flex; align-items: center; justify-content: center;
     }
-    .cpf-step p { font-size: 13px; color: var(--cinza); margin-bottom: 24px; }
-    .cpf-input {
-      width: 100%; padding: 14px 16px;
-      border: 2px solid var(--borda); border-radius: 10px;
-      font-size: 22px; font-family: 'Barlow', sans-serif;
-      text-align: center; letter-spacing: 3px;
-      outline: none; transition: border-color 0.2s;
-      color: var(--azul);
+    .cpf-step .step-icon::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1.5px solid var(--amber);
+      transform: rotate(45deg);
+      background: var(--amber-dim);
+      animation: pulse 3s ease-in-out infinite;
     }
-    .cpf-input:focus { border-color: var(--azul); }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 var(--amber-glow); }
+      50%      { box-shadow: 0 0 20px 6px rgba(245,166,35,0.1); }
+    }
+    .cpf-step .step-icon span { position: relative; z-index: 1; font-size: 24px; }
 
+    .cpf-step h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 22px; font-weight: 700; letter-spacing: 2px;
+      color: #fff; margin-bottom: 6px;
+    }
+    .cpf-step p {
+      font-size: 11px; color: var(--text-dim);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px;
+    }
+
+    /* ── INPUT ── */
+    .field-group { margin-bottom: 16px; text-align: left; }
+    .field-group label {
+      display: block; font-size: 9px; font-weight: 700;
+      color: var(--amber); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 8px;
+    }
+    .field-wrap { position: relative; display: flex; }
+    .field-wrap::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--border2); transition: background 0.2s;
+    }
+    .field-wrap:focus-within::before { background: var(--amber); box-shadow: 0 0 8px var(--amber-glow); }
+    .cpf-input {
+      flex: 1;
+      padding: 13px 16px 13px 18px;
+      background: var(--bg2); border: 1px solid var(--border); border-left: none;
+      color: var(--text); font-size: 20px; font-family: 'Rajdhani', sans-serif;
+      font-weight: 600; text-align: center; letter-spacing: 4px;
+      outline: none; transition: border-color 0.2s;
+    }
+    .cpf-input:focus { border-color: var(--border2); }
+    .cpf-input::placeholder { color: var(--text-muted); font-size: 16px; letter-spacing: 3px; }
+
+    /* ── BUTTONS ── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px 24px;
-      border-radius: 10px; border: none; cursor: pointer;
-      font-size: 15px; font-weight: 700; font-family: 'Barlow', sans-serif;
-      transition: all 0.15s; width: 100%; margin-top: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: all 0.2s; width: 100%; margin-top: 10px;
+      position: relative; overflow: hidden;
     }
-    .btn-primary { background: var(--laranja); color: #fff; }
-    .btn-primary:hover { background: #E05E00; }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-success { background: var(--verde); color: #fff; }
-    .btn-success:hover { background: #0a7a53; }
-    .btn-outline {
-      background: transparent; border: 2px solid var(--borda);
-      color: var(--cinza); margin-top: 8px;
+    .btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transition: left 0.4s;
     }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:hover::before { left: 100%; }
+    .btn-primary {
+      background: var(--amber); color: #070B11;
+    }
+    .btn-primary:hover {
+      background: #FFBA42;
+      box-shadow: 0 0 40px var(--amber-glow), 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-success {
+      background: transparent; color: var(--green);
+      border: 1px solid var(--green);
+    }
+    .btn-success:hover {
+      background: var(--green-dim);
+      box-shadow: 0 0 30px rgba(0,230,118,0.2);
+    }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-    /* NOME HEADER */
+    /* ── NOME HEADER ── */
     .nome-header {
-      background: linear-gradient(135deg, var(--azul) 0%, #0C4097 100%);
-      padding: 20px 18px;
-      border-radius: 14px;
-      margin-bottom: 16px;
-      color: #fff;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--amber);
+      padding: 20px 18px; margin-bottom: 14px;
+      position: relative; overflow: hidden;
     }
-    .nome-header .greeting { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+    .nome-header::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 80px; height: 80px;
+      border-right: 1px solid var(--amber); border-top: 1px solid var(--amber);
+      opacity: 0.15;
+    }
+    .nome-header .greeting {
+      font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
+      color: var(--text-dim); text-transform: uppercase;
+    }
     .nome-header .nome {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 26px; font-weight: 800;
-      margin-top: 4px; line-height: 1;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 24px; font-weight: 700; letter-spacing: 1px;
+      color: #fff; margin-top: 4px; line-height: 1;
     }
     .nome-header .cert-count {
-      margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.7);
+      margin-top: 8px; font-size: 10px; font-weight: 600;
+      color: var(--amber); letter-spacing: 1.5px; text-transform: uppercase;
     }
 
-    /* CERT LIST */
+    /* ── CERT LIST ── */
     .cert-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .cert-item {
       display: flex; align-items: center; gap: 12px;
-      padding: 12px 14px;
-      background: #F7F9FF;
-      border-radius: 10px;
-      border-left: 3px solid var(--azul);
+      padding: 11px 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--amber);
+      position: relative;
     }
-    .cert-item .cert-icon { font-size: 20px; }
-    .cert-item .cert-name { font-size: 13.5px; font-weight: 600; color: var(--azul); }
-    .cert-item .cert-nr   { font-size: 11px; color: var(--cinza); }
+    .cert-item::after {
+      content: '✓';
+      position: absolute; right: 14px;
+      font-size: 10px; color: var(--amber); font-weight: 700;
+    }
+    .cert-item .cert-icon { font-size: 18px; }
+    .cert-item .cert-name {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+      color: var(--text);
+    }
 
-    /* SIGNATURE PAD */
+    /* ── LEGAL NOTE ── */
+    .legal-note {
+      background: var(--amber-dim);
+      border: 1px solid rgba(245,166,35,0.2);
+      padding: 12px 14px; margin-bottom: 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .legal-note .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .legal-note p {
+      font-size: 11px; color: var(--text-dim); line-height: 1.7;
+    }
+
+    /* ── SIGNATURE PAD ── */
     .sig-container {
       position: relative;
-      background: #FAFBFF;
-      border: 2px dashed var(--borda);
-      border-radius: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
       overflow: hidden;
       touch-action: none;
     }
     .sig-container canvas {
-      display: block; width: 100%;
-      cursor: crosshair;
+      display: block; width: 100%; cursor: crosshair;
     }
     .sig-placeholder {
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      color: var(--borda);
-      pointer-events: none;
-      transition: opacity 0.2s;
+      color: var(--text-muted);
+      pointer-events: none; transition: opacity 0.2s;
     }
-    .sig-placeholder .icon { font-size: 36px; margin-bottom: 8px; }
-    .sig-placeholder p { font-size: 13px; text-align: center; }
+    .sig-placeholder .icon { font-size: 32px; margin-bottom: 8px; }
+    .sig-placeholder p { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
     .sig-placeholder.hidden { opacity: 0; }
+
+    /* signature baseline */
+    .sig-baseline {
+      position: absolute; bottom: 36px; left: 10%; right: 10%;
+      height: 1px; background: var(--border2); pointer-events: none;
+    }
 
     .sig-actions { display: flex; gap: 8px; margin-top: 10px; }
     .btn-clear {
-      flex: 1; padding: 10px;
-      background: #F7F8FC; border: 1.5px solid var(--borda); border-radius: 8px;
-      font-size: 13px; font-weight: 600; color: var(--cinza);
-      cursor: pointer; font-family: 'Barlow', sans-serif;
-      transition: all 0.15s;
+      flex: 1; padding: 9px;
+      background: transparent; border: 1px solid var(--border2);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim); cursor: pointer; transition: all 0.15s;
     }
-    .btn-clear:hover { border-color: var(--laranja); color: var(--laranja); }
+    .btn-clear:hover { border-color: var(--red); color: var(--red); }
 
-    /* LEGAL NOTE */
-    .legal-note {
-      background: #FFF8F0;
-      border: 1px solid #FFE0B0;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 12px;
-      color: #7A4500;
-      margin-bottom: 16px;
-      display: flex; gap: 10px;
-    }
-    .legal-note .icon { font-size: 18px; flex-shrink: 0; }
-
-    /* ERROR/SUCCESS */
+    /* ── ERROR ── */
     .msg-error {
-      background: #FFF0F0; border: 1px solid #FFCCD0;
-      color: #CC2222; border-radius: 8px;
-      padding: 10px 14px; font-size: 13px; margin-top: 10px;
-      display: none;
+      background: rgba(255,69,96,0.07); border: 1px solid rgba(255,69,96,0.25);
+      color: var(--red); padding: 10px 14px; font-size: 11px;
+      letter-spacing: 0.3px; margin-top: 10px; display: none;
     }
     .msg-error.visible { display: block; }
 
-    /* SUCCESS SCREEN */
-    .success-screen {
-      text-align: center; padding: 40px 24px;
-      display: none;
+    /* ── SUCCESS SCREEN ── */
+    .success-screen { text-align: center; padding: 40px 24px; }
+    .success-icon {
+      width: 80px; height: 80px; margin: 0 auto 24px;
+      position: relative; display: flex; align-items: center; justify-content: center;
     }
-    .success-screen .big-icon { font-size: 64px; margin-bottom: 16px; }
-    .success-screen h2 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 28px; font-weight: 800; color: var(--verde);
-      margin-bottom: 8px;
+    .success-icon::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 2px solid var(--green);
+      transform: rotate(45deg);
+      background: var(--green-dim);
+      animation: pulse-green 2s ease-in-out infinite;
     }
-    .success-screen p { font-size: 14px; color: var(--cinza); line-height: 1.6; }
+    @keyframes pulse-green {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,230,118,0.3); }
+      50%      { box-shadow: 0 0 20px 6px rgba(0,230,118,0.1); }
+    }
+    .success-icon span { position: relative; z-index: 1; font-size: 32px; }
 
-    /* LOADING */
+    .success-screen h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 28px; font-weight: 700; letter-spacing: 2px;
+      color: var(--green); margin-bottom: 12px;
+    }
+    .success-screen p {
+      font-size: 12px; color: var(--text-dim); line-height: 1.8;
+    }
+    .success-screen strong { color: var(--text); }
+    .success-note {
+      margin-top: 20px; padding: 12px 16px;
+      background: var(--bg2); border: 1px solid var(--border);
+      font-size: 10px; color: var(--text-muted); letter-spacing: 1px;
+    }
+
+    /* ── LOADING OVERLAY ── */
     .loading-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(10,30,80,0.6);
-      z-index: 999;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8); z-index: 999;
       align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px;
+      flex-direction: column; gap: 20px;
+      backdrop-filter: blur(4px);
     }
     .loading-overlay.visible { display: flex; }
     .spinner {
       width: 48px; height: 48px;
-      border: 4px solid rgba(255,255,255,0.2);
-      border-top-color: var(--laranja);
+      border: 2px solid var(--border2);
+      border-top-color: var(--amber);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
-    .loading-text { color: #fff; font-size: 15px; font-weight: 600; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
+  <div class="grid-bg"></div>
+
+  <!-- TOP BAR -->
   <div class="top-bar">
-    <div class="icon">AP</div>
+    <div class="logo-diamond"><span>AP</span></div>
     <div>
       <div class="title">ABILITY PRO</div>
       <div class="sub">Assinatura de Certificados</div>
@@ -242,12 +390,19 @@ body {
       <div class="card" style="margin-top:16px">
         <div class="card-body">
           <div class="cpf-step">
-            <h2>Verificação de Identidade</h2>
+            <div class="step-icon"><span>🔐</span></div>
+            <h2>VERIFICAÇÃO DE IDENTIDADE</h2>
             <p>Digite seu CPF para acessar seus certificados</p>
-            <input class="cpf-input" type="tel" id="cpfInput" placeholder="000.000.000-00" maxlength="14"
-              oninput="maskCPF(this)" onkeydown="if(event.key==='Enter') verifyCPF()">
-            <button class="btn btn-primary" onclick="verifyCPF()" id="btnVerify">Verificar</button>
-            <div class="msg-error" id="cpfError">CPF não encontrado ou incorreto. Tente novamente.</div>
+            <div class="field-group">
+              <label>Seu CPF</label>
+              <div class="field-wrap">
+                <input class="cpf-input" type="tel" id="cpfInput"
+                  placeholder="000.000.000-00" maxlength="14"
+                  oninput="maskCPF(this)" onkeydown="if(event.key==='Enter') verifyCPF()">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="verifyCPF()" id="btnVerify">Verificar Identidade</button>
+            <div class="msg-error visible" id="cpfError" style="display:none">CPF não encontrado ou incorreto. Tente novamente.</div>
           </div>
         </div>
       </div>
@@ -256,7 +411,7 @@ body {
     <!-- STEP 2: Sign -->
     <div id="step-sign" style="display:none">
       <div class="nome-header">
-        <div class="greeting">Olá,</div>
+        <div class="greeting">Colaborador identificado</div>
         <div class="nome" id="nomeDisplay">—</div>
         <div class="cert-count" id="certCount">—</div>
       </div>
@@ -272,10 +427,10 @@ body {
 
       <div class="legal-note">
         <div class="icon">⚖️</div>
-        <div>
+        <p>
           Ao assinar, você confirma que participou e concluiu os treinamentos listados acima.
           A assinatura tem validade jurídica vinculada ao seu CPF, IP e data/hora.
-        </div>
+        </p>
       </div>
 
       <div class="card">
@@ -283,11 +438,12 @@ body {
           <h2>✍️ Sua Assinatura</h2>
         </div>
         <div class="card-body">
-          <p style="font-size:13px; color:var(--cinza); margin-bottom:12px;">
+          <p style="font-size:11px; color:var(--text-dim); margin-bottom:12px; letter-spacing:0.5px;">
             Assine abaixo usando o dedo ou mouse:
           </p>
           <div class="sig-container" id="sigContainer">
             <canvas id="sigCanvas" height="200"></canvas>
+            <div class="sig-baseline"></div>
             <div class="sig-placeholder" id="sigPlaceholder">
               <div class="icon">✍️</div>
               <p>Assine aqui com o dedo</p>
@@ -309,19 +465,19 @@ body {
     <div id="step-success" style="display:none">
       <div class="card" style="margin-top:16px">
         <div class="card-body">
-          <div class="success-screen" style="display:block">
-            <div class="big-icon">✅</div>
-            <h2>Assinatura Registrada!</h2>
+          <div class="success-screen">
+            <div class="success-icon"><span>✅</span></div>
+            <h2>ASSINATURA REGISTRADA</h2>
             <p>
               Olá, <strong id="success-nome"></strong>!<br>
               Sua assinatura foi registrada com sucesso.
             </p>
-            <p style="margin-top:12px;">
+            <p style="margin-top:10px;">
               <strong id="success-total"></strong> certificado(s) foram enviados automaticamente para o RH com sua assinatura digital e o manifesto jurídico.
             </p>
-            <p style="margin-top:16px; font-size:12px; color:#999">
+            <div class="success-note">
               Você pode fechar esta página. Em caso de dúvidas, entre em contato com o RH.
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -347,9 +503,9 @@ body {
       document.getElementById('step-cpf').innerHTML = `
         <div class="card" style="margin-top:16px">
           <div class="card-body" style="text-align:center;padding:40px">
-            <div style="font-size:48px;margin-bottom:12px">❌</div>
-            <h2 style="color:var(--azul)">Link Inválido</h2>
-            <p style="color:var(--cinza);margin-top:8px">Este link não é válido. Solicite um novo ao RH.</p>
+            <div style="font-size:48px;margin-bottom:16px">❌</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;color:var(--red);margin-bottom:8px;">LINK INVÁLIDO</div>
+            <p style="color:var(--text-dim);font-size:12px;letter-spacing:0.5px;">Este link não é válido. Solicite um novo ao RH.</p>
           </div>
         </div>`;
     }
@@ -360,9 +516,7 @@ body {
         const r = await fetch(`${BACKEND_URL}/api/aluno/${TOKEN}`);
         colab = await r.json();
         if (!r.ok) throw new Error(colab.error);
-      } catch(e) {
-        console.error(e);
-      }
+      } catch(e) { console.error(e); }
     }
     if (TOKEN) loadColab();
 
@@ -380,11 +534,8 @@ body {
       const cpf = document.getElementById('cpfInput').value;
       const err = document.getElementById('cpfError');
       const btn = document.getElementById('btnVerify');
-
-      err.classList.remove('visible');
-      btn.disabled = true;
-      btn.textContent = 'Verificando...';
-
+      err.classList.remove('visible'); err.style.display = 'none';
+      btn.disabled = true; btn.textContent = 'Verificando...';
       try {
         const r = await fetch(`${BACKEND_URL}/api/aluno/${TOKEN}/verificar-cpf`, {
           method: 'POST',
@@ -393,14 +544,12 @@ body {
         });
         const d = await r.json();
         if (!r.ok) throw new Error(d.error);
-
-        // Load full data
         await loadColab();
         showSignStep();
       } catch(e) {
+        err.style.display = 'block';
         err.classList.add('visible');
-        btn.disabled = false;
-        btn.textContent = 'Verificar';
+        btn.disabled = false; btn.textContent = 'Verificar Identidade';
       }
     }
 
@@ -419,9 +568,7 @@ body {
       document.getElementById('certList').innerHTML = certs.map(c => `
         <li class="cert-item">
           <div class="cert-icon">${certIcons[c] || '📜'}</div>
-          <div>
-            <div class="cert-name">${c}</div>
-          </div>
+          <div><div class="cert-name">${c}</div></div>
         </li>
       `).join('');
 
@@ -435,23 +582,20 @@ body {
       canvas = document.getElementById('sigCanvas');
       ctx = canvas.getContext('2d');
 
-      // Size canvas to container
       const rect = canvas.parentElement.getBoundingClientRect();
       canvas.width  = rect.width;
       canvas.height = 200;
 
-      ctx.strokeStyle = '#0A3882';
-      ctx.lineWidth   = 2.5;
+      ctx.strokeStyle = '#F5A623';
+      ctx.lineWidth   = 2;
       ctx.lineCap     = 'round';
       ctx.lineJoin    = 'round';
 
-      // Mouse
       canvas.addEventListener('mousedown', startDraw);
       canvas.addEventListener('mousemove', draw);
       canvas.addEventListener('mouseup',   stopDraw);
       canvas.addEventListener('mouseleave',stopDraw);
 
-      // Touch
       canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
       canvas.addEventListener('touchmove',  e => { e.preventDefault(); draw(e.touches[0]); },     { passive: false });
       canvas.addEventListener('touchend',   e => { e.preventDefault(); stopDraw(); },              { passive: false });
@@ -461,32 +605,24 @@ body {
       const rect = canvas.getBoundingClientRect();
       const scaleX = canvas.width  / rect.width;
       const scaleY = canvas.height / rect.height;
-      return {
-        x: (e.clientX - rect.left) * scaleX,
-        y: (e.clientY - rect.top)  * scaleY,
-      };
+      return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
     }
 
     function startDraw(e) {
       isDrawing = true;
       const p = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y);
+      ctx.beginPath(); ctx.moveTo(p.x, p.y);
       if (!hasDrawn) {
         hasDrawn = true;
         document.getElementById('sigPlaceholder').classList.add('hidden');
       }
     }
-
     function draw(e) {
       if (!isDrawing) return;
       const p = getPos(e);
-      ctx.lineTo(p.x, p.y);
-      ctx.stroke();
+      ctx.lineTo(p.x, p.y); ctx.stroke();
     }
-
     function stopDraw() { isDrawing = false; }
-
     function clearSig() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       hasDrawn = false;
@@ -496,12 +632,11 @@ body {
     // ---- SUBMIT ----
     async function submitSignature() {
       const err = document.getElementById('signError');
-      err.style.display = 'none';
-      err.classList.remove('visible');
+      err.style.display = 'none'; err.classList.remove('visible');
 
       if (!hasDrawn) {
         err.textContent = 'Por favor, assine antes de confirmar.';
-        err.classList.add('visible');
+        err.style.display = 'block'; err.classList.add('visible');
         return;
       }
 
@@ -518,18 +653,16 @@ body {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ signatureData, cpf }),
         });
-
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Erro ao processar assinatura');
 
-        // ✅ Só mostra confirmação — os arquivos ficam no servidor para o admin
         document.getElementById('step-sign').style.display = 'none';
         document.getElementById('step-success').style.display = 'block';
         document.getElementById('success-nome').textContent = data.nome || colab?.nome || '';
         document.getElementById('success-total').textContent = data.total || '';
       } catch(e) {
         err.textContent = e.message;
-        err.classList.add('visible');
+        err.style.display = 'block'; err.classList.add('visible');
         document.getElementById('btnSign').disabled = false;
       } finally {
         document.getElementById('loadingOverlay').classList.remove('visible');
