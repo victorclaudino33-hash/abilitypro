@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const multer = require('multer');
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const auth = require('../middleware/auth');
@@ -113,11 +113,33 @@ router.get('/colaborador/:id', auth, (req, res) => {
 
 // GET /api/admin/stats
 router.get('/stats', auth, (req, res) => {
-  const total = db.prepare('SELECT COUNT(*) as n FROM colaboradores').get().n;
-  const signed = db.prepare("SELECT COUNT(*) as n FROM colaboradores WHERE status = 'signed'").get().n;
+  const total   = db.prepare('SELECT COUNT(*) as n FROM colaboradores').get().n;
+  const signed  = db.prepare("SELECT COUNT(*) as n FROM colaboradores WHERE status = 'signed'").get().n;
   const pending = db.prepare("SELECT COUNT(*) as n FROM colaboradores WHERE status = 'pending'").get().n;
   const batches = db.prepare('SELECT COUNT(*) as n FROM batches').get().n;
   res.json({ total, signed, pending, batches });
+});
+
+// GET /api/admin/signed — todos que já assinaram, com lista de arquivos
+router.get('/signed', auth, (req, res) => {
+  const rows = db.prepare(`
+    SELECT c.id, c.nome, c.cpf, c.signed_at, c.ip_address, c.pdf_path,
+           b.name as batch_name, b.id as batch_id
+    FROM colaboradores c
+    LEFT JOIN batches b ON b.id = c.batch_id
+    WHERE c.status = 'signed'
+    ORDER BY c.signed_at DESC
+  `).all();
+
+  const result = rows.map(r => {
+    let files = [];
+    if (r.pdf_path && fs.existsSync(r.pdf_path)) {
+      files = fs.readdirSync(r.pdf_path).filter(f => f.endsWith('.pdf'));
+    }
+    return { ...r, files };
+  });
+
+  res.json(result);
 });
 
 module.exports = router;

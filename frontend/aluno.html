@@ -296,7 +296,7 @@
       </div>
 
       <button class="btn btn-success" onclick="submitSignature()" id="btnSign">
-        ✅ Confirmar e Baixar Certificados
+        ✅ Confirmar Assinatura
       </button>
       <div class="msg-error" id="signError"></div>
     </div>
@@ -306,14 +306,17 @@
       <div class="card" style="margin-top:16px">
         <div class="card-body">
           <div class="success-screen" style="display:block">
-            <div class="big-icon">🎉</div>
-            <h2>Certificados Assinados!</h2>
+            <div class="big-icon">✅</div>
+            <h2>Assinatura Registrada!</h2>
             <p>
-              Seus certificados foram gerados com sua assinatura digital e o manifesto jurídico.
-              O download deve começar automaticamente.
+              Olá, <strong id="success-nome"></strong>!<br>
+              Sua assinatura foi registrada com sucesso.
+            </p>
+            <p style="margin-top:12px;">
+              <strong id="success-total"></strong> certificado(s) foram enviados automaticamente para o RH com sua assinatura digital e o manifesto jurídico.
             </p>
             <p style="margin-top:16px; font-size:12px; color:#999">
-              Se o download não iniciar, entre em contato com o RH.
+              Você pode fechar esta página. Em caso de dúvidas, entre em contato com o RH.
             </p>
           </div>
         </div>
@@ -490,6 +493,7 @@
     async function submitSignature() {
       const err = document.getElementById('signError');
       err.style.display = 'none';
+      err.classList.remove('visible');
 
       if (!hasDrawn) {
         err.textContent = 'Por favor, assine antes de confirmar.';
@@ -501,7 +505,7 @@
       const cpf = document.getElementById('cpfInput')?.value || colab?.cpf || '';
 
       document.getElementById('loadingOverlay').classList.add('visible');
-      document.getElementById('loadingText').textContent = 'Gerando certificados com assinatura...';
+      document.getElementById('loadingText').textContent = 'Registrando assinatura...';
       document.getElementById('btnSign').disabled = true;
 
       try {
@@ -511,17 +515,14 @@
           body: JSON.stringify({ signatureData, cpf }),
         });
 
-        if (!res.ok) {
-          const d = await res.json();
-          throw new Error(d.error || 'Erro ao processar assinatura');
-        }
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao processar assinatura');
 
-        const blob = await res.blob();
-        const nome = (colab?.nome || 'colaborador').replace(/\s+/g,'_');
-        downloadBlob(blob, `${nome}_certificados_assinados.zip`);
-
+        // ✅ Só mostra confirmação — os arquivos ficam no servidor para o admin
         document.getElementById('step-sign').style.display = 'none';
         document.getElementById('step-success').style.display = 'block';
+        document.getElementById('success-nome').textContent = data.nome || colab?.nome || '';
+        document.getElementById('success-total').textContent = data.total || '';
       } catch(e) {
         err.textContent = e.message;
         err.classList.add('visible');
@@ -529,14 +530,6 @@
       } finally {
         document.getElementById('loadingOverlay').classList.remove('visible');
       }
-    }
-
-    // Download helper (redeclare if app.js not loaded)
-    function downloadBlob(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename; a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 3000);
     }
   </script>
 </body>

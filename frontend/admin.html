@@ -446,7 +446,11 @@
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg>
         <span>Lotes</span>
       </div>
-    </nav>
+      <div class="nav-section">Certificados</div>
+      <div class="nav-item" onclick="showSection('assinados')">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></svg>
+        <span>Certificados Assinados</span>
+      </div>
     <div class="sidebar-footer">
       <div class="user-row">
         <div class="user-av" id="userAv">A</div>
@@ -655,6 +659,48 @@
       </div>
     </section>
 
+    <!-- ===== CERTIFICADOS ASSINADOS ===== -->
+    <section id="sec-assinados" style="display:none">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Certificados Assinados</div>
+          <div class="page-sub">Todos os certificados armazenados no servidor</div>
+        </div>
+        <button class="btn btn-success" id="btnDownloadAllSigned" onclick="downloadAllSigned()">
+          ⬇️ Baixar Todos (ZIP)
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📁 Arquivos no Servidor</div>
+          <span id="signed-count" style="font-size:13px;color:var(--cinza)"></span>
+        </div>
+        <div class="card-body" style="padding:16px 24px;">
+          <div class="search-row">
+            <input class="search-input" type="text" id="searchSigned" placeholder="Buscar por nome, CPF ou lote..." oninput="filterSigned()">
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Colaborador</th>
+                  <th>CPF</th>
+                  <th>Lote</th>
+                  <th>Assinado em</th>
+                  <th>Arquivos</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="signed-tbody">
+                <tr><td colspan="6"><div class="empty-state"><div class="em-icon">📭</div><p>Nenhum certificado assinado ainda</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- MODAL: Link de Assinatura -->
@@ -699,14 +745,15 @@
       document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
       document.getElementById(`sec-${id}`).style.display = 'block';
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      const navMap = { dashboard:'dashboard', upload:'upload', colaboradores:'colaboradores', lotes:'lotes' };
-      document.querySelectorAll('.nav-item').forEach((n,i) => {
-        if (Object.keys(navMap)[i] === id) n.classList.add('active');
+      // Highlight correct nav item by onclick attribute
+      document.querySelectorAll('.nav-item').forEach(n => {
+        if (n.getAttribute('onclick') === `showSection('${id}')`) n.classList.add('active');
       });
 
-      if (id === 'dashboard') loadDashboard();
+      if (id === 'dashboard')    loadDashboard();
       if (id === 'colaboradores') { loadColaboradores(); loadBatchFilter(); }
-      if (id === 'lotes') loadLotes();
+      if (id === 'lotes')         loadLotes();
+      if (id === 'assinados')     loadAssinados();
     }
 
     // ---- DASHBOARD ----
@@ -926,7 +973,7 @@
       showSection('colaboradores');
     }
 
-    // ---- PDF DOWNLOAD ----
+    // ---- PDF DOWNLOAD (sem assinatura — lote ou individual direto) ----
     async function downloadBatch() {
       if (!currentBatchId) return;
       showToast('⏳ Gerando PDFs...', 'success');
@@ -968,6 +1015,104 @@
         downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados.zip`);
       } catch(e) {
         showToast('Erro: ' + e.message, 'error');
+      }
+    }
+
+    // ---- BAIXAR CERTIFICADOS ASSINADOS (do servidor) ----
+    async function downloadSignedByColab(colabId, nome) {
+      showToast('⏳ Preparando ZIP...', 'success');
+      try {
+        const res = await apiFetch(`/api/signature/admin/download/${colabId}`);
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        const blob = await res.blob();
+        downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados_assinados.zip`);
+      } catch(e) {
+        showToast('Erro: ' + e.message, 'error');
+      }
+    }
+
+    async function downloadSignedByBatch(batchId, batchName) {
+      showToast('⏳ Preparando ZIP do lote...', 'success');
+      try {
+        const res = await apiFetch(`/api/signature/admin/download-batch/${batchId}`);
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        const blob = await res.blob();
+        downloadBlob(blob, `${(batchName||'lote').replace(/\s+/g,'_')}_assinados.zip`);
+      } catch(e) {
+        showToast('Erro: ' + e.message, 'error');
+      }
+    }
+
+    // ---- SEÇÃO CERTIFICADOS ASSINADOS ----
+    let allSigned = [];
+
+    async function loadAssinados() {
+      try {
+        const r = await apiFetch('/api/admin/signed');
+        allSigned = await r.json();
+        renderSigned(allSigned);
+
+        const count = allSigned.length;
+        document.getElementById('signed-count').textContent =
+          count > 0 ? `${count} colaborador${count !== 1 ? 'es' : ''} assinado${count !== 1 ? 's' : ''}` : '';
+
+        // Mostra/oculta botão de baixar tudo
+        document.getElementById('btnDownloadAllSigned').style.display = count > 0 ? 'inline-flex' : 'none';
+      } catch(e) {
+        console.error(e);
+      }
+    }
+
+    function renderSigned(list) {
+      const tbody = document.getElementById('signed-tbody');
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="em-icon">📭</div><p>Nenhum certificado assinado ainda</p></div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = list.map(c => {
+        const date = c.signed_at ? new Date(c.signed_at).toLocaleString('pt-BR') : '—';
+        const fileCount = c.files ? c.files.length : 0;
+        const filesHtml = fileCount > 0
+          ? `<span class="badge" style="background:rgba(13,138,95,0.1);color:var(--verde)">${fileCount} PDF${fileCount !== 1 ? 's' : ''}</span>`
+          : `<span style="font-size:12px;color:var(--cinza)">—</span>`;
+        return `<tr>
+          <td class="nome-cell">${c.nome}</td>
+          <td class="cpf-cell">${formatCPF(c.cpf)}</td>
+          <td style="font-size:12px;color:var(--cinza)">${c.batch_name || '—'}</td>
+          <td style="font-size:12px;color:var(--cinza)">${date}</td>
+          <td>${filesHtml}</td>
+          <td>
+            <div class="actions-cell">
+              ${fileCount > 0
+                ? `<button class="btn btn-success btn-sm" onclick="downloadSignedByColab(${c.id}, '${c.nome.replace(/'/g,"\\'")}')">⬇️ Baixar ZIP</button>`
+                : `<span style="font-size:12px;color:#999">Sem arquivos</span>`
+              }
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function filterSigned() {
+      const q = document.getElementById('searchSigned').value.toLowerCase();
+      const filtered = allSigned.filter(c =>
+        c.nome.toLowerCase().includes(q) ||
+        c.cpf.includes(q.replace(/\D/g,'')) ||
+        (c.batch_name || '').toLowerCase().includes(q)
+      );
+      renderSigned(filtered);
+    }
+
+    // Baixa tudo: agrupa por lote e baixa cada um
+    async function downloadAllSigned() {
+      if (!allSigned.length) return;
+      // Get unique batches
+      const batchIds = [...new Set(allSigned.map(c => c.batch_id).filter(Boolean))];
+      showToast(`⏳ Baixando ${batchIds.length} lote(s)...`, 'success');
+      for (const bid of batchIds) {
+        const b = allSigned.find(c => c.batch_id === bid);
+        await downloadSignedByBatch(bid, b?.batch_name || `lote_${bid}`);
+        await new Promise(r => setTimeout(r, 500)); // pequena pausa entre downloads
       }
     }
 
