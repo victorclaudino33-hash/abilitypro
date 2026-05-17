@@ -5,260 +5,335 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ability Pro — Login</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-  --azul:    #4E9AF1;
-  --laranja: #F27008;
-  --cinza:   #A0A8B8;
-  --fundo:   #0F1117;
-  --branco:  #1A1D27;
-  --borda:   #2A2D3A;
-}
-
-body {
-  background: #0F1117;
-  color: #E0E4F0;
-}
-
+      --bg:         #070B11;
+      --bg2:        #0C1220;
+      --panel:      #0F1825;
+      --border:     #1A2B40;
+      --border2:    #243550;
+      --amber:      #F5A623;
+      --amber2:     #E8941A;
+      --amber-dim:  rgba(245,166,35,0.1);
+      --amber-glow: rgba(245,166,35,0.3);
+      --cyan:       #00C8FF;
+      --text:       #B8CCE0;
+      --text-dim:   #4E6880;
+      --text-muted: #2A3D55;
+      --red:        #FF4560;
+      --green:      #00E676;
+    }
     body {
-      font-family: 'Barlow', sans-serif;
-      background: var(--fundo);
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-image:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(10,56,130,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(242,112,8,0.07) 0%, transparent 50%);
-    }
-
-    .login-wrap {
-      background: var(--branco);
-      border-radius: 20px;
-      box-shadow: var(--sombra);
-      overflow: hidden;
-      display: flex;
-      width: 820px;
-      max-width: 95vw;
-      min-height: 480px;
-    }
-
-    .login-side {
-      background: var(--azul);
-      width: 320px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .login-side::before {
-      content: '';
-      position: absolute;
-      bottom: -60px; right: -60px;
-      width: 220px; height: 220px;
-      border-radius: 50%;
-      background: rgba(242,112,8,0.18);
-    }
-    .login-side::after {
-      content: '';
-      position: absolute;
-      top: -40px; left: -40px;
-      width: 160px; height: 160px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-    }
-
-    .logo-box {
-      position: relative; z-index: 1; text-align: center;
-    }
-    .logo-icon {
-      width: 72px; height: 72px;
-      background: var(--laranja);
-      border-radius: 18px;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 38px; font-weight: 800;
-      color: #fff;
-      font-family: 'Barlow Condensed', sans-serif;
-      letter-spacing: -1px;
+      overflow: hidden; position: relative;
+    }
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      animation: gridDrift 30s linear infinite;
+    }
+    @keyframes gridDrift { to { background-position: 48px 48px; } }
+    .glow-amber {
+      position: fixed; top: -200px; left: -200px;
+      width: 700px; height: 700px; pointer-events: none;
+      background: radial-gradient(circle, rgba(245,166,35,0.05) 0%, transparent 65%);
+    }
+    .glow-cyan {
+      position: fixed; bottom: -200px; right: -200px;
+      width: 600px; height: 600px; pointer-events: none;
+      background: radial-gradient(circle, rgba(0,200,255,0.04) 0%, transparent 65%);
+    }
+
+    .wrap {
+      position: relative; z-index: 1;
+      display: flex; width: 880px; max-width: 96vw; min-height: 520px;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 1px rgba(0,200,255,0.04), 0 50px 100px rgba(0,0,0,0.7);
+      animation: appear 0.7s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes appear {
+      from { opacity: 0; transform: scale(0.97) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ── LEFT ── */
+    .side {
+      width: 340px; flex-shrink: 0;
+      background: var(--bg2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 48px 36px;
+      position: relative; overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+    .corner { position: absolute; width: 60px; height: 60px; }
+    .corner.tl { top: 0; left: 0; border-top: 2px solid var(--amber); border-left: 2px solid var(--amber); }
+    .corner.br { bottom: 0; right: 0; border-bottom: 2px solid var(--amber); border-right: 2px solid var(--amber); }
+    .scan {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      animation: scanDown 5s ease-in-out infinite;
+    }
+    @keyframes scanDown {
+      0%   { top: 0%; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .logo { text-align: center; position: relative; z-index: 1; }
+    .logo-diamond {
+      width: 82px; height: 82px; margin: 0 auto 20px;
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .logo-diamond::before {
+      content: '';
+      position: absolute; inset: 0;
+      border: 2px solid var(--amber);
+      transform: rotate(45deg);
+      background: var(--amber-dim);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .logo-diamond::after {
+      content: '';
+      position: absolute; inset: 8px;
+      border: 1px solid rgba(245,166,35,0.3);
+      transform: rotate(45deg);
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 var(--amber-glow); }
+      50%      { box-shadow: 0 0 20px 4px rgba(245,166,35,0.15); }
+    }
+    .logo-diamond span {
+      position: relative; z-index: 1;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 24px; font-weight: 700;
+      color: var(--amber); letter-spacing: 3px;
     }
     .logo-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 30px; font-weight: 800;
-      color: #fff; letter-spacing: 1px;
-      line-height: 1;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 26px; font-weight: 700;
+      color: #fff; letter-spacing: 5px; text-transform: uppercase;
     }
     .logo-sub {
-      font-size: 11px; font-weight: 600;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 6px;
+      font-size: 9px; font-weight: 600; letter-spacing: 3px;
+      color: var(--text-dim); text-transform: uppercase; margin-top: 6px;
     }
-    .side-tagline {
+
+    .features {
+      margin-top: 44px; width: 100%;
+      display: flex; flex-direction: column; gap: 10px;
       position: relative; z-index: 1;
-      margin-top: 48px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-      line-height: 1.6;
+    }
+    .feat {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid var(--border); background: rgba(0,0,0,0.25);
+      position: relative; overflow: hidden;
+    }
+    .feat::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--amber);
+    }
+    .feat-dot {
+      width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+      background: var(--amber); box-shadow: 0 0 6px var(--amber);
+    }
+    .feat-dot.c { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+    .feat span { font-size: 11px; color: var(--text-dim); letter-spacing: 0.3px; }
+
+    /* ── RIGHT ── */
+    .form-area {
+      flex: 1; background: var(--panel);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 52px 50px; position: relative;
+    }
+    .badge {
+      position: absolute; top: 20px; right: 20px;
+      font-size: 9px; font-weight: 700;
+      color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase;
+    }
+    .badge::before { content: '[ '; color: var(--amber); }
+    .badge::after  { content: ' ]'; color: var(--amber); }
+
+    .title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 36px; font-weight: 700;
+      color: #fff; letter-spacing: 2px; line-height: 1; margin-bottom: 4px;
+    }
+    .title em { color: var(--amber); font-style: normal; }
+    .subtitle {
+      font-size: 11px; color: var(--text-dim);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px;
     }
 
-    .login-form-area {
+    .fg { margin-bottom: 22px; }
+    .fg label {
+      display: block; font-size: 9px; font-weight: 700;
+      color: var(--amber); text-transform: uppercase;
+      letter-spacing: 2.5px; margin-bottom: 8px;
+    }
+    .iw { position: relative; display: flex; }
+    .iw::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--border2);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .iw:focus-within::before {
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber-glow);
+    }
+    .fg input {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 48px 44px;
+      padding: 13px 16px 13px 18px;
+      background: var(--bg2); border: 1px solid var(--border); border-left: none;
+      color: var(--text); font-size: 14px; font-weight: 500;
+      font-family: 'Exo 2', sans-serif; letter-spacing: 0.5px;
+      outline: none; transition: border-color 0.2s;
     }
+    .fg input::placeholder { color: var(--text-muted); }
+    .fg input:focus { border-color: var(--border2); }
 
-    .form-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 28px; font-weight: 800;
-      color: var(--azul);
-      margin-bottom: 6px;
-      letter-spacing: 0.5px;
+    .btn {
+      width: 100%; padding: 15px;
+      background: var(--amber); color: #070B11;
+      border: none; cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      transition: all 0.2s; margin-top: 8px;
+      position: relative; overflow: hidden;
     }
-    .form-sub { font-size: 13px; color: var(--cinza); margin-bottom: 32px; }
+    .btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s;
+    }
+    .btn:hover::before { left: 100%; }
+    .btn:hover {
+      background: #FFBA42;
+      box-shadow: 0 0 40px var(--amber-glow), 0 8px 32px rgba(0,0,0,0.5);
+      transform: translateY(-2px);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .form-group { margin-bottom: 20px; }
-    .form-group label {
-      display: block;
-      font-size: 11px; font-weight: 700;
-      color: var(--azul);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+    .err {
+      background: rgba(255,69,96,0.07); border: 1px solid rgba(255,69,96,0.25);
+      color: var(--red); padding: 10px 14px; font-size: 12px;
+      letter-spacing: 0.3px; margin-top: 14px; display: none;
     }
-    .form-group input {
-      width: 100%;
-      padding: 13px 16px;
-      border: 2px solid #E4E8F0;
-      border-radius: 10px;
-      font-size: 15px;
-      font-family: 'Barlow', sans-serif;
-      color: #1a1a2e;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-    }
-    .form-group input:focus {
-      border-color: var(--azul);
-      box-shadow: 0 0 0 3px rgba(10,56,130,0.1);
-    }
+    .err.on { display: block; }
 
-    .btn-login {
-      width: 100%;
-      padding: 14px;
-      background: var(--laranja);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px; font-weight: 700;
-      font-family: 'Barlow', sans-serif;
-      cursor: pointer;
-      letter-spacing: 0.5px;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 8px;
+    .sbar {
+      position: absolute; bottom: 18px; left: 50px;
+      display: flex; align-items: center; gap: 8px;
     }
-    .btn-login:hover { background: var(--laranja2); transform: translateY(-1px); }
-    .btn-login:active { transform: translateY(0); }
-    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-    .error-msg {
-      background: #FFF0F0;
-      border: 1px solid #FFD0D0;
-      color: #CC2222;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 13px;
-      margin-top: 14px;
-      display: none;
+    .sdot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+      animation: blink 2.5s ease-in-out infinite;
     }
-    .error-msg.visible { display: block; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .stxt { font-size: 9px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
-    @media (max-width: 640px) {
-      .login-side { display: none; }
-      .login-form-area { padding: 36px 24px; }
+    @media(max-width:640px){
+      .side{display:none}
+      .form-area{padding:36px 24px}
     }
   </style>
 </head>
 <body>
-  <div class="login-wrap">
-    <div class="login-side">
-      <div class="logo-box">
-        <div class="logo-icon">AP</div>
-        <div class="logo-name">ABILITY PRO</div>
+  <div class="grid-bg"></div>
+  <div class="glow-amber"></div>
+  <div class="glow-cyan"></div>
+
+  <div class="wrap">
+    <div class="side">
+      <div class="corner tl"></div>
+      <div class="corner br"></div>
+      <div class="scan"></div>
+
+      <div class="logo">
+        <div class="logo-diamond"><span>AP</span></div>
+        <div class="logo-name">Ability Pro</div>
         <div class="logo-sub">Certificação Corporativa</div>
       </div>
-      <p class="side-tagline">Gerencie certificados NR com<br>assinatura digital e validade jurídica.</p>
+
+      <div class="features">
+        <div class="feat"><div class="feat-dot"></div><span>Assinatura Digital Certificada</span></div>
+        <div class="feat"><div class="feat-dot c"></div><span>Manifesto Jurídico Automático</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Gestão Completa de NRs</span></div>
+        <div class="feat"><div class="feat-dot c"></div><span>Armazenamento Centralizado</span></div>
+      </div>
     </div>
 
-    <div class="login-form-area">
-      <div class="form-title">Bem-vindo de volta</div>
-      <div class="form-sub">Acesse o painel administrativo</div>
+    <div class="form-area">
+      <div class="badge">Acesso Restrito</div>
 
-      <div class="form-group">
-        <label>Usuário</label>
-        <input type="text" id="username" placeholder="Admin" autocomplete="username">
+      <div class="title">BEM-VINDO<br><em>DE VOLTA</em></div>
+      <div class="subtitle">Autenticação do sistema</div>
+
+      <div class="fg">
+        <label>Identificador</label>
+        <div class="iw">
+          <input type="text" id="username" placeholder="Admin" autocomplete="username">
+        </div>
       </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      <div class="fg">
+        <label>Senha de Acesso</label>
+        <div class="iw">
+          <input type="password" id="password" placeholder="• • • • • • • •" autocomplete="current-password">
+        </div>
       </div>
 
-      <button class="btn-login" id="btnLogin" onclick="doLogin()">Entrar</button>
-      <div class="error-msg" id="errorMsg"></div>
+      <button class="btn" id="btnLogin" onclick="doLogin()">Acessar Sistema</button>
+      <div class="err" id="errMsg"></div>
+
+      <div class="sbar">
+        <div class="sdot"></div>
+        <span class="stxt">Sistema Online — v3.0.0</span>
+      </div>
     </div>
   </div>
 
   <script src="app.js"></script>
   <script>
-    // Enter key support
-    document.querySelectorAll('input').forEach(el => {
-      el.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-    });
+    document.querySelectorAll('input').forEach(el =>
+      el.addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); })
+    );
 
     async function doLogin() {
-      const btn = document.getElementById('btnLogin');
-      const errEl = document.getElementById('errorMsg');
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+      const btn  = document.getElementById('btnLogin');
+      const err  = document.getElementById('errMsg');
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value;
 
-      if (!username || !password) {
-        errEl.textContent = 'Preencha usuário e senha.';
-        errEl.classList.add('visible');
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Entrando...';
-      errEl.classList.remove('visible');
+      if(!user||!pass){ err.textContent='⚠  Preencha usuário e senha.'; err.classList.add('on'); return; }
+      btn.disabled=true; btn.textContent='Autenticando...'; err.classList.remove('on');
 
       try {
-        const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password }),
+        const r = await fetch(`${BACKEND_URL}/api/auth/login`,{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({username:user,password:pass})
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Erro ao entrar');
-
-        localStorage.setItem('ap_token', data.token);
-        localStorage.setItem('ap_user', data.username);
-        window.location.href = 'admin.html';
-      } catch (e) {
-        errEl.textContent = e.message;
-        errEl.classList.add('visible');
-        btn.disabled = false;
-        btn.textContent = 'Entrar';
+        const d = await r.json();
+        if(!r.ok) throw new Error(d.error||'Credenciais inválidas');
+        localStorage.setItem('ap_token',d.token);
+        localStorage.setItem('ap_user',d.username);
+        window.location.href='admin.html';
+      } catch(e) {
+        err.textContent='⚠  '+e.message; err.classList.add('on');
+        btn.disabled=false; btn.textContent='Acessar Sistema';
       }
     }
   </script>
