@@ -470,6 +470,177 @@
       color: var(--text-dim); overflow-x: auto; line-height: 1.7;
     }
 
+    /* ══════════════════════════════════
+       CONFIGURAR TEMPLATES — seção nova
+    ══════════════════════════════════ */
+
+    /* NR tabs */
+    .nr-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .nr-tab {
+      padding: 7px 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      background: transparent; border: 1px solid var(--border2); color: var(--text-dim);
+      cursor: pointer; transition: all 0.15s; position: relative;
+    }
+    .nr-tab:hover { border-color: var(--amber); color: var(--amber); }
+    .nr-tab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+    .nr-tab .nr-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border2); margin-left: 6px; vertical-align: middle;
+    }
+    .nr-tab.saved .nr-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+    /* configurator layout */
+    .cfg-layout {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 16px; align-items: start;
+    }
+
+    /* PDF preview */
+    .pdf-preview-wrap {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      min-height: 320px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pdf-canvas-cont {
+      position: relative; display: inline-block;
+      cursor: crosshair;
+    }
+    #cfgCanvas { display: block; max-width: 100%; height: auto; }
+
+    /* draggable field labels */
+    .field-label-drag {
+      position: absolute;
+      display: flex; align-items: center; gap: 6px;
+      cursor: grab; user-select: none;
+      z-index: 10;
+    }
+    .field-label-drag:active { cursor: grabbing; }
+    .fld-pill {
+      background: var(--amber); color: #070B11;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 8px; white-space: nowrap;
+      box-shadow: 0 0 12px var(--amber-glow);
+    }
+    .fld-pill.cyan  { background: var(--cyan); box-shadow: 0 0 12px rgba(0,200,255,0.4); }
+    .fld-pill.green { background: var(--green); box-shadow: 0 0 12px rgba(0,230,118,0.4); }
+    .fld-line {
+      position: absolute; pointer-events: none;
+      border-left: 1px dashed var(--amber); height: 20px; left: 0; top: 100%;
+    }
+
+    /* upload PDF btn */
+    .pdf-upload-btn {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      background: var(--bg2); border: 1px solid var(--border2); color: var(--text-dim);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      padding: 7px 14px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .pdf-upload-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    .pdf-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      color: var(--text-muted); padding: 60px 20px;
+    }
+    .pdf-placeholder .ph-icon { font-size: 40px; opacity: 0.3; }
+    .pdf-placeholder p { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* controls panel */
+    .cfg-controls {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .ctrl-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+    .ctrl-card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .ctrl-card-title .cc-dot {
+      width: 8px; height: 8px;
+      display: inline-block;
+    }
+    .ctrl-card-title.amber .cc-dot { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
+    .ctrl-card-title.cyan  .cc-dot { background: var(--cyan);  box-shadow: 0 0 6px rgba(0,200,255,0.4); }
+    .ctrl-card-title.green .cc-dot { background: var(--green); box-shadow: 0 0 6px rgba(0,230,118,0.3); }
+
+    .ctrl-row { margin-bottom: 10px; }
+    .ctrl-row:last-child { margin-bottom: 0; }
+    .ctrl-lbl {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 5px; display: flex; justify-content: space-between;
+    }
+    .ctrl-lbl span { color: var(--amber); font-family: monospace; }
+    input[type="range"].cfg-range {
+      width: 100%; height: 3px; accent-color: var(--amber);
+      background: var(--border); cursor: pointer;
+    }
+    input[type="range"].cfg-range.cyan-range  { accent-color: var(--cyan); }
+    input[type="range"].cfg-range.green-range { accent-color: var(--green); }
+
+    /* sig size controls */
+    .sig-dims { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* coord readout */
+    .coord-readout {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 10px 12px; font-family: monospace; font-size: 10px;
+      color: var(--text-dim); line-height: 1.9;
+    }
+    .coord-key { color: var(--text-muted); }
+    .coord-val { color: var(--cyan); }
+
+    /* save button */
+    .cfg-save-btn {
+      width: 100%; padding: 12px;
+      background: var(--amber); color: #070B11; border: none; cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .cfg-save-btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s;
+    }
+    .cfg-save-btn:hover::before { left: 100%; }
+    .cfg-save-btn:hover { background: #FFBA42; box-shadow: 0 0 30px var(--amber-glow); }
+
+    /* all NRs summary */
+    .nr-summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px; margin-top: 16px;
+    }
+    .nr-summary-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-left: 2px solid var(--border2);
+    }
+    .nr-summary-card.ok { border-left-color: var(--green); }
+    .nr-summary-card.ok .nrs-name { color: var(--green); }
+    .nrs-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim);
+    }
+    .nrs-status { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+    .nrs-status.ok { color: var(--green); }
+
+    @media (max-width: 900px) {
+      .cfg-layout { grid-template-columns: 1fr; }
+    }
+
     /* ── STATUS DOT ── */
     .status-dot {
       position: fixed; bottom: 16px; left: calc(var(--sidebar-w) + 20px);
