@@ -15,16 +15,17 @@
       --panel2:      #111d2e;
       --border:      #1A2B40;
       --border2:     #243550;
-      --amber:       #F5A623;
-      --amber2:      #E8941A;
-      --amber-dim:   rgba(245,166,35,0.08);
-      --amber-glow:  rgba(245,166,35,0.3);
+      /* VERMELHO no lugar de laranja/amber */
+      --red-main:    #E8192C;
+      --red2:        #C8101F;
+      --red-dim:     rgba(232,25,44,0.09);
+      --red-glow:    rgba(232,25,44,0.35);
       --cyan:        #00C8FF;
       --cyan-dim:    rgba(0,200,255,0.08);
       --text:        #B8CCE0;
       --text-dim:    #4E6880;
       --text-muted:  #2A3D55;
-      --red:         #FF4560;
+      --red-alert:   #FF4560;
       --green:       #00E676;
       --green-dim:   rgba(0,230,118,0.1);
       --sidebar-w:   230px;
@@ -37,7 +38,6 @@
       min-height: 100vh;
     }
 
-    /* ── GRID BG ── */
     .grid-bg {
       position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background-image:
@@ -58,20 +58,16 @@
       z-index: 100;
       box-shadow: 4px 0 40px rgba(0,0,0,0.5);
     }
-
-    /* corner decorations */
     .sidebar::before {
       content: '';
       position: absolute; top: 0; right: -1px;
       width: 1px; height: 80px;
-      background: linear-gradient(to bottom, var(--amber), transparent);
+      background: linear-gradient(to bottom, var(--red-main), transparent);
       pointer-events: none;
     }
-
     .sidebar-logo {
       padding: 24px 20px 22px;
       border-bottom: 1px solid var(--border);
-      position: relative;
     }
     .logo-row { display: flex; align-items: center; gap: 12px; }
     .logo-diamond {
@@ -81,15 +77,15 @@
     .logo-diamond::before {
       content: '';
       position: absolute; inset: 0;
-      border: 1.5px solid var(--amber);
+      border: 1.5px solid var(--red-main);
       transform: rotate(45deg);
-      background: var(--amber-dim);
+      background: var(--red-dim);
     }
     .logo-diamond span {
       position: relative; z-index: 1;
       font-family: 'Rajdhani', sans-serif;
       font-size: 13px; font-weight: 700;
-      color: var(--amber); letter-spacing: 1px;
+      color: var(--red-main); letter-spacing: 1px;
     }
     .logo-text .name {
       font-family: 'Rajdhani', sans-serif;
@@ -115,17 +111,16 @@
       cursor: pointer;
       transition: all 0.15s;
       border-left: 2px solid transparent;
-      position: relative;
     }
     .nav-item:hover { color: var(--text); background: rgba(0,200,255,0.04); }
     .nav-item.active {
-      color: var(--amber);
-      background: var(--amber-dim);
-      border-left-color: var(--amber);
+      color: var(--red-main);
+      background: var(--red-dim);
+      border-left-color: var(--red-main);
     }
     .nav-item svg { opacity: 0.6; flex-shrink: 0; transition: opacity 0.15s; }
     .nav-item:hover svg { opacity: 0.9; }
-    .nav-item.active svg { opacity: 1; color: var(--amber); }
+    .nav-item.active svg { opacity: 1; color: var(--red-main); }
 
     .sidebar-footer {
       padding: 16px 20px;
@@ -134,11 +129,11 @@
     .user-row { display: flex; align-items: center; gap: 10px; }
     .user-av {
       width: 32px; height: 32px; flex-shrink: 0;
-      background: var(--amber-dim);
-      border: 1px solid var(--amber);
+      background: var(--red-dim);
+      border: 1px solid var(--red-main);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 14px; font-weight: 700; color: var(--amber);
+      font-size: 14px; font-weight: 700; color: var(--red-main);
     }
     .user-name { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
     .user-role { font-size: 9px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
@@ -147,7 +142,7 @@
       color: var(--text-dim); cursor: pointer; padding: 4px;
       transition: color 0.15s;
     }
-    .btn-logout:hover { color: var(--red); }
+    .btn-logout:hover { color: var(--red-alert); }
 
     /* ── MAIN ── */
     .main {
@@ -167,7 +162,7 @@
       font-size: 28px; font-weight: 700;
       color: #fff; letter-spacing: 2px; line-height: 1;
     }
-    .page-title em { color: var(--amber); font-style: normal; }
+    .page-title em { color: var(--red-main); font-style: normal; }
     .page-sub {
       font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
       color: var(--text-dim); margin-top: 4px;
@@ -196,8 +191,8 @@
     }
     .stat-card.blue::before  { background: var(--cyan); }
     .stat-card.blue::after   { border-color: var(--cyan); }
-    .stat-card.orange::before { background: var(--amber); }
-    .stat-card.orange::after  { border-color: var(--amber); }
+    .stat-card.orange::before { background: var(--red-main); }
+    .stat-card.orange::after  { border-color: var(--red-main); }
     .stat-card.green::before  { background: var(--green); }
     .stat-card.green::after   { border-color: var(--green); }
     .stat-card.gray::before   { background: var(--border2); }
@@ -210,7 +205,7 @@
       font-size: 36px; font-weight: 700; line-height: 1;
       color: var(--cyan);
     }
-    .stat-card.orange .stat-value { color: var(--amber); }
+    .stat-card.orange .stat-value { color: var(--red-main); }
     .stat-card.green  .stat-value { color: var(--green); }
     .stat-card.gray   .stat-value { color: var(--text-dim); }
 
@@ -242,12 +237,12 @@
       position: relative;
     }
     .upload-zone:hover, .upload-zone.dragover {
-      border-color: var(--amber);
-      background: var(--amber-dim);
+      border-color: var(--red-main);
+      background: var(--red-dim);
     }
     .upload-icon { font-size: 36px; margin-bottom: 10px; }
     .upload-zone p { font-size: 13px; color: var(--text-dim); }
-    .upload-zone strong { color: var(--amber); }
+    .upload-zone strong { color: var(--red-main); }
     input[type="file"] { display: none; }
 
     .upload-controls {
@@ -262,7 +257,7 @@
       color: var(--text); font-size: 13px; font-family: 'Exo 2', sans-serif;
       outline: none; transition: border-color 0.2s;
     }
-    .upload-controls input[type="text"]:focus { border-color: var(--amber); border-left-color: var(--amber); }
+    .upload-controls input[type="text"]:focus { border-color: var(--red-main); border-left-color: var(--red-main); }
     .upload-controls input[type="text"]::placeholder { color: var(--text-muted); }
 
     /* ── BUTTONS ── */
@@ -284,12 +279,12 @@
       transition: left 0.3s;
     }
     .btn:hover::before { left: 100%; }
-    .btn-primary   { background: var(--amber); color: #070B11; }
-    .btn-primary:hover { background: #FFBA42; box-shadow: 0 0 20px var(--amber-glow); }
+    .btn-primary   { background: var(--red-main); color: #fff; }
+    .btn-primary:hover { background: var(--red2); box-shadow: 0 0 20px var(--red-glow); }
     .btn-secondary { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); }
     .btn-secondary:hover { background: var(--cyan-dim); box-shadow: 0 0 15px rgba(0,200,255,0.2); }
     .btn-outline   { background: transparent; border: 1px solid var(--border2); color: var(--text-dim); }
-    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-outline:hover { border-color: var(--red-main); color: var(--red-main); }
     .btn-success   { background: transparent; color: var(--green); border: 1px solid var(--green); }
     .btn-success:hover { background: var(--green-dim); box-shadow: 0 0 15px rgba(0,230,118,0.2); }
     .btn-sm { padding: 6px 12px; font-size: 10px; }
@@ -323,7 +318,7 @@
       display: inline-block; padding: 3px 10px;
       font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
     }
-    .status.pending { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.25); color: var(--amber); }
+    .status.pending { background: rgba(232,25,44,0.08); border: 1px solid rgba(232,25,44,0.25); color: var(--red-main); }
     .status.signed  { background: var(--green-dim); border: 1px solid rgba(0,230,118,0.25); color: var(--green); }
     .status.sent    { background: var(--cyan-dim); border: 1px solid rgba(0,200,255,0.2); color: var(--cyan); }
 
@@ -342,13 +337,13 @@
       background: var(--panel);
       border: 1px solid var(--border2);
       width: 100%; max-width: 480px;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(245,166,35,0.05);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.7);
       position: relative;
     }
     .modal::before {
       content: ''; position: absolute; top: 0; left: 0;
       width: 100%; height: 2px;
-      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      background: linear-gradient(90deg, var(--red-main), var(--cyan));
     }
     .modal-header {
       background: var(--bg2); padding: 18px 24px;
@@ -363,14 +358,14 @@
       background: none; border: none; color: var(--text-dim);
       font-size: 18px; cursor: pointer; transition: color 0.15s; line-height: 1;
     }
-    .modal-close:hover { color: var(--red); }
+    .modal-close:hover { color: var(--red-alert); }
     .modal-body { padding: 24px; }
     .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
 
     .link-box {
       display: flex; align-items: center; gap: 8px;
       background: var(--bg2); border: 1px solid var(--border);
-      border-left: 3px solid var(--amber);
+      border-left: 3px solid var(--red-main);
       padding: 10px 14px; margin-top: 12px;
     }
     .link-box span {
@@ -389,7 +384,7 @@
     }
     .ap-toast.show { transform: translateY(0); opacity: 1; }
     .ap-toast.success { border-color: var(--green); color: var(--green); }
-    .ap-toast.error   { border-color: var(--red); color: var(--red); }
+    .ap-toast.error   { border-color: var(--red-alert); color: var(--red-alert); }
 
     /* ── EMPTY STATE ── */
     .empty-state {
@@ -399,20 +394,17 @@
     .empty-state p { font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
 
     /* ── PROGRESS BAR ── */
-    .progress-bar {
-      height: 3px; background: var(--border); overflow: hidden;
-    }
+    .progress-bar { height: 3px; background: var(--border); overflow: hidden; }
     .progress-bar .fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      background: linear-gradient(90deg, var(--red-main), var(--cyan));
       transition: width 0.4s;
     }
 
-    /* ── LOADING ── */
     .loading-spinner {
       width: 14px; height: 14px;
       border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: var(--amber);
+      border-top-color: var(--red-main);
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
       display: inline-block;
@@ -430,7 +422,7 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%234E6880' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: 12px center;
     }
-    .search-input:focus { border-color: var(--amber); }
+    .search-input:focus { border-color: var(--red-main); }
     .search-input::placeholder { color: var(--text-muted); }
 
     /* ── BATCH SELECT ── */
@@ -440,16 +432,14 @@
       color: var(--text-dim); font-size: 12px; font-family: 'Exo 2', sans-serif;
       outline: none; transition: border-color 0.2s;
     }
-    .batch-select:focus { border-color: var(--amber); }
+    .batch-select:focus { border-color: var(--red-main); }
     .batch-select option { background: var(--bg2); }
 
-    /* ── BATCH ACTIONS ── */
     .batch-actions {
       display: flex; gap: 10px; flex-wrap: wrap; padding: 12px 20px;
       background: var(--bg); border-bottom: 1px solid var(--border);
       align-items: center;
     }
-    .batch-actions span { font-size: 11px; color: var(--text-dim); }
 
     /* ── TABS ── */
     .tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
@@ -460,7 +450,7 @@
       border-bottom: 2px solid transparent;
       margin-bottom: -1px; transition: all 0.15s;
     }
-    .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+    .tab.active { color: var(--red-main); border-bottom-color: var(--red-main); }
     .tab:hover:not(.active) { color: var(--text); }
 
     /* ── CODE BLOCK ── */
@@ -468,177 +458,6 @@
       background: var(--bg); border: 1px solid var(--border);
       padding: 14px; font-family: monospace; font-size: 11.5px;
       color: var(--text-dim); overflow-x: auto; line-height: 1.7;
-    }
-
-    /* ══════════════════════════════════
-       CONFIGURAR TEMPLATES — seção nova
-    ══════════════════════════════════ */
-
-    /* NR tabs */
-    .nr-tabs {
-      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .nr-tab {
-      padding: 7px 14px;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      background: transparent; border: 1px solid var(--border2); color: var(--text-dim);
-      cursor: pointer; transition: all 0.15s; position: relative;
-    }
-    .nr-tab:hover { border-color: var(--amber); color: var(--amber); }
-    .nr-tab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
-    .nr-tab .nr-dot {
-      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--border2); margin-left: 6px; vertical-align: middle;
-    }
-    .nr-tab.saved .nr-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
-
-    /* configurator layout */
-    .cfg-layout {
-      display: grid; grid-template-columns: 1fr 340px;
-      gap: 16px; align-items: start;
-    }
-
-    /* PDF preview */
-    .pdf-preview-wrap {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      position: relative; overflow: hidden;
-      min-height: 320px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pdf-canvas-cont {
-      position: relative; display: inline-block;
-      cursor: crosshair;
-    }
-    #cfgCanvas { display: block; max-width: 100%; height: auto; }
-
-    /* draggable field labels */
-    .field-label-drag {
-      position: absolute;
-      display: flex; align-items: center; gap: 6px;
-      cursor: grab; user-select: none;
-      z-index: 10;
-    }
-    .field-label-drag:active { cursor: grabbing; }
-    .fld-pill {
-      background: var(--amber); color: #070B11;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 3px 8px; white-space: nowrap;
-      box-shadow: 0 0 12px var(--amber-glow);
-    }
-    .fld-pill.cyan  { background: var(--cyan); box-shadow: 0 0 12px rgba(0,200,255,0.4); }
-    .fld-pill.green { background: var(--green); box-shadow: 0 0 12px rgba(0,230,118,0.4); }
-    .fld-line {
-      position: absolute; pointer-events: none;
-      border-left: 1px dashed var(--amber); height: 20px; left: 0; top: 100%;
-    }
-
-    /* upload PDF btn */
-    .pdf-upload-btn {
-      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-      background: var(--bg2); border: 1px solid var(--border2); color: var(--text-dim);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      padding: 7px 14px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
-    }
-    .pdf-upload-btn:hover { border-color: var(--amber); color: var(--amber); }
-
-    .pdf-placeholder {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-      color: var(--text-muted); padding: 60px 20px;
-    }
-    .pdf-placeholder .ph-icon { font-size: 40px; opacity: 0.3; }
-    .pdf-placeholder p { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
-
-    /* controls panel */
-    .cfg-controls {
-      display: flex; flex-direction: column; gap: 12px;
-    }
-
-    .ctrl-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 14px;
-    }
-    .ctrl-card-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
-    }
-    .ctrl-card-title .cc-dot {
-      width: 8px; height: 8px;
-      display: inline-block;
-    }
-    .ctrl-card-title.amber .cc-dot { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
-    .ctrl-card-title.cyan  .cc-dot { background: var(--cyan);  box-shadow: 0 0 6px rgba(0,200,255,0.4); }
-    .ctrl-card-title.green .cc-dot { background: var(--green); box-shadow: 0 0 6px rgba(0,230,118,0.3); }
-
-    .ctrl-row { margin-bottom: 10px; }
-    .ctrl-row:last-child { margin-bottom: 0; }
-    .ctrl-lbl {
-      font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--text-dim); margin-bottom: 5px; display: flex; justify-content: space-between;
-    }
-    .ctrl-lbl span { color: var(--amber); font-family: monospace; }
-    input[type="range"].cfg-range {
-      width: 100%; height: 3px; accent-color: var(--amber);
-      background: var(--border); cursor: pointer;
-    }
-    input[type="range"].cfg-range.cyan-range  { accent-color: var(--cyan); }
-    input[type="range"].cfg-range.green-range { accent-color: var(--green); }
-
-    /* sig size controls */
-    .sig-dims { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-    /* coord readout */
-    .coord-readout {
-      background: var(--bg); border: 1px solid var(--border);
-      padding: 10px 12px; font-family: monospace; font-size: 10px;
-      color: var(--text-dim); line-height: 1.9;
-    }
-    .coord-key { color: var(--text-muted); }
-    .coord-val { color: var(--cyan); }
-
-    /* save button */
-    .cfg-save-btn {
-      width: 100%; padding: 12px;
-      background: var(--amber); color: #070B11; border: none; cursor: pointer;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-      transition: all 0.2s; position: relative; overflow: hidden;
-    }
-    .cfg-save-btn::before {
-      content: '';
-      position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      transition: left 0.4s;
-    }
-    .cfg-save-btn:hover::before { left: 100%; }
-    .cfg-save-btn:hover { background: #FFBA42; box-shadow: 0 0 30px var(--amber-glow); }
-
-    /* all NRs summary */
-    .nr-summary-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px; margin-top: 16px;
-    }
-    .nr-summary-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      padding: 12px 14px;
-      border-left: 2px solid var(--border2);
-    }
-    .nr-summary-card.ok { border-left-color: var(--green); }
-    .nr-summary-card.ok .nrs-name { color: var(--green); }
-    .nrs-name {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim);
-    }
-    .nrs-status { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
-    .nrs-status.ok { color: var(--green); }
-
-    @media (max-width: 900px) {
-      .cfg-layout { grid-template-columns: 1fr; }
     }
 
     /* ── STATUS DOT ── */
@@ -654,18 +473,193 @@
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
     .stxt { font-size: 9px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
 
+    /* ══════════════════════════════════
+       DATAS POR COLABORADOR — modal
+    ══════════════════════════════════ */
+    .modal.wide { max-width: 700px; }
+    .dates-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-top: 4px;
+    }
+    .date-field { display: flex; flex-direction: column; gap: 6px; }
+    .date-field label {
+      font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--red-main);
+    }
+    .date-field .date-row { display: flex; flex-direction: column; gap: 4px; }
+    .date-field .date-input-wrap { display: flex; gap: 4px; align-items: center; }
+    .date-field input[type="date"],
+    .date-field input[type="text"] {
+      flex: 1; padding: 8px 10px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--border2);
+      color: var(--text); font-size: 12px; font-family: 'Exo 2', sans-serif;
+      outline: none; transition: border-color 0.2s;
+      color-scheme: dark;
+    }
+    .date-field input[type="date"]:focus,
+    .date-field input[type="text"]:focus { border-left-color: var(--red-main); }
+    .btn-add-date {
+      background: var(--bg2); border: 1px solid var(--border2);
+      color: var(--text-dim); padding: 6px 10px;
+      font-size: 16px; cursor: pointer; transition: all 0.15s; line-height: 1;
+    }
+    .btn-add-date:hover { border-color: var(--red-main); color: var(--red-main); }
+    .btn-remove-date {
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 14px; padding: 2px 5px;
+      transition: color 0.15s; line-height: 1;
+    }
+    .btn-remove-date:hover { color: var(--red-alert); }
+    .multi-day-note {
+      font-size: 9px; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════
+       CONFIGURAR TEMPLATES — visual
+    ══════════════════════════════════ */
+    .nr-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+    .nr-tab {
+      padding: 7px 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      background: transparent; border: 1px solid var(--border2); color: var(--text-dim);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .nr-tab:hover { border-color: var(--red-main); color: var(--red-main); }
+    .nr-tab.active { background: var(--red-dim); border-color: var(--red-main); color: var(--red-main); }
+    .nr-tab .nr-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--border2); margin-left: 6px; vertical-align: middle;
+    }
+    .nr-tab.saved .nr-dot { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+    .cfg-layout {
+      display: grid; grid-template-columns: 1fr 320px;
+      gap: 16px; align-items: start;
+    }
+
+    /* PDF preview */
+    .pdf-preview-wrap {
+      background: #1a1a2e;
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      min-height: 340px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: crosshair;
+    }
+    .pdf-canvas-cont {
+      position: relative; display: inline-block;
+      max-width: 100%;
+    }
+    #cfgCanvas { display: block; max-width: 100%; height: auto; }
+
+    /* draggable field labels */
+    .field-label-drag {
+      position: absolute;
+      display: flex; align-items: center; gap: 6px;
+      cursor: grab; user-select: none; z-index: 10;
+    }
+    .field-label-drag:active { cursor: grabbing; }
+    .fld-pill {
+      background: var(--red-main); color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 8px; white-space: nowrap;
+      box-shadow: 0 0 12px var(--red-glow);
+    }
+    .fld-pill.cyan  { background: var(--cyan); color: #070B11; box-shadow: 0 0 12px rgba(0,200,255,0.4); }
+    .fld-pill.green { background: var(--green); color: #070B11; box-shadow: 0 0 12px rgba(0,230,118,0.4); }
+
+    .pdf-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      color: var(--text-muted); padding: 60px 20px; text-align: center;
+    }
+    .pdf-placeholder .ph-icon { font-size: 40px; opacity: 0.3; }
+    .pdf-placeholder p { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* controls panel */
+    .cfg-controls { display: flex; flex-direction: column; gap: 12px; }
+
+    .ctrl-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+    .ctrl-card-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .ctrl-card-title .cc-dot { width: 8px; height: 8px; display: inline-block; }
+    .ctrl-card-title.red  .cc-dot { background: var(--red-main); box-shadow: 0 0 6px var(--red-glow); }
+    .ctrl-card-title.cyan .cc-dot { background: var(--cyan); box-shadow: 0 0 6px rgba(0,200,255,0.4); }
+    .ctrl-card-title.green .cc-dot { background: var(--green); box-shadow: 0 0 6px rgba(0,230,118,0.3); }
+
+    .ctrl-row { margin-bottom: 10px; }
+    .ctrl-row:last-child { margin-bottom: 0; }
+    .ctrl-lbl {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 5px; display: flex; justify-content: space-between;
+    }
+    .ctrl-lbl span { color: var(--red-main); font-family: monospace; }
+    input[type="range"].cfg-range {
+      width: 100%; height: 3px; accent-color: var(--red-main);
+      background: var(--border); cursor: pointer;
+    }
+    input[type="range"].cfg-range.cyan-range  { accent-color: var(--cyan); }
+    input[type="range"].cfg-range.green-range { accent-color: var(--green); }
+
+    .coord-readout {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 10px 12px; font-family: monospace; font-size: 10px;
+      color: var(--text-dim); line-height: 1.9;
+    }
+    .coord-key { color: var(--text-muted); }
+    .coord-val { color: var(--cyan); }
+
+    .cfg-save-btn {
+      width: 100%; padding: 12px;
+      background: var(--red-main); color: #fff; border: none; cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .cfg-save-btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.4s;
+    }
+    .cfg-save-btn:hover::before { left: 100%; }
+    .cfg-save-btn:hover { background: var(--red2); box-shadow: 0 0 30px var(--red-glow); }
+
+    .nr-summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px; margin-top: 16px;
+    }
+    .nr-summary-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 12px 14px; border-left: 2px solid var(--border2);
+    }
+    .nr-summary-card.ok { border-left-color: var(--green); }
+    .nr-summary-card.ok .nrs-name { color: var(--green); }
+    .nrs-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim);
+    }
+    .nrs-status { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+    .nrs-status.ok { color: var(--green); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       :root { --sidebar-w: 56px; }
-      .sidebar .nav-item span,
-      .logo-text, .nav-section,
-      .user-name, .user-role { display: none; }
+      .sidebar .nav-item span, .logo-text, .nav-section, .user-name, .user-role { display: none; }
       .nav-item { justify-content: center; padding: 12px; }
       .main { padding: 20px 16px; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .cfg-layout { grid-template-columns: 1fr; }
+      .dates-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -691,8 +685,8 @@
         <span>Dashboard</span>
       </div>
       <div class="nav-item" onclick="showSection('upload')">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1  0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
-        <span>Importar CSV</span>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/></svg>
+        <span>Importar Planilha</span>
       </div>
       <div class="nav-item" onclick="showSection('colaboradores')">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>
@@ -706,6 +700,11 @@
       <div class="nav-item" onclick="showSection('assinados')">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></svg>
         <span>Certificados Assinados</span>
+      </div>
+      <div class="nav-section">Ferramentas</div>
+      <div class="nav-item" onclick="showSection('templates')">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/></svg>
+        <span>Config. Templates</span>
       </div>
     </nav>
 
@@ -740,22 +739,10 @@
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card blue">
-          <div class="stat-label">Total Colaboradores</div>
-          <div class="stat-value" id="stat-total">—</div>
-        </div>
-        <div class="stat-card orange">
-          <div class="stat-label">Pendentes</div>
-          <div class="stat-value" id="stat-pending">—</div>
-        </div>
-        <div class="stat-card green">
-          <div class="stat-label">Assinados</div>
-          <div class="stat-value" id="stat-signed">—</div>
-        </div>
-        <div class="stat-card gray">
-          <div class="stat-label">Lotes Ativos</div>
-          <div class="stat-value" id="stat-batches">—</div>
-        </div>
+        <div class="stat-card blue"><div class="stat-label">Total Colaboradores</div><div class="stat-value" id="stat-total">—</div></div>
+        <div class="stat-card orange"><div class="stat-label">Pendentes</div><div class="stat-value" id="stat-pending">—</div></div>
+        <div class="stat-card green"><div class="stat-label">Assinados</div><div class="stat-value" id="stat-signed">—</div></div>
+        <div class="stat-card gray"><div class="stat-label">Lotes Ativos</div><div class="stat-value" id="stat-batches">—</div></div>
       </div>
 
       <div class="card">
@@ -765,11 +752,7 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>Lote</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Lote</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th></tr></thead>
             <tbody id="dashboard-batches">
               <tr><td colspan="6"><div class="empty-state"><div class="em-icon">📋</div><p>Nenhum lote ainda</p></div></td></tr>
             </tbody>
@@ -783,14 +766,12 @@
       <div class="topbar">
         <div>
           <div class="page-title">IMPORTAR <em>PLANILHA</em></div>
-          <div class="page-sub">Upload CSV com dados dos colaboradores</div>
+          <div class="page-sub">Upload Excel ou CSV com dados dos colaboradores</div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Upload de Arquivo CSV</div>
-        </div>
+        <div class="card-header"><div class="card-title">Upload de Arquivo</div></div>
         <div class="card-body">
           <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
             <div class="upload-icon">📤</div>
@@ -801,14 +782,12 @@
 
           <div class="upload-controls">
             <input type="text" id="batchName" placeholder="Nome do lote (ex: Turma Abril 2025)">
-            <button class="btn btn-primary" id="btnUpload" onclick="uploadCSV()" disabled>
-              Processar CSV
-            </button>
+            <button class="btn btn-primary" id="btnUpload" onclick="uploadCSV()" disabled>Processar Planilha</button>
           </div>
 
           <div id="upload-preview" style="margin-top:20px; display:none;">
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-              <span style="font-weight:700; color:var(--amber); font-family:'Rajdhani',sans-serif; font-size:16px;" id="preview-count">0 registros</span>
+              <span style="font-weight:700; color:var(--red-main); font-family:'Rajdhani',sans-serif; font-size:16px;" id="preview-count">0 registros</span>
               <span style="font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase;">prontos para importar</span>
             </div>
             <div class="table-wrap" style="max-height:280px; overflow-y:auto;">
@@ -825,15 +804,14 @@
         <div class="card-header"><div class="card-title">Formatos Aceitos</div></div>
         <div class="card-body">
           <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px; line-height:1.8;">
-            Você pode importar diretamente o <strong style="color:var(--text)">arquivo Excel (.xlsx)</strong> do jeito que já usa, ou um CSV separado por <strong style="color:var(--text)">ponto-e-vírgula (;)</strong>.<br>
-            Nas colunas de curso, qualquer valor (data, texto, número) significa que o colaborador <strong style="color:var(--amber)">tem</strong> aquele treinamento. Célula vazia = não tem.
+            Importe diretamente o <strong style="color:var(--text)">Excel (.xlsx)</strong> ou CSV separado por <strong style="color:var(--text)">ponto-e-vírgula (;)</strong>.<br>
+            Nas colunas de curso, qualquer valor significa que o colaborador <strong style="color:var(--red-main)">tem</strong> aquele treinamento. Célula vazia = não tem.
           </p>
           <p style="font-size:10px; font-weight:700; letter-spacing:2px; color:var(--cyan); text-transform:uppercase; margin-bottom:8px;">Exemplo Excel:</p>
           <div class="code-block">
             NOME | CPF | NR06 | NR10 | DIRECAO | NR35<br>
             ANDERSON SILVA | 41576714810 | 23/04/2026 | 17,23,24/04 | 16/04/2026 | 23/04/2026
           </div>
-          <p style="font-size:11px; color:var(--text-dim); margin-top:10px;">Colunas extras: <strong style="color:var(--text)">SGA.NR20, NR33, NR10 SEP</strong></p>
         </div>
       </div>
     </section>
@@ -848,9 +826,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Lista de Colaboradores</div>
-        </div>
+        <div class="card-header"><div class="card-title">Lista de Colaboradores</div></div>
         <div class="batch-actions">
           <select class="batch-select" id="batchFilter" onchange="loadColaboradores()">
             <option value="">Todos os lotes</option>
@@ -865,11 +841,9 @@
           </div>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Nome</th><th>CPF</th><th>Certificados</th><th>Status</th><th>Ações</th></tr>
-              </thead>
+              <thead><tr><th>Nome</th><th>CPF</th><th>Certificados</th><th>Status</th><th>Ações</th></tr></thead>
               <tbody id="colabs-tbody">
-                <tr><td colspan="5"><div class="empty-state"><div class="em-icon">👥</div><p>Importe um CSV para começar</p></div></td></tr>
+                <tr><td colspan="5"><div class="empty-state"><div class="em-icon">👥</div><p>Importe uma planilha para começar</p></div></td></tr>
               </tbody>
             </table>
           </div>
@@ -880,18 +854,13 @@
     <!-- ===== LOTES ===== -->
     <section id="sec-lotes" style="display:none">
       <div class="topbar">
-        <div>
-          <div class="page-title"><em>LOTES</em></div>
-          <div class="page-sub">Histórico de importações</div>
-        </div>
+        <div><div class="page-title"><em>LOTES</em></div><div class="page-sub">Histórico de importações</div></div>
       </div>
       <div class="card">
         <div class="card-header"><div class="card-title">Todos os Lotes</div></div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>#</th><th>Nome</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th></tr>
-            </thead>
+            <thead><tr><th>#</th><th>Nome</th><th>Data</th><th>Total</th><th>Assinados</th><th>Progresso</th><th>Ações</th></tr></thead>
             <tbody id="lotes-tbody">
               <tr><td colspan="7"><div class="empty-state"><div class="em-icon">📋</div><p>Nenhum lote</p></div></td></tr>
             </tbody>
@@ -903,15 +872,9 @@
     <!-- ===== CERTIFICADOS ASSINADOS ===== -->
     <section id="sec-assinados" style="display:none">
       <div class="topbar">
-        <div>
-          <div class="page-title">CERT. <em>ASSINADOS</em></div>
-          <div class="page-sub">Todos os certificados armazenados no servidor</div>
-        </div>
-        <button class="btn btn-success" id="btnDownloadAllSigned" onclick="downloadAllSigned()">
-          ⬇ Baixar Todos (ZIP)
-        </button>
+        <div><div class="page-title">CERT. <em>ASSINADOS</em></div><div class="page-sub">Certificados armazenados no servidor</div></div>
+        <button class="btn btn-success" id="btnDownloadAllSigned" onclick="downloadAllSigned()">⬇ Baixar Todos (ZIP)</button>
       </div>
-
       <div class="card">
         <div class="card-header">
           <div class="card-title">Arquivos no Servidor</div>
@@ -923,14 +886,124 @@
           </div>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Colaborador</th><th>CPF</th><th>Lote</th><th>Assinado em</th><th>Arquivos</th><th>Ações</th></tr>
-              </thead>
+              <thead><tr><th>Colaborador</th><th>CPF</th><th>Lote</th><th>Assinado em</th><th>Arquivos</th><th>Ações</th></tr></thead>
               <tbody id="signed-tbody">
                 <tr><td colspan="6"><div class="empty-state"><div class="em-icon">📭</div><p>Nenhum certificado assinado ainda</p></div></td></tr>
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONFIGURAR TEMPLATES ===== -->
+    <section id="sec-templates" style="display:none">
+      <div class="topbar">
+        <div>
+          <div class="page-title">CONFIG. <em>TEMPLATES</em></div>
+          <div class="page-sub">Posicione os campos arrastando direto no PDF</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetAllPositions()">↺ Resetar Tudo</button>
+      </div>
+
+      <!-- NR Tabs -->
+      <div class="nr-tabs" id="nrTabs"></div>
+
+      <div class="cfg-layout">
+        <!-- PDF Preview -->
+        <div>
+          <div class="card" style="margin-bottom:10px">
+            <div class="card-header">
+              <div class="card-title" id="cfgNrTitle">Selecione um NR</div>
+              <label class="btn btn-outline btn-sm" style="cursor:pointer">
+                📂 Carregar PDF
+                <input type="file" accept="application/pdf" style="display:none" onchange="loadPDFPreview(this)">
+              </label>
+            </div>
+            <div class="pdf-preview-wrap" id="pdfPreviewWrap">
+              <div class="pdf-placeholder">
+                <div class="ph-icon">📄</div>
+                <p>Carregue o PDF do template para posicionar os campos</p>
+                <p style="font-size:10px;color:var(--text-muted);margin-top:8px;">Depois arraste cada etiqueta para o lugar certo</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Posições Salvas</div></div>
+            <div class="card-body" style="padding:16px 20px">
+              <div class="nr-summary-grid" id="nrSummaryGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="cfg-controls">
+
+          <!-- Field positions readout -->
+          <div class="ctrl-card">
+            <div class="ctrl-card-title red"><span class="cc-dot"></span>Coordenadas Atuais</div>
+            <div class="coord-readout" id="coordReadout">
+              <span class="coord-key">nome_x: </span><span class="coord-val" id="cr-nome-x">—</span><br>
+              <span class="coord-key">nome_y: </span><span class="coord-val" id="cr-nome-y">—</span><br>
+              <span class="coord-key">cpf_x: </span><span class="coord-val" id="cr-cpf-x">—</span><br>
+              <span class="coord-key">cpf_y: </span><span class="coord-val" id="cr-cpf-y">—</span><br>
+              <span class="coord-key">data_x: </span><span class="coord-val" id="cr-data-x">—</span><br>
+              <span class="coord-key">data_y: </span><span class="coord-val" id="cr-data-y">—</span><br>
+              <span class="coord-key">sig_x: </span><span class="coord-val" id="cr-sig-x">—</span><br>
+              <span class="coord-key">sig_y: </span><span class="coord-val" id="cr-sig-y">—</span>
+            </div>
+          </div>
+
+          <!-- Font size -->
+          <div class="ctrl-card">
+            <div class="ctrl-card-title cyan"><span class="cc-dot"></span>Tamanho das Fontes</div>
+            <div class="ctrl-row">
+              <div class="ctrl-lbl">Nome <span id="v-nome-size">18</span>pt</div>
+              <input type="range" class="cfg-range" min="8" max="36" value="18"
+                oninput="updateFontSize('nome', this.value)" id="r-nome-size">
+            </div>
+            <div class="ctrl-row">
+              <div class="ctrl-lbl">CPF <span id="v-cpf-size">11</span>pt</div>
+              <input type="range" class="cfg-range cyan-range" min="6" max="24" value="11"
+                oninput="updateFontSize('cpf', this.value)" id="r-cpf-size">
+            </div>
+            <div class="ctrl-row">
+              <div class="ctrl-lbl">Data <span id="v-data-size">10</span>pt</div>
+              <input type="range" class="cfg-range cyan-range" min="6" max="24" value="10"
+                oninput="updateFontSize('data', this.value)" id="r-data-size">
+            </div>
+          </div>
+
+          <!-- Signature size -->
+          <div class="ctrl-card">
+            <div class="ctrl-card-title green"><span class="cc-dot"></span>Tamanho da Assinatura</div>
+            <div class="ctrl-row">
+              <div class="ctrl-lbl">Largura <span id="v-sig-w">140</span>px</div>
+              <input type="range" class="cfg-range green-range" min="60" max="300" value="140"
+                oninput="updateSigSize('w', this.value)" id="r-sig-w">
+            </div>
+            <div class="ctrl-row">
+              <div class="ctrl-lbl">Altura <span id="v-sig-h">50</span>px</div>
+              <input type="range" class="cfg-range green-range" min="20" max="120" value="50"
+                oninput="updateSigSize('h', this.value)" id="r-sig-h">
+            </div>
+          </div>
+
+          <!-- Page selector -->
+          <div class="ctrl-card">
+            <div class="ctrl-card-title red"><span class="cc-dot"></span>Página do PDF</div>
+            <div class="ctrl-row" style="display:flex; gap:8px; align-items:center">
+              <button class="btn btn-outline btn-sm" onclick="changePage(-1)">◀</button>
+              <span style="flex:1; text-align:center; font-family:'Rajdhani',sans-serif; font-size:14px; color:var(--text)">
+                Pág. <span id="pageNum">1</span> / <span id="pageTot">1</span>
+              </span>
+              <button class="btn btn-outline btn-sm" onclick="changePage(1)">▶</button>
+            </div>
+          </div>
+
+          <button class="cfg-save-btn" onclick="savePositions()">💾 Salvar Posições</button>
         </div>
       </div>
     </section>
@@ -950,20 +1023,38 @@
         <button class="modal-close" onclick="closeModal('linkModal')">✕</button>
       </div>
       <div class="modal-body">
-        <p style="font-size:11px; color:var(--text-dim); margin-bottom:4px; letter-spacing:0.5px;">
-          Envie este link para o colaborador assinar pelo celular:
-        </p>
+        <p style="font-size:11px; color:var(--text-dim); margin-bottom:4px;">Envie este link para o colaborador assinar pelo celular:</p>
         <div class="link-box">
           <span id="linkModalUrl">—</span>
           <button class="btn btn-outline btn-sm" onclick="copyText(document.getElementById('linkModalUrl').textContent)">Copiar</button>
         </div>
-        <p style="font-size:11px; color:var(--text-dim); margin-top:14px;">
-          O colaborador precisará digitar o CPF para autenticar antes de assinar.
-        </p>
+        <p style="font-size:11px; color:var(--text-dim); margin-top:14px;">O colaborador precisará digitar o CPF para autenticar antes de assinar.</p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeModal('linkModal')">Fechar</button>
         <button class="btn btn-primary" onclick="copyText(document.getElementById('linkModalUrl').textContent)">Copiar Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Datas do Colaborador -->
+  <div class="modal-overlay" id="datesModal">
+    <div class="modal wide">
+      <div class="modal-header">
+        <h3>📅 Datas dos Cursos — <span id="datesModalNome"></span></h3>
+        <button class="modal-close" onclick="closeModal('datesModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:11px; color:var(--text-dim); margin-bottom:16px; line-height:1.7;">
+          Defina as datas que aparecem no certificado. Para cursos com <strong style="color:var(--red-main)">múltiplos dias</strong>, clique em <strong style="color:var(--green)">+</strong> para adicionar mais datas.
+        </p>
+        <div class="dates-grid" id="datesGrid">
+          <!-- Preenchido dinamicamente -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('datesModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveDates()">💾 Salvar Datas</button>
       </div>
     </div>
   </div>
@@ -978,20 +1069,20 @@
 
     let allColabs = [];
     let currentBatchId = null;
+    let currentDatesColabId = null;
 
     // ---- SECTIONS ----
     function showSection(id) {
       document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
       document.getElementById(`sec-${id}`).style.display = 'block';
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => {
-        if (n.getAttribute('onclick') === `showSection('${id}')`) n.classList.add('active');
+        n.classList.toggle('active', n.getAttribute('onclick') === `showSection('${id}')`);
       });
-
       if (id === 'dashboard')    loadDashboard();
       if (id === 'colaboradores') { loadColaboradores(); loadBatchFilter(); }
       if (id === 'lotes')         loadLotes();
       if (id === 'assinados')     loadAssinados();
+      if (id === 'templates')     initTemplateSection();
     }
 
     // ---- DASHBOARD ----
@@ -999,41 +1090,43 @@
       try {
         const r = await apiFetch('/api/admin/stats');
         const d = await r.json();
-        document.getElementById('stat-total').textContent   = d.total;
-        document.getElementById('stat-pending').textContent = d.pending;
-        document.getElementById('stat-signed').textContent  = d.signed;
-        document.getElementById('stat-batches').textContent = d.batches;
+        document.getElementById('stat-total').textContent   = d.total   ?? '—';
+        document.getElementById('stat-pending').textContent = d.pending  ?? '—';
+        document.getElementById('stat-signed').textContent  = d.signed   ?? '—';
+        document.getElementById('stat-batches').textContent = d.batches  ?? '—';
       } catch(e) {}
-
       try {
         const r = await apiFetch('/api/admin/batches');
         const batches = await r.json();
-        renderBatchesTable(batches.slice(0,5), 'dashboard-batches');
+        renderBatchesTable(batches.slice(0,5), 'dashboard-batches', true);
       } catch(e) {}
     }
 
-    function renderBatchesTable(batches, tbodyId) {
+    function renderBatchesTable(batches, tbodyId, isDashboard = false) {
       const tbody = document.getElementById(tbodyId);
       if (!batches.length) {
-        tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="em-icon">📋</div><p>Nenhum lote ainda</p></div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${isDashboard ? 6 : 7}"><div class="empty-state"><div class="em-icon">📋</div><p>Nenhum lote ainda</p></div></td></tr>`;
         return;
       }
       tbody.innerHTML = batches.map(b => {
-        const pct = b.total > 0 ? Math.round((b.signed / b.total) * 100) : 0;
         const date = new Date(b.created_at).toLocaleDateString('pt-BR');
+        const signed = b.signed_count || 0;
+        const pct = b.total > 0 ? Math.round((signed / b.total) * 100) : 0;
+        const idCol = isDashboard ? '' : `<td style="font-family:monospace;color:var(--text-muted);font-size:11px">#${b.id}</td>`;
         return `<tr>
+          ${idCol}
           <td class="nome-cell">${b.name}</td>
-          <td style="color:var(--text-dim);font-size:11px;">${date}</td>
-          <td style="color:var(--text-dim);">${b.total}</td>
-          <td style="color:var(--green);">${b.signed}</td>
-          <td style="min-width:120px">
+          <td style="font-size:11px;color:var(--text-dim)">${date}</td>
+          <td style="font-size:12px;color:var(--text)">${b.total}</td>
+          <td style="font-size:12px;color:var(--green)">${signed}</td>
+          <td style="min-width:100px">
             <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
-            <span style="font-size:10px;color:var(--text-dim);letter-spacing:1px;">${pct}%</span>
+            <span style="font-size:9px;color:var(--text-muted);letter-spacing:1px">${pct}%</span>
           </td>
           <td>
             <div class="actions-cell">
-              <button class="btn btn-outline btn-sm" onclick="downloadBatchById(${b.id}, '${b.name}')">⬇ PDFs</button>
-              <button class="btn btn-secondary btn-sm" onclick="viewBatch(${b.id})">Ver</button>
+              <button class="btn btn-secondary btn-sm" onclick="viewBatch(${b.id})">👥 Ver</button>
+              <button class="btn btn-outline btn-sm" onclick="downloadBatchById(${b.id}, '${b.name.replace(/'/g,"\\'")}')" title="Baixar PDFs">⬇ PDFs</button>
             </div>
           </td>
         </tr>`;
@@ -1042,79 +1135,79 @@
 
     // ---- UPLOAD ----
     let selectedFile = null;
-    let previewRows = [];
-
-    const dropZone = document.getElementById('uploadZone');
-    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', e => {
-      e.preventDefault(); dropZone.classList.remove('dragover');
-      const f = e.dataTransfer.files[0];
-      if (f) processFile(f);
-    });
-
-    function handleFileSelect(input) { if (input.files[0]) processFile(input.files[0]); }
-
-    function processFile(file) {
-      selectedFile = file;
-      document.getElementById('uploadZone').innerHTML = `<div class="upload-icon">✅</div><p><strong style="color:var(--amber)">${file.name}</strong></p><p style="font-size:11px;margin-top:4px;color:var(--text-dim)">${(file.size/1024).toFixed(1)} KB</p>`;
+    function handleFileSelect(input) {
+      selectedFile = input.files[0];
+      if (!selectedFile) return;
       document.getElementById('btnUpload').disabled = false;
+      previewFile(selectedFile);
+    }
 
-      const reader = new FileReader();
-      reader.onload = e => {
-        const text = e.target.result;
-        const lines = text.trim().split(/\r?\n/);
-        const headers = lines[0].split(';').map(h => h.trim().toUpperCase());
-        previewRows = [];
-        for (let i = 1; i < Math.min(lines.length, 11); i++) {
-          const cols = lines[i].split(';').map(c => c.trim());
-          if (!cols[0]) continue;
-          const row = {};
-          headers.forEach((h,idx) => row[h] = cols[idx] || '0');
-          previewRows.push(row);
-        }
-        const total = lines.length - 1;
-        document.getElementById('preview-count').textContent = `${total} registro${total !== 1 ? 's' : ''}`;
-        const tbody = document.getElementById('preview-tbody');
-        tbody.innerHTML = previewRows.map(row => {
-          const nome = row['NOME'] || '—';
-          const cpf  = formatCPF(row['CPF'] || '');
-          const certs = ['NR06','NR10','DIRECAO','NR35','SGA.NR20','NR33','NR10 SEP']
-            .filter(k => row[k] === '1')
-            .map(k => `<span class="badge">${k}</span>`).join('');
-          return `<tr><td class="nome-cell">${nome}</td><td class="cpf-cell">${cpf}</td><td>${certs || '—'}</td></tr>`;
-        }).join('');
-        document.getElementById('upload-preview').style.display = 'block';
-      };
-      reader.readAsText(file, 'latin1');
+    async function previewFile(file) {
+      const preview = document.getElementById('upload-preview');
+      const tbody   = document.getElementById('preview-tbody');
+      const count   = document.getElementById('preview-count');
+      preview.style.display = 'none';
+      try {
+        const fd = new FormData();
+        fd.append('csv', file);
+        fd.append('batchName', 'preview');
+        const r = await fetch(`${BACKEND_URL}/api/admin/preview-csv`, {
+          method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` }, body: fd
+        });
+        if (!r.ok) throw new Error();
+        const rows = await r.json();
+        count.textContent = `${rows.length} registros`;
+        const CERT_KEYS = ['nr06','nr10','direcao','nr35','sga_nr20','nr33','nr10sep'];
+        const CERT_LABELS = { nr06:'NR06',nr10:'NR10',direcao:'DIR.',nr35:'NR35',sga_nr20:'NR20',nr33:'NR33',nr10sep:'NR10S' };
+        tbody.innerHTML = rows.map(r => `<tr>
+          <td class="nome-cell">${r.nome}</td>
+          <td class="cpf-cell">${formatCPF(r.cpf)}</td>
+          <td>${CERT_KEYS.filter(k=>r[k]).map(k=>`<span class="badge">${CERT_LABELS[k]}</span>`).join('')}</td>
+        </tr>`).join('');
+        preview.style.display = 'block';
+      } catch(e) {
+        count.textContent = '1 arquivo selecionado';
+        tbody.innerHTML = '';
+        preview.style.display = 'block';
+      }
     }
 
     async function uploadCSV() {
       if (!selectedFile) return;
-      const btn = document.getElementById('btnUpload');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="loading-spinner"></span> Processando...';
-      const formData = new FormData();
-      formData.append('csv', selectedFile);
-      formData.append('batchName', document.getElementById('batchName').value || `Lote ${new Date().toLocaleDateString('pt-BR')}`);
+      const btn  = document.getElementById('btnUpload');
+      const name = document.getElementById('batchName').value || `Lote ${new Date().toLocaleDateString('pt-BR')}`;
+      btn.disabled = true; btn.innerHTML = '<span class="loading-spinner"></span> Processando...';
       try {
-        const res = await fetch(`${BACKEND_URL}/api/admin/upload-csv`, {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${Auth.token()}` },
-          body: formData,
+        const fd = new FormData();
+        fd.append('csv', selectedFile);
+        fd.append('batchName', name);
+        const r = await fetch(`${BACKEND_URL}/api/admin/upload-csv`, {
+          method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` }, body: fd
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error);
-        showToast(`✅ ${data.total} colaboradores importados!`, 'success');
-        setTimeout(() => { showSection('colaboradores'); }, 1200);
-      } catch(e) {
-        showToast('Erro: ' + e.message, 'error');
-      } finally {
-        btn.disabled = false; btn.textContent = 'Processar CSV';
-      }
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Erro');
+        showToast(`✅ ${d.total} colaboradores importados!`);
+        document.getElementById('batchName').value = '';
+        document.getElementById('csvFile').value = '';
+        selectedFile = null;
+        document.getElementById('btnUpload').disabled = true;
+        document.getElementById('upload-preview').style.display = 'none';
+        setTimeout(() => showSection('colaboradores'), 1200);
+      } catch(e) { showToast('Erro: ' + e.message, 'error'); }
+      finally { btn.disabled = false; btn.innerHTML = 'Processar Planilha'; }
     }
 
-    // ---- COLABORADORES ----
+    // drag&drop
+    const uz = document.getElementById('uploadZone');
+    uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dragover'); });
+    uz.addEventListener('dragleave', () => uz.classList.remove('dragover'));
+    uz.addEventListener('drop', e => {
+      e.preventDefault(); uz.classList.remove('dragover');
+      const f = e.dataTransfer.files[0];
+      if (f) { selectedFile = f; document.getElementById('btnUpload').disabled = false; previewFile(f); }
+    });
+
+    // ---- BATCH FILTER ----
     async function loadBatchFilter() {
       try {
         const r = await apiFetch('/api/admin/batches');
@@ -1130,8 +1223,7 @@
       currentBatchId = batchId || null;
       document.getElementById('btnBatchDownload').style.display = batchId ? 'inline-flex' : 'none';
       try {
-        let url = batchId ? `/api/admin/batch/${batchId}` : null;
-        if (!url) {
+        if (!batchId) {
           const r = await apiFetch('/api/admin/batches');
           const batches = await r.json();
           allColabs = [];
@@ -1141,7 +1233,7 @@
             allColabs = allColabs.concat(bd.colaboradores || []);
           }
         } else {
-          const r = await apiFetch(url);
+          const r = await apiFetch(`/api/admin/batch/${batchId}`);
           const d = await r.json();
           allColabs = d.colaboradores || [];
         }
@@ -1163,7 +1255,8 @@
           <td>${statusLabel(c.status)}</td>
           <td>
             <div class="actions-cell">
-              <button class="btn btn-secondary btn-sm" onclick="downloadIndividual(${c.id}, '${c.nome.replace(/'/g, "\\'")}')">⬇ PDFs</button>
+              <button class="btn btn-outline btn-sm" title="Editar datas dos cursos" onclick="openDatesModal(${c.id}, '${c.nome.replace(/'/g,"\\'")}', ${JSON.stringify(c).replace(/'/g,"\\'")})">📅 Datas</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadIndividual(${c.id}, '${c.nome.replace(/'/g,"\\'")}')">⬇ PDFs</button>
               <button class="btn btn-primary btn-sm" onclick="showLink(${c.id}, '${c.token}')">🔗 Link</button>
             </div>
           </td>
@@ -1173,10 +1266,90 @@
 
     function filterTable() {
       const q = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allColabs.filter(c =>
-        c.nome.toLowerCase().includes(q) || c.cpf.includes(q.replace(/\D/g,''))
-      );
-      renderColabs(filtered);
+      renderColabs(allColabs.filter(c => c.nome.toLowerCase().includes(q) || c.cpf.includes(q.replace(/\D/g,''))));
+    }
+
+    // ---- DATAS DOS CURSOS ----
+    const CERT_FIELDS = [
+      { key: 'nr06',    label: 'NR-06 (EPI)' },
+      { key: 'nr10',    label: 'NR-10 (Elétrica)' },
+      { key: 'direcao', label: 'Direção Defensiva' },
+      { key: 'nr35',    label: 'NR-35 (Altura)' },
+      { key: 'sga_nr20',label: 'SGA NR-20' },
+      { key: 'nr33',    label: 'NR-33 (Confinado)' },
+      { key: 'nr10sep', label: 'NR-10 SEP' },
+    ];
+
+    let currentDatesColab = null;
+    let currentDates = {};
+
+    function openDatesModal(id, nome, colab) {
+      currentDatesColabId = id;
+      currentDatesColab = colab;
+      document.getElementById('datesModalNome').textContent = nome;
+      currentDates = JSON.parse(localStorage.getItem(`dates_${id}`) || '{}');
+      renderDatesGrid();
+      document.getElementById('datesModal').classList.add('open');
+    }
+
+    function renderDatesGrid() {
+      const grid = document.getElementById('datesGrid');
+      const activeCerts = CERT_FIELDS.filter(f => currentDatesColab && currentDatesColab[f.key]);
+      if (!activeCerts.length) {
+        grid.innerHTML = `<p style="color:var(--text-muted);font-size:12px;grid-column:1/-1">Este colaborador não possui cursos cadastrados.</p>`;
+        return;
+      }
+      grid.innerHTML = activeCerts.map(f => {
+        const savedDates = currentDates[f.key] || [''];
+        const datesHtml = savedDates.map((d, i) => `
+          <div class="date-input-wrap" id="dwrap-${f.key}-${i}">
+            <input type="date" value="${d}" data-cert="${f.key}" data-idx="${i}"
+              onchange="updateDate('${f.key}', ${i}, this.value)"
+              style="color-scheme:dark;">
+            ${i > 0 ? `<button class="btn-remove-date" onclick="removeDate('${f.key}', ${i})" title="Remover">✕</button>` : ''}
+          </div>
+        `).join('');
+        return `
+          <div class="date-field">
+            <label>${f.label}</label>
+            <div class="date-row" id="drow-${f.key}">
+              ${datesHtml}
+            </div>
+            <button class="btn-add-date" onclick="addDate('${f.key}')" title="Adicionar mais um dia">+ Adicionar dia</button>
+            <div class="multi-day-note">Curso com vários dias? Adicione cada data separadamente.</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateDate(cert, idx, val) {
+      if (!currentDates[cert]) currentDates[cert] = [''];
+      currentDates[cert][idx] = val;
+    }
+
+    function addDate(cert) {
+      if (!currentDates[cert]) currentDates[cert] = [''];
+      currentDates[cert].push('');
+      renderDatesGrid();
+    }
+
+    function removeDate(cert, idx) {
+      currentDates[cert].splice(idx, 1);
+      if (!currentDates[cert].length) currentDates[cert] = [''];
+      renderDatesGrid();
+    }
+
+    function saveDates() {
+      // Collect current values from inputs before saving
+      document.querySelectorAll('#datesGrid input[type="date"]').forEach(inp => {
+        const cert = inp.dataset.cert;
+        const idx  = parseInt(inp.dataset.idx);
+        if (!currentDates[cert]) currentDates[cert] = [];
+        currentDates[cert][idx] = inp.value;
+      });
+      localStorage.setItem(`dates_${currentDatesColabId}`, JSON.stringify(currentDates));
+      showToast('✅ Datas salvas!');
+      closeModal('datesModal');
     }
 
     // ---- LOTES ----
@@ -1200,8 +1373,7 @@
           method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
         if (!res.ok) throw new Error('Erro ao gerar PDFs');
-        const blob = await res.blob();
-        downloadBlob(blob, `AbilityPro_Lote_${currentBatchId}.zip`);
+        downloadBlob(await res.blob(), `AbilityPro_Lote_${currentBatchId}.zip`);
       } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
@@ -1211,8 +1383,7 @@
         const res = await fetch(`${BACKEND_URL}/api/pdf/batch/${id}`, {
           method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
-        const blob = await res.blob();
-        downloadBlob(blob, `AbilityPro_${name.replace(/\s+/g,'_')}.zip`);
+        downloadBlob(await res.blob(), `AbilityPro_${name.replace(/\s+/g,'_')}.zip`);
       } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
@@ -1222,8 +1393,7 @@
         const res = await fetch(`${BACKEND_URL}/api/pdf/individual/${colabId}`, {
           method: 'POST', headers: { 'Authorization': `Bearer ${Auth.token()}` },
         });
-        const blob = await res.blob();
-        downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados.zip`);
+        downloadBlob(await res.blob(), `${nome.replace(/\s+/g,'_')}_certificados.zip`);
       } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
@@ -1232,24 +1402,20 @@
       try {
         const res = await apiFetch(`/api/signature/admin/download/${colabId}`);
         if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
-        const blob = await res.blob();
-        downloadBlob(blob, `${nome.replace(/\s+/g,'_')}_certificados_assinados.zip`);
+        downloadBlob(await res.blob(), `${nome.replace(/\s+/g,'_')}_certificados_assinados.zip`);
       } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
     async function downloadSignedByBatch(batchId, batchName) {
-      showToast('⏳ Preparando ZIP do lote...', 'success');
       try {
         const res = await apiFetch(`/api/signature/admin/download-batch/${batchId}`);
         if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
-        const blob = await res.blob();
-        downloadBlob(blob, `${(batchName||'lote').replace(/\s+/g,'_')}_assinados.zip`);
+        downloadBlob(await res.blob(), `${(batchName||'lote').replace(/\s+/g,'_')}_assinados.zip`);
       } catch(e) { showToast('Erro: ' + e.message, 'error'); }
     }
 
-    // ---- SEÇÃO CERTIFICADOS ASSINADOS ----
+    // ---- ASSINADOS ----
     let allSigned = [];
-
     async function loadAssinados() {
       try {
         const r = await apiFetch('/api/admin/signed');
@@ -1259,7 +1425,7 @@
         document.getElementById('signed-count').textContent =
           count > 0 ? `${count} colaborador${count !== 1 ? 'es' : ''} assinado${count !== 1 ? 's' : ''}` : '';
         document.getElementById('btnDownloadAllSigned').style.display = count > 0 ? 'inline-flex' : 'none';
-      } catch(e) { console.error(e); }
+      } catch(e) {}
     }
 
     function renderSigned(list) {
@@ -1270,60 +1436,352 @@
       }
       tbody.innerHTML = list.map(c => {
         const date = c.signed_at ? new Date(c.signed_at).toLocaleString('pt-BR') : '—';
-        const fileCount = c.files ? c.files.length : 0;
-        const filesHtml = fileCount > 0
-          ? `<span class="badge" style="background:var(--green-dim);border-color:rgba(0,230,118,0.25);color:var(--green)">${fileCount} PDF${fileCount !== 1 ? 's' : ''}</span>`
-          : `<span style="font-size:11px;color:var(--text-muted)">—</span>`;
+        const fc = c.files ? c.files.length : 0;
         return `<tr>
           <td class="nome-cell">${c.nome}</td>
           <td class="cpf-cell">${formatCPF(c.cpf)}</td>
           <td style="font-size:11px;color:var(--text-dim)">${c.batch_name || '—'}</td>
           <td style="font-size:11px;color:var(--text-dim)">${date}</td>
-          <td>${filesHtml}</td>
-          <td>
-            <div class="actions-cell">
-              ${fileCount > 0
-                ? `<button class="btn btn-success btn-sm" onclick="downloadSignedByColab(${c.id}, '${c.nome.replace(/'/g,"\\'")}')">⬇ ZIP</button>`
-                : `<span style="font-size:11px;color:var(--text-muted)">Sem arquivos</span>`
-              }
-            </div>
-          </td>
+          <td>${fc > 0 ? `<span class="badge" style="background:var(--green-dim);border-color:rgba(0,230,118,.25);color:var(--green)">${fc} PDF${fc!==1?'s':''}</span>` : '—'}</td>
+          <td><div class="actions-cell">${fc > 0
+            ? `<button class="btn btn-success btn-sm" onclick="downloadSignedByColab(${c.id},'${c.nome.replace(/'/g,"\\'")}')">⬇ ZIP</button>`
+            : `<span style="font-size:11px;color:var(--text-muted)">Sem arquivos</span>`
+          }</div></td>
         </tr>`;
       }).join('');
     }
 
     function filterSigned() {
       const q = document.getElementById('searchSigned').value.toLowerCase();
-      const filtered = allSigned.filter(c =>
+      renderSigned(allSigned.filter(c =>
         c.nome.toLowerCase().includes(q) ||
         c.cpf.includes(q.replace(/\D/g,'')) ||
-        (c.batch_name || '').toLowerCase().includes(q)
-      );
-      renderSigned(filtered);
+        (c.batch_name||'').toLowerCase().includes(q)
+      ));
     }
 
     async function downloadAllSigned() {
       if (!allSigned.length) return;
-      const batchIds = [...new Set(allSigned.map(c => c.batch_id).filter(Boolean))];
-      showToast(`⏳ Baixando ${batchIds.length} lote(s)...`, 'success');
+      const batchIds = [...new Set(allSigned.map(c=>c.batch_id).filter(Boolean))];
+      showToast(`⏳ Baixando ${batchIds.length} lote(s)...`);
       for (const bid of batchIds) {
-        const b = allSigned.find(c => c.batch_id === bid);
+        const b = allSigned.find(c=>c.batch_id===bid);
         await downloadSignedByBatch(bid, b?.batch_name || `lote_${bid}`);
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r=>setTimeout(r,500));
       }
     }
 
     // ---- LINK MODAL ----
     function showLink(colabId, token) {
-      const frontendUrl = window.location.origin;
-      const link = `${frontendUrl}/aluno.html?t=${token}`;
+      const link = `${window.location.origin}/aluno.html?t=${token}`;
       document.getElementById('linkModalUrl').textContent = link;
       document.getElementById('linkModal').classList.add('open');
     }
 
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-    // ---- INIT LOAD ----
+    // ══════════════════════════════════════════════
+    //  CONFIGURAR TEMPLATES — posicionamento visual
+    // ══════════════════════════════════════════════
+    const NRS = [
+      { key:'NR06',          label:'NR06' },
+      { key:'NR10',          label:'NR10' },
+      { key:'DIRECAO_DEFENSIVA', label:'Direção' },
+      { key:'NR35',          label:'NR35' },
+      { key:'SGA_NR20',      label:'NR20' },
+      { key:'NR33',          label:'NR33' },
+      { key:'NR10_SEP',      label:'NR10 SEP' },
+    ];
+
+    let currentNR = null;
+    let pdfDoc = null;
+    let pdfPage = 1;
+    let pdfPageCount = 1;
+    let canvasScale = 1;
+    let canvasOffsetX = 0;
+    let canvasOffsetY = 0;
+    let pdfPositions = {}; // { NR06: { nome:{x,y}, cpf:{x,y}, data:{x,y}, sig:{x,y}, nomeSz, cpfSz, dataSz, sigW, sigH, page } }
+
+    // Fields to position
+    const FIELDS = [
+      { id:'nome',  label:'NOME',  color:'' },
+      { id:'cpf',   label:'CPF',   color:'cyan' },
+      { id:'data',  label:'DATA',  color:'cyan' },
+      { id:'sig',   label:'ASSIN.', color:'green' },
+    ];
+
+    function initTemplateSection() {
+      loadPositionsFromStorage();
+      buildNRTabs();
+      buildSummaryGrid();
+      if (!currentNR) selectNR(NRS[0].key);
+    }
+
+    function loadPositionsFromStorage() {
+      const saved = localStorage.getItem('ap_template_positions');
+      pdfPositions = saved ? JSON.parse(saved) : {};
+    }
+
+    function savePositionsToStorage() {
+      localStorage.setItem('ap_template_positions', JSON.stringify(pdfPositions));
+    }
+
+    function buildNRTabs() {
+      const container = document.getElementById('nrTabs');
+      container.innerHTML = NRS.map(nr => {
+        const hasSaved = pdfPositions[nr.key]?.nome;
+        return `<button class="nr-tab ${hasSaved?'saved':''} ${currentNR===nr.key?'active':''}"
+          onclick="selectNR('${nr.key}')" id="nrtab-${nr.key}">
+          ${nr.label}<span class="nr-dot"></span>
+        </button>`;
+      }).join('');
+    }
+
+    function selectNR(key) {
+      currentNR = key;
+      pdfPage = 1;
+      buildNRTabs();
+      document.getElementById('cfgNrTitle').textContent = NRS.find(n=>n.key===key)?.label + ' — Posicionamento';
+      loadCurrentPositions();
+      // If PDF was already loaded for this NR, re-render
+      if (pdfDoc) renderPDFPage();
+      else clearPDFPreview();
+    }
+
+    function loadCurrentPositions() {
+      const pos = pdfPositions[currentNR] || {};
+      updateReadout(pos);
+      // Update sliders
+      if (pos.nomeSz) { document.getElementById('r-nome-size').value = pos.nomeSz; document.getElementById('v-nome-size').textContent = pos.nomeSz; }
+      if (pos.cpfSz)  { document.getElementById('r-cpf-size').value  = pos.cpfSz;  document.getElementById('v-cpf-size').textContent  = pos.cpfSz; }
+      if (pos.dataSz) { document.getElementById('r-data-size').value = pos.dataSz; document.getElementById('v-data-size').textContent = pos.dataSz; }
+      if (pos.sigW)   { document.getElementById('r-sig-w').value = pos.sigW; document.getElementById('v-sig-w').textContent = pos.sigW; }
+      if (pos.sigH)   { document.getElementById('r-sig-h').value = pos.sigH; document.getElementById('v-sig-h').textContent = pos.sigH; }
+    }
+
+    function clearPDFPreview() {
+      pdfDoc = null;
+      document.getElementById('pdfPreviewWrap').innerHTML = `
+        <div class="pdf-placeholder">
+          <div class="ph-icon">📄</div>
+          <p>Carregue o PDF do template <strong style="color:var(--red-main)">${currentNR}</strong></p>
+          <p style="font-size:10px;color:var(--text-muted);margin-top:8px;">Depois arraste cada etiqueta para o lugar certo</p>
+        </div>`;
+    }
+
+    async function loadPDFPreview(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Load pdf.js from CDN
+      if (!window.pdfjsLib) {
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+
+      const ab = await file.arrayBuffer();
+      pdfDoc = await pdfjsLib.getDocument({ data: ab }).promise;
+      pdfPageCount = pdfDoc.numPages;
+      document.getElementById('pageTot').textContent = pdfPageCount;
+      pdfPage = 1;
+      await renderPDFPage();
+    }
+
+    function loadScript(src) {
+      return new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = src; s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    async function renderPDFPage() {
+      if (!pdfDoc) return;
+      document.getElementById('pageNum').textContent = pdfPage;
+      document.getElementById('pageTot').textContent = pdfPageCount;
+
+      const page = await pdfDoc.getPage(pdfPage);
+      const viewport = page.getViewport({ scale: 1 });
+
+      // Fit to container width
+      const wrap = document.getElementById('pdfPreviewWrap');
+      const maxW = wrap.clientWidth - 4;
+      canvasScale = maxW / viewport.width;
+      const scaledVP = page.getViewport({ scale: canvasScale });
+
+      const canvas = document.createElement('canvas');
+      canvas.id = 'cfgCanvas';
+      canvas.width  = scaledVP.width;
+      canvas.height = scaledVP.height;
+
+      const cont = document.createElement('div');
+      cont.className = 'pdf-canvas-cont';
+      cont.style.position = 'relative';
+      cont.appendChild(canvas);
+
+      wrap.innerHTML = '';
+      wrap.appendChild(cont);
+
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledVP }).promise;
+
+      canvasOffsetX = cont.offsetLeft;
+      canvasOffsetY = cont.offsetTop;
+
+      // Restore draggable fields
+      createDraggableFields(cont, canvas.width, canvas.height);
+    }
+
+    function changePage(dir) {
+      const np = pdfPage + dir;
+      if (np < 1 || np > pdfPageCount) return;
+      pdfPage = np;
+      renderPDFPage();
+    }
+
+    function createDraggableFields(cont, cw, ch) {
+      const pos = pdfPositions[currentNR] || {};
+
+      FIELDS.forEach(f => {
+        const el = document.createElement('div');
+        el.className = 'field-label-drag';
+        el.id = `drag-${f.id}`;
+
+        // Default positions (as % of canvas)
+        const defaults = { nome:{px:.1,py:.48}, cpf:{px:.1,py:.42}, data:{px:.1,py:.38}, sig:{px:.3,py:.18} };
+        const saved = pos[f.id];
+        const px = saved ? saved.px : defaults[f.id].px;
+        const py = saved ? saved.py : defaults[f.id].py;
+
+        el.style.left = (px * cw) + 'px';
+        el.style.top  = (py * ch) + 'px';
+
+        el.innerHTML = `<div class="fld-pill ${f.color}">${f.label}</div>`;
+        cont.appendChild(el);
+
+        makeDraggable(el, f.id, cw, ch);
+      });
+
+      updateReadout(pos);
+    }
+
+    function makeDraggable(el, fieldId, cw, ch) {
+      let startX, startY, startLeft, startTop;
+
+      const onStart = (cx, cy) => {
+        startX = cx; startY = cy;
+        startLeft = parseFloat(el.style.left) || 0;
+        startTop  = parseFloat(el.style.top)  || 0;
+      };
+
+      const onMove = (cx, cy) => {
+        let nx = startLeft + (cx - startX);
+        let ny = startTop  + (cy - startY);
+        nx = Math.max(0, Math.min(nx, cw - el.offsetWidth));
+        ny = Math.max(0, Math.min(ny, ch - el.offsetHeight));
+        el.style.left = nx + 'px';
+        el.style.top  = ny + 'px';
+        updateFieldPosition(fieldId, nx / cw, ny / ch);
+      };
+
+      // Mouse
+      el.addEventListener('mousedown', e => {
+        e.preventDefault();
+        onStart(e.clientX, e.clientY);
+        const mm = e2 => onMove(e2.clientX, e2.clientY);
+        const mu = () => { window.removeEventListener('mousemove', mm); window.removeEventListener('mouseup', mu); };
+        window.addEventListener('mousemove', mm);
+        window.addEventListener('mouseup', mu);
+      });
+
+      // Touch
+      el.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const t = e.touches[0];
+        onStart(t.clientX, t.clientY);
+        const tm = e2 => { const t2 = e2.touches[0]; onMove(t2.clientX, t2.clientY); };
+        const te = () => { window.removeEventListener('touchmove', tm); window.removeEventListener('touchend', te); };
+        window.addEventListener('touchmove', tm, { passive:false });
+        window.addEventListener('touchend', te);
+      }, { passive: false });
+    }
+
+    function updateFieldPosition(fieldId, px, py) {
+      if (!pdfPositions[currentNR]) pdfPositions[currentNR] = {};
+      if (!pdfPositions[currentNR][fieldId]) pdfPositions[currentNR][fieldId] = {};
+      pdfPositions[currentNR][fieldId].px = px;
+      pdfPositions[currentNR][fieldId].py = py;
+      updateReadout(pdfPositions[currentNR]);
+    }
+
+    function updateReadout(pos) {
+      const fmt = v => v !== undefined ? (v * 100).toFixed(1) + '%' : '—';
+      document.getElementById('cr-nome-x').textContent = fmt(pos.nome?.px);
+      document.getElementById('cr-nome-y').textContent = fmt(pos.nome?.py);
+      document.getElementById('cr-cpf-x').textContent  = fmt(pos.cpf?.px);
+      document.getElementById('cr-cpf-y').textContent  = fmt(pos.cpf?.py);
+      document.getElementById('cr-data-x').textContent = fmt(pos.data?.px);
+      document.getElementById('cr-data-y').textContent = fmt(pos.data?.py);
+      document.getElementById('cr-sig-x').textContent  = fmt(pos.sig?.px);
+      document.getElementById('cr-sig-y').textContent  = fmt(pos.sig?.py);
+    }
+
+    function updateFontSize(field, val) {
+      document.getElementById(`v-${field}-size`).textContent = val;
+      if (!pdfPositions[currentNR]) pdfPositions[currentNR] = {};
+      pdfPositions[currentNR][`${field}Sz`] = parseInt(val);
+    }
+
+    function updateSigSize(dim, val) {
+      document.getElementById(`v-sig-${dim}`).textContent = val;
+      if (!pdfPositions[currentNR]) pdfPositions[currentNR] = {};
+      pdfPositions[currentNR][`sig${dim.toUpperCase()}`] = parseInt(val);
+    }
+
+    function savePositions() {
+      if (!currentNR) { showToast('Selecione um NR primeiro', 'error'); return; }
+      if (!pdfPositions[currentNR]) pdfPositions[currentNR] = {};
+      pdfPositions[currentNR].page = pdfPage;
+      savePositionsToStorage();
+
+      // Send to backend
+      fetch(`${BACKEND_URL}/api/admin/template-positions`, {
+        method: 'POST',
+        headers: Auth.headers(),
+        body: JSON.stringify({ nr: currentNR, positions: pdfPositions[currentNR] })
+      }).catch(() => {});
+
+      buildNRTabs();
+      buildSummaryGrid();
+      showToast(`✅ Posições do ${currentNR} salvas!`);
+
+      // Mark tab as saved
+      const tab = document.getElementById(`nrtab-${currentNR}`);
+      if (tab) tab.classList.add('saved');
+    }
+
+    function buildSummaryGrid() {
+      const grid = document.getElementById('nrSummaryGrid');
+      grid.innerHTML = NRS.map(nr => {
+        const pos = pdfPositions[nr.key];
+        const ok  = pos && pos.nome;
+        return `<div class="nr-summary-card ${ok?'ok':''}">
+          <div class="nrs-name">${nr.label}</div>
+          <div class="nrs-status ${ok?'ok':''}">${ok ? '✓ Configurado' : 'Sem configuração'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function resetAllPositions() {
+      if (!confirm('Resetar TODAS as posições salvas?')) return;
+      pdfPositions = {};
+      savePositionsToStorage();
+      buildNRTabs();
+      buildSummaryGrid();
+      if (pdfDoc) renderPDFPage();
+      showToast('Posições resetadas', 'error');
+    }
+
+    // ---- INIT ----
     loadDashboard();
   </script>
 </body>
