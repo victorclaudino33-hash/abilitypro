@@ -2,7 +2,7 @@
 //  ABILITY PRO v3 — app.js
 //  ⚙️  ALTERE APENAS ESTA LINHA com a URL do seu Railway:
 // ============================================================
-const BACKEND_URL = 'COLE_AQUI_A_URL_DO_RAILWAY';
+const BACKEND_URL = 'https://abilitypro-production.up.railway.app';
 // Exemplo: const BACKEND_URL = 'https://abilitypro-production.up.railway.app';
 // ============================================================
 
