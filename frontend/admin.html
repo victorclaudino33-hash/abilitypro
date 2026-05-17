@@ -542,10 +542,10 @@
         <div class="card-body">
           <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
             <div class="upload-icon">📤</div>
-            <p><strong>Clique aqui</strong> ou arraste seu arquivo CSV</p>
-            <p style="margin-top:6px; font-size:12px;">Colunas esperadas: NOME, CPF, NR06, NR10, DIRECAO, NR35, SGA.NR20, NR33, NR10 SEP</p>
+            <p><strong>Clique aqui</strong> ou arraste seu arquivo</p>
+            <p style="margin-top:6px; font-size:12px;">Aceita <strong>Excel (.xlsx)</strong> ou CSV — colunas: NOME, CPF, NR06, NR10, DIRECAO, NR35, NR33, NR10 SEP...</p>
           </div>
-          <input type="file" id="csvFile" accept=".csv" onchange="handleFileSelect(this)">
+          <input type="file" id="csvFile" accept=".csv,.xlsx,.xls" onchange="handleFileSelect(this)">
 
           <div class="upload-controls">
             <input type="text" id="batchName" placeholder="Nome do lote (ex: Turma Abril 2025)">
@@ -569,16 +569,19 @@
         </div>
       </div>
 
-      <!-- Template info -->
       <div class="card">
-        <div class="card-header"><div class="card-title">Formato Esperado do CSV</div></div>
+        <div class="card-header"><div class="card-title">Formatos Aceitos</div></div>
         <div class="card-body">
-          <p style="font-size:13px; color:var(--cinza); margin-bottom:12px;">O arquivo CSV deve usar <strong>ponto-e-vírgula (;)</strong> como separador. Colunas com valor <strong>1</strong> significam que o colaborador faz aquele treinamento.</p>
+          <p style="font-size:13px; color:var(--cinza); margin-bottom:12px;">
+            Você pode importar diretamente o <strong>arquivo Excel (.xlsx)</strong> do jeito que já usa, ou um CSV separado por <strong>ponto-e-vírgula (;)</strong>.<br><br>
+            Nas colunas de curso, qualquer valor (data, texto, número) significa que o colaborador <strong>tem</strong> aquele treinamento. Célula vazia = não tem.
+          </p>
+          <p style="font-size:12px; font-weight:700; color:var(--azul); margin-bottom:6px;">Exemplo Excel (suas colunas já estão certas):</p>
           <div style="background:#F7F8FC; border-radius:8px; padding:14px; font-family:monospace; font-size:12px; overflow-x:auto; color:var(--cinza);">
-            NOME;CPF;NR06;NR10;DIRECAO;NR35;SGA.NR20;NR33;NR10 SEP<br>
-            ANDERSON NASCIMENTO;12345678901;1;1;0;1;0;0;0<br>
-            MARIA SILVA;98765432100;1;0;1;1;1;0;1
+            NOME | CPF | NR06 | NR10 | DIRECAO | NR35<br>
+            ANDERSON SILVA | 41576714810 | 23/04/2026 | 17,23,24/04 | 16/04/2026 | 23/04/2026
           </div>
+          <p style="font-size:12px; color:var(--cinza); margin-top:10px;">Colunas extras suportadas: <strong>SGA.NR20, NR33, NR10 SEP</strong></p>
         </div>
       </div>
     </section>
