@@ -138,25 +138,19 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
     const sigW   = pos?.sigW   || 140;
     const sigH   = pos?.sigH   || 50;
 
-  // ── NOME ────────────────────────────────────────────────────────────────
+// ── NOME ────────────────────────────────────────────────────────────────
     const nomeText   = colab.nome.toUpperCase();
     const nomeFitSz  = calcFitFontSize(fontBold, nomeText, nomeSz, W * 0.8);
     const nomeTextW  = fontBold.widthOfTextAtSize(nomeText, nomeFitSz);
 
     if (pos?.nome) {
-      // Posição definida pelo editor visual (se houver)
       const nx = toAbsX(pos.nome.px, W);
       const ny = toAbsY(pos.nome.py, H, nomeFitSz);
       page.drawText(nomeText, { x: nx, y: ny, size: nomeFitSz, font: fontBold, color: COLORS.azul });
     } else {
-      // Fallback: Todos sobem bem mais para o topo da área branca
+      // Joga o nome bem para o topo da área branca, limpando o meio do certificado
       let nx = W / 2 - nomeTextW / 2;
-      let ny = H * 0.65; // Subiu para limpar o meio
-
-      if (cert === 'NR35') { ny = H * 0.64; } 
-      else if (cert === 'NR06') { ny = H * 0.66; }
-      else if (cert === 'NR10') { ny = H * 0.65; }
-      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { ny = H * 0.63; }
+      let ny = H * 0.65; 
 
       page.drawText(nomeText, { x: nx, y: ny, size: nomeFitSz, font: fontBold, color: COLORS.azul });
     }
@@ -168,14 +162,9 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
       const cy = toAbsY(pos.cpf.py, H, cpfSz);
       page.drawText(cpfText, { x: cx, y: cy, size: cpfSz, font: fontReg, color: COLORS.cinza });
     } else {
-      // Alinha o CPF logo abaixo do nome, também na parte superior
+      // Gruda o CPF logo abaixo do nome
       let cx = W / 2 - fontReg.widthOfTextAtSize(cpfText, cpfSz) / 2;
       let cy = H * 0.60; 
-
-      if (cert === 'NR35') { cy = H * 0.59; }
-      else if (cert === 'NR06') { cy = H * 0.61; }
-      else if (cert === 'NR10') { cy = H * 0.60; }
-      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { cy = H * 0.58; }
 
       page.drawText(cpfText, { x: cx, y: cy, size: cpfSz, font: fontReg, color: COLORS.cinza });
     }
@@ -187,14 +176,9 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
       const dy = toAbsY(pos.data.py, H, dataSz);
       page.drawText(dataText, { x: dx, y: dy, size: dataSz, font: fontReg, color: COLORS.cinza });
     } else {
-      // Data fica centralizada logo abaixo do CPF antes de começar o texto estático
+      // Mantém a data centralizada, logo abaixo do CPF
       let dx = W / 2 - fontReg.widthOfTextAtSize(dataText, dataSz) / 2;
       let dy = H * 0.54;
-
-      if (cert === 'NR35') { dy = H * 0.53; }
-      else if (cert === 'NR06') { dy = H * 0.55; }
-      else if (cert === 'NR10') { dy = H * 0.54; }
-      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { dy = H * 0.52; }
 
       page.drawText(dataText, { x: dx, y: dy, size: dataSz, font: fontReg, color: COLORS.cinza });
     }
@@ -206,19 +190,13 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
         const sy = toAbsY(pos.sig.py, H, sigH);
         await embedSignature(pdfDoc, page, signatureData, sx, sy, sigW, sigH);
       } else {
-        // UNIFICADO PARA TODOS: Alinhado à DIREITA (W * 0.66) e na altura segura (H * 0.19)
+        // PADRÃO UNIFICADO DA ASSINATURA: Fixa na direita (66% da largura) para TODOS os cursos
         let sx = W * 0.66; 
-        let sy = H * 0.19; 
+        let sy = H * 0.19; // Altura ideal para ficar em cima da linha do ALUNO
 
-        // Pequenos ajustes de altura apenas para casar milimetricamente com as linhas de cada folha
+        // Pequeno ajuste fino de altura apenas para bater com a linha do template da NR35
         if (cert === 'NR35') { 
           sy = H * 0.23; 
-        } else if (cert === 'NR06') { 
-          sy = H * 0.19; 
-        } else if (cert === 'NR10') { 
-          sy = H * 0.20; 
-        } else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { 
-          sy = H * 0.18; 
         }
 
         await embedSignature(pdfDoc, page, signatureData, sx, sy, sigW, sigH);
