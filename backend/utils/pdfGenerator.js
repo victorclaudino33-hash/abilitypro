@@ -138,7 +138,7 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
     const sigW   = pos?.sigW   || 140;
     const sigH   = pos?.sigH   || 50;
 
-    // ── NOME ────────────────────────────────────────────────────────────────
+   // ── NOME ────────────────────────────────────────────────────────────────
     const nomeText   = colab.nome.toUpperCase();
     const nomeFitSz  = calcFitFontSize(fontBold, nomeText, nomeSz, W * 0.8);
     const nomeTextW  = fontBold.widthOfTextAtSize(nomeText, nomeFitSz);
@@ -149,12 +149,16 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
       const ny = toAbsY(pos.nome.py, H, nomeFitSz);
       page.drawText(nomeText, { x: nx, y: ny, size: nomeFitSz, font: fontBold, color: COLORS.azul });
     } else {
-      // Fallback centralizado
-      page.drawText(nomeText, {
-        x: W / 2 - nomeTextW / 2,
-        y: H * 0.52,
-        size: nomeFitSz, font: fontBold, color: COLORS.azul,
-      });
+      // Fallback centralizado cirurgicamente no meio da área branca
+      let nx = W / 2 - nomeTextW / 2;
+      let ny = H * 0.52; 
+
+      if (cert === 'NR35') { ny = H * 0.58; } 
+      else if (cert === 'NR06') { ny = H * 0.60; }
+      else if (cert === 'NR10') { ny = H * 0.62; }
+      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { ny = H * 0.54; }
+
+      page.drawText(nomeText, { x: nx, y: ny, size: nomeFitSz, font: fontBold, color: COLORS.azul });
     }
 
     // ── CPF ─────────────────────────────────────────────────────────────────
@@ -164,11 +168,16 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
       const cy = toAbsY(pos.cpf.py, H, cpfSz);
       page.drawText(cpfText, { x: cx, y: cy, size: cpfSz, font: fontReg, color: COLORS.cinza });
     } else {
-      page.drawText(cpfText, {
-        x: W / 2 - fontReg.widthOfTextAtSize(cpfText, cpfSz) / 2,
-        y: H * 0.46,
-        size: cpfSz, font: fontReg, color: COLORS.cinza,
-      });
+      // Alinha o CPF logo abaixo do nome centralizado
+      let cx = W / 2 - fontReg.widthOfTextAtSize(cpfText, cpfSz) / 2;
+      let cy = H * 0.47;
+
+      if (cert === 'NR35') { cy = H * 0.53; }
+      else if (cert === 'NR06') { cy = H * 0.55; }
+      else if (cert === 'NR10') { cy = H * 0.57; }
+      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { cy = H * 0.49; }
+
+      page.drawText(cpfText, { x: cx, y: cy, size: cpfSz, font: fontReg, color: COLORS.cinza });
     }
 
     // ── DATA ─────────────────────────────────────────────────────────────────
@@ -178,11 +187,16 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
       const dy = toAbsY(pos.data.py, H, dataSz);
       page.drawText(dataText, { x: dx, y: dy, size: dataSz, font: fontReg, color: COLORS.cinza });
     } else {
-      page.drawText(dataText, {
-        x: W / 2 - fontReg.widthOfTextAtSize(dataText, dataSz) / 2,
-        y: H * 0.42,
-        size: dataSz, font: fontReg, color: COLORS.cinza,
-      });
+      // Posiciona a data acima dos blocos de instrutores
+      let dx = W / 2 - fontReg.widthOfTextAtSize(dataText, dataSz) / 2;
+      let dy = H * 0.38;
+
+      if (cert === 'NR35') { dy = H * 0.35; }
+      else if (cert === 'NR06') { dy = H * 0.42; }
+      else if (cert === 'NR10') { dy = H * 0.39; }
+      else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { dy = H * 0.38; }
+
+      page.drawText(dataText, { x: dx, y: dy, size: dataSz, font: fontReg, color: COLORS.cinza });
     }
 
     // ── ASSINATURA ───────────────────────────────────────────────────────────
@@ -192,8 +206,22 @@ async function generateCertificatePDF(colab, cert, signatureData, courseDates) {
         const sy = toAbsY(pos.sig.py, H, sigH);
         await embedSignature(pdfDoc, page, signatureData, sx, sy, sigW, sigH);
       } else {
-        const sx = W / 2 - sigW / 2;
-        const sy = H * 0.15;
+        // Fallback: Força a imagem a flutuar na linha EXATAMENTE ACIMA da palavra Aluno/ALUNO
+        let sx = W / 2 - sigW / 2; 
+        let sy = H * 0.18; 
+
+        if (cert === 'NR35') { 
+          sy = H * 0.23; // Linha do aluno fica mais alta neste template
+        } else if (cert === 'NR06') { 
+          sy = H * 0.17; 
+        } else if (cert === 'NR10') { 
+          // No seu template da NR10, a palavra "Aluno" está deslocada para o canto esquerdo da folha
+          sx = W * 0.17; 
+          sy = H * 0.20; 
+        } else if (cert === 'DIREÇÃO_DEFENSIVA' || cert === 'DIRECAODEFENSIVA' || cert === 'DIRECAO') { 
+          sy = H * 0.18; 
+        }
+
         await embedSignature(pdfDoc, page, signatureData, sx, sy, sigW, sigH);
       }
     }
