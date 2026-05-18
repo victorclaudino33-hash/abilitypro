@@ -1,3 +1,12 @@
+// ... suas importações atuais de rotas ...
+const templateRoutes = require('./routes/template');
+
+// ... seus middlewares (express.json, cors, etc) ...
+
+// Registrar a nova rota junto com as outras
+app.use('/api/template', templateRoutes);
+
+// ... restante do seu server.js (app.listen) ...
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
